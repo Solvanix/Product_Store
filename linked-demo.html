@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Shared Resource</title>
+</head>
+<body>
+
+  <h1>تشغيل utils.js من GitHub</h1>
+
+  <button onclick="sayHello()">اضغطني 👋</button>
+
+  <script src="https://raw.githubusercontent.com/Ali-Khateb-1/shared-resources/main/utils.js"></script>
+  <script>
+    // مثال داخلي لتفعيل دالة من utils.js
+    function sayHello() {
+      if (typeof greet === "function") {
+        greet("من قلب المتجر 🛒");
+      } else {
+        alert("utils.js لم يتم تحميله بشكل صحيح");
+      }
+    }
+  </script>
+
+</body>
+</html>
