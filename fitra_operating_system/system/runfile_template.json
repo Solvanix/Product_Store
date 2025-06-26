@@ -1,0 +1,10 @@
+{
+  "id": "product_001_water",
+  "input": "images/water_problem.jpg",
+  "output": "products/product_001_water/index.html",
+  "title": "توعية مائية ذكية",
+  "domain": "STEAM - Science",
+  "description": "صفحة تفاعلية توعوية أنشئت من صورة خزان ماء شبه فارغ. تحتوي QR وبيانات مرئية.",
+  "models_used": ["BLIP", "GPT-4", "QRcode", "HTMLBuilder"],
+  "status": "ready"
+}

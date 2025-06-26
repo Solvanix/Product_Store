@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Echo Frame – معالجة إدخال صوتي</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem;
+      background-color: #111;
+      color: #00E5FF;
+      font-family: 'Cairo', sans-serif;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+    }
+    p {
+      color: #ccc;
+      margin-bottom: 2rem;
+    }
+    audio {
+      margin-top: 1rem;
+    }
+    #result {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #1c1c1c;
+      border-radius: 10px;
+      color: #eee;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔊 Echo Frame | وحدة استخراج المعنى من الصوت</h1>
+  <p>تشغّل الآن مدخلاً صوتيًا وتعرض المعالجة التجريبية.</p>
+
+  <audio controls src="../../samples/audio_sample.mp3"></audio>
+
+  <div id="result">
+    <h3>📡 النتيجة:</h3>
+    <p>تحليل مبدئي: عُثر على نبرة ثابتة ونمط إيقاعي مميز.<br>التصنيف المرجّح: محادثة بشرية أو تسجيل صوتي تقني.</p>
+  </div>
+
+</body>
+</html>

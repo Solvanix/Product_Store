@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Echo Frame",
+    "description": "نموذج يحلل الصوت أو الفيديو لاستخراج المعنى والموجات القابلة للتأويل.",
+    "runPage": "models/echo_frame/index.html",
+    "demoInput": "samples/audio_sample.mp3"
+  },
+  {
+    "title": "MetaMesh",
+    "description": "يحوّل الصور والأفكار البصرية إلى كتل معرفية أو مخططات تشغيلة.",
+    "runPage": "models/meta_mesh/index.html",
+    "demoInput": "samples/sketch.png"
+  },
+  {
+    "title": "Copy Alchemist",
+    "description": "يحول الفكرة النصية الخام إلى نص تسويقي جذّاب أو وصف منتج جاهز.",
+    "runPage": "models/copy_alchemist/index.html",
+    "demoInput": "samples/prompt.txt"
+  }
+]

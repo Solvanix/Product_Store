@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>كتالوج فطرة – النماذج التشغيلية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem;
+      background: linear-gradient(to bottom, #111, #000);
+      color: #FFEB3B;
+      font-family: 'Cairo', sans-serif;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .grid {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      margin-top: 2rem;
+    }
+    .card {
+      background: #1e1e1e;
+      border-radius: 12px;
+      padding: 1.5rem;
+      position: relative;
+      box-shadow: 0 0 12px #000;
+      transition: 0.3s;
+    }
+    .card.glow {
+      box-shadow: 0 0 12px #FFEB3B;
+      border: 2px solid #FFEB3B;
+    }
+    .card h3 {
+      margin-top: 0;
+      font-size: 1.4rem;
+    }
+    .card p {
+      color: #ccc;
+      margin-bottom: 1rem;
+    }
+    .card button {
+      margin-top: 8px;
+      margin-left: 6px;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      border: none;
+      border-radius: 8px;
+      background: #FFEB3B;
+      color: #111;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🧠 كتالوج فطرة | اختر النموذج المناسب</h1>
+  <div class="grid" id="catalogContainer"></div>
+
+  <script>
+    const container = document.getElementById("catalogContainer");
+    const suggestions = JSON.parse(sessionStorage.getItem("fitra_suggestions") || "[]");
+
+    fetch("catalog_data.json")
+      .then(response => response.json())
+      .then(data => {
+        data.forEach(model => {
+          const card = document.createElement("div");
+          card.className = "card";
+          if (suggestions.includes(model.title)) {
+            card.classList.add("glow");
+          }
+
+          card.innerHTML = `
+            <h3>🧩 ${model.title}</h3>
+            <p>${model.description}</p>
+            <button onclick="window.location.href='${model.runPage}'">🚀 تنفيذ النموذج</button>
+            <button onclick="alert('📦 المعاينة التوضيحية لـ ${model.title} قيد التطوير')">🔍 معاينة</button>
+          `;
+          container.appendChild(card);
+        });
+      });
+  </script>
+</body>
+</html>

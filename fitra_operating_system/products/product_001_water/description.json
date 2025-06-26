@@ -1,0 +1,8 @@
+{
+  "title": "توعية مائية ذكية",
+  "domain": "STEAM - Science",
+  "based_on": "صورة خزان ماء شبه فارغ",
+  "created_by": "Fitra.OS",
+  "models_used": ["BLIP", "GPT-4", "QRcode", "HTMLBuilder"],
+  "date": "2025-06-25"
+}

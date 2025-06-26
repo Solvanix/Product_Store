@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fitra – Operational Interface</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem;
+      background: linear-gradient(to bottom, #121212, #000);
+      color: #FF9800;
+      font-family: 'Cairo', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      font-size: 2.3rem;
+      margin-bottom: 0.5rem;
+    }
+    p {
+      text-align: center;
+      max-width: 600px;
+      color: #ccc;
+      margin-bottom: 2rem;
+    }
+    .input-section {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    textarea, input[type="file"] {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      background: #FF9800;
+      color: #111;
+      cursor: pointer;
+    }
+    .preview-container {
+      margin-top: 2rem;
+      display: grid;
+      gap: 1.5rem;
+      max-width: 800px;
+    }
+    .preview-item {
+      background: #1c1c1c;
+      padding: 1rem;
+      border-radius: 10px;
+      color: #eee;
+      position: relative;
+    }
+    .preview-item button {
+      margin-top: 10px;
+      margin-right: 8px;
+    }
+    .preview-item video,
+    .preview-item img {
+      max-width: 100%;
+      margin-top: 1rem;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔁 Fitra | Where Ideas Take Flight</h1>
+  <p>
+    Translate your ideas into reality — from design to implementation — by starting where others left off.  
+    Fitra is not just an operating system, but a cognitive engine that translates intention into output.
+  </p>
+
+  <div class="input-section">
+    <textarea id="ideaInput" placeholder="اكتب فكرتك هنا..."></textarea>
+    <button onclick="addIdea()">🧠 معاينة الفكرة</button>
+    <input type="file" id="fileInput" multiple />
+  </div>
+
+  <div class="preview-container" id="previewContainer"></div>
+
+  <div style="margin-top: 3rem;">
+    <button onclick="startExecution()">🚦 ابدأ التشغيل الفعلي</button>
+  </div>
+
+  <audio id="bgMusic" autoplay loop>
+    <source src="../../assets/audio/ambiental-soul-deep-tech-house-minimal-music-338114.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const fileInput = document.getElementById("fileInput");
+    const previewContainer = document.getElementById("previewContainer");
+
+    fileInput.addEventListener("change", function () {
+      Array.from(this.files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const item = document.createElement("div");
+          item.className = "preview-item";
+
+          let content = `<h3>📎 ${file.name}</h3>`;
+          if (file.type.startsWith("image/")) {
+            content += `<img src="${e.target.result}" alt="preview" />`;
+          } else if (file.type.startsWith("video/") || file.type.startsWith("audio/")) {
+            const tag = file.type.startsWith("video/") ? "video" : "audio";
+            content += `<${tag} controls src="${e.target.result}"></${tag}>`;
+          } else {
+            content += `<p>نوع الملف: ${file.type || 'غير معروف'}</p>`;
+          }
+
+          item.innerHTML = content + `
+            <button onclick="markReady(this)">✅ جاهز للتنفيذ</button>
+            <button onclick="removeItem(this)">❌ إزالة</button>
+          `;
+          previewContainer.appendChild(item);
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+
+    function addIdea() {
+      const ideaText = document.getElementById("ideaInput").value.trim();
+      if (!ideaText) return;
+
+      const item = document.createElement("div");
+      item.className = "preview-item";
+      item.innerHTML = `
+        <h3>🧠 الفكرة:</h3>
+        <p>${ideaText}</p>
+        <button onclick="markReady(this)">✅ جاهزة للتنفيذ</button>
+        <button onclick="removeItem(this)">❌ إزالة</button>
+      `;
+      previewContainer.appendChild(item);
+    }
+
+    function markReady(btn) {
+      btn.textContent = "✅ تم تمييزه للتنفيذ";
+      btn.style.background = "#4CAF50";
+      btn.disabled = true;
+    }
+
+    function removeItem(btn) {
+      const item = btn.parentElement;
+      previewContainer.removeChild(item);
+    }
+
+    function startExecution() {
+      const readyItems = [...document.querySelectorAll('.preview-item')]
+        .filter(item => item.querySelector('button[disabled]'));
+
+      if (!readyItems.length) {
+        alert("⚠️ لم يتم اختيار أي مدخل للتنفيذ.");
+        return;
+      }
+
+      const payload = readyItems.map(item => {
+        const text = item.querySelector('p')?.textContent;
+        const media = item.querySelector('img, video, audio');
+        return {
+          type: media ? media.tagName.toLowerCase() : 'text',
+          content: media ? media.src : text
+        };
+      });
+
+      console.log("🚦 جاهز للتنفيذ على المدخلات:", payload);
+      alert("🚀 تم إرسال المدخلات إلى المحرك المعرفي (تجريبيًا). انظر في console.");
+    }
+  </script>
+
+</body>
+</html>

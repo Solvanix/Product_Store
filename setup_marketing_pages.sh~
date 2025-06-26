@@ -1,0 +1,81 @@
+#!/bin/bash
+
+# مسار المشروع
+BASE="/home/ali/0_gh_repos/Product_Store"
+DEST="$BASE/marketing_pages"
+mkdir -p "$DEST"
+cd "$DEST" || exit
+
+# عناوين الصفحات
+titles=(
+  "Individual Hardware Upgrade Plan"
+  "Team Strategy with Shared Fund"
+  "Partial Team Implementation"
+  "Dual-Funding Scenario"
+  "Personal Creative Project Showcase"
+  "Trio-Based Innovation Lab"
+  "Full Team Green Network"
+  "Apowork as a Coordination Engine"
+  "Sustainability & Switchers Framework"
+)
+
+# شريط تنقّل بسيط
+nav="<nav style='background:#111;padding:10px;margin-bottom:20px;font-family:sans-serif'>
+$(for i in {1..9}; do printf "<a href='page_%02d.html' style='color:#FF6600;margin-right:8px;'>P$i</a>" "$i"; done)
+</nav>"
+
+# الصفحة الأولى — تحليل فعلي
+cat <<EOF > "$DEST/page_01.html"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Page 01 – ${titles[0]}</title>
+  <style>
+    body { background: #000; color: #f5eee0; font-family: Arial, sans-serif; padding: 2em; }
+    h1, h2 { color: #FF6600; }
+    ul { line-height: 1.6; }
+    a { color: #ffaa33; }
+  </style>
+</head>
+<body>
+  $nav
+  <h1>Page 01 – ${titles[0]}</h1>
+
+  <h2>1. Project Context</h2>
+  <p>This section provides a concrete roadmap for technical upgrades related to content creation, fabrication, and sustainability-led marketing.</p>
+
+  <h2>2. Current Constraints</h2>
+  <ul>
+    <li>Primary SSD nearly full (500GB)</li>
+    <li>Camera lacks modern video capabilities for Reels</li>
+    <li>No modular production tools (e.g., CNC, motion rigs)</li>
+  </ul>
+
+  <h2>3. Planned Actions with €5,000 + €500</h2>
+  <ul>
+    <li>SSD upgrade or modular backup device (1TB)</li>
+    <li>Entry-level CNC or stabilization gear</li>
+    <li>Camera enhancement or lens/tools for product visuals</li>
+  </ul>
+
+  <h2>4. Justification</h2>
+  <p>This is not a wish-list — it’s a strategic upgrade informed by past collaborative work in <em>telecom data analysis, marketing trials, educational media (Fun & Learn), branding (David Walker), and STEAM-driven prototyping</em>.</p>
+</body>
+</html>
+EOF
+
+# الصفحات 2–9 كـ placeholders بتصميم موحّد
+for i in {2..9}; do
+  title="${titles[$((i-1))]}"
+  fname=$(printf "page_%02d.html" "$i")
+  cat <<EOF > "$DEST/$fname"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Page $i – $title</title>
+  <style>
+    body {
+      background: #000;
+      color: #eeeecc;

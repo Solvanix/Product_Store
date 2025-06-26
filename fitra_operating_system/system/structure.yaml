@@ -1,0 +1,14 @@
+project_name: Fitra Operating System
+description: "نظام تشغيل معرفي بصري مبني على التفكير التصميمي + نماذج AI"
+workflow:
+  - sketch: تحليل صورة/وصف → فكرة
+  - set: تحديد المشكلة + الجمهور
+  - organize: توليد صفحة معرفية وQR
+  - respond: تحليل التفاعل
+  - switch: توصيات للنسخ والتوسيع
+  - share: نشر بصيغة مرئية
+models:
+  - blip: image analysis
+  - gpt4: ideation + prompt
+  - qrcode: content linkage
+  - clusterer: sentiment grouping
