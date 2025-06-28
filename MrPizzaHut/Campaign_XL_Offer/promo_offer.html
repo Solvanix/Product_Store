@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>عرض MrPizzaHut – الحجم العائلي</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* عام */
+    body {
+      margin: 0;
+      font-family: 'Tajawal', sans-serif;
+      background: url('assets/images/wood_leaf_bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      scroll-behavior: smooth;
+    }
+    /* رأس ثابت */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: rgba(0,0,0,0.85);
+      display: flex;
+      justify-content: center;
+      z-index: 1000;
+      padding: 10px 0;
+      border-bottom: 1px solid #555;
+    }
+    header a {
+      color: #ffd700;
+      text-decoration: none;
+      font-size: 1.2em;
+      font-weight: bold;
+      margin: 0 15px;
+      transition: color 0.3s;
+    }
+    header a:hover {
+      color: #ffffff;
+    }
+    /* المحتوى الرئيس */
+    .overlay {
+      padding-top: 80px; /* تعويض الرأس */
+      padding-bottom: 60px;
+      background-color: rgba(0,0,0,0.7);
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    h1 {
+      text-align: center;
+      font-size: 3em;
+      color: #ffd700;
+      margin-bottom: 20px;
+    }
+    /* معرض الصور */
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin: 40px 0;
+    }
+    .gallery img {
+      width: 220px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.8);
+    }
+    /* قسم QR */
+    .qr-section {
+      text-align: center;
+      margin: 40px 0;
+    }
+    .qr-section img {
+      width: 170px;
+      border: 6px solid #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 18px rgba(255,255,255,0.25);
+    }
+    .qr-section a {
+      display: inline-block;
+      margin-top: 12px;
+      background-color: #1877f2;
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    /* قسم العروض */
+    #offers {
+      text-align: center;
+      font-size: 1.3em;
+      line-height: 2em;
+      padding: 0 20px;
+    }
+    .price {
+      font-size: 1.7em;
+      color: #00e676;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .divider {
+      width: 60%;
+      margin: 30px auto;
+      border-top: 1px dashed #aaa;
+    }
+    /* زر الاتصال العائم */
+    .call-btn {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: #25d366;
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 50px;
+      font-size: 1.1em;
+      text-decoration: none;
+      z-index: 1001;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+    .call-btn:hover {
+      background: #20b358;
+    }
+    /* الفوتر */
+    .footer {
+      text-align: center;
+      color: #aaa;
+      margin-top: 50px;
+      font-size: 0.9em;
+    }
+    /* تجاوب */
+    @media (max-width: 768px) {
+      h1 { font-size: 2em; }
+      .gallery img { width: 85%; }
+      header a { font-size: 1em; margin: 0 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- رأس التنقّل الثابت -->
+  <header>
+    <a href="index.html">🏠</a>
+    <a href="https://www.facebook.com/profile.php?id=61574045938687" target="_blank">📘</a>
+    <a href="store.html">🛒</a>
+    <a href="#offers">🎯</a>
+  </header>
+
+  <div class="overlay">
+
+    <!-- عنوان الحملة -->
+    <h1>🔥 عرض الحجم العائلي – MrPizzaHut</h1>
+
+    <!-- معرض الصور -->
+    <div class="gallery">
+      <img src="assets/images/pizza_closeup_main.png" alt="بيتزا XL">
+      <img src="assets/images/pizza_deluxe_plate.jpg" alt="بيتزا فاخرة">
+      <img src="assets/images/french_fries_main.jpg" alt="بطاطا مقلية">
+      <img src="assets/images/coke_glass_ice.png" alt="كولا باردة">
+    </div>
+
+    <!-- قسم رمز QR -->
+    <div class="qr-section">
+      <img src="assets/qrcodes/qr_facebook_pizzahot_v6.jpeg" alt="رمز QR لفيسبوك">
+      <br>
+      <a href="https://www.facebook.com/profile.php?id=61574045938687" target="_blank">
+        🔗 زيارة صفحة MrPizzaHut
+      </a>
+    </div>
+
+    <!-- قسم العروض -->
+    <div id="offers">
+      🍕 <strong>بيتزا XL</strong> (طونا – نقانق – خضار – مارجريتا – سلامي)<br>
+      + 🍟 بطاطا كبيرة<br>
+      + 🥤 كولا 1.25L
+      <div class="price">60 شيكل</div>
+
+      <div class="divider"></div>
+
+      🍗 <strong>بيتزا دجاج XL</strong><br>
+      + 🍟 بطاطا كبيرة<br>
+      + 🥤 كولا 1.25L
+      <div class="price">70 شيكل</div>
+    </div>
+
+    <!-- الفوتر -->
+    <div class="footer">
+      للحجز عبر واتساب: 
+      <a style="color:#25d366; text-decoration:none;" href="https://wa.me/972569787731" target="_blank">
+        0097256988731
+      </a><br>
+      بلعين – شارع صفا – رام الله<br>
+      &copy; 2025 MrPizzaHut
+    </div>
+
+  </div>
+
+  <!-- زر اتصال مباشر -->
+  <a class="call-btn" href="tel:0097256988731">📞 اتصل الآن</a>
+
+</body>
+</html>
