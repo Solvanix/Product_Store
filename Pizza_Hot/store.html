@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>قائمة الطعام – MrPizzaHut</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Tajawal', sans-serif;
+      background: url('assets/images/wood_leaf_bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #3a2e20;
+      scroll-behavior: smooth;
+      line-height: 1.8em;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: rgba(0,0,0,0.85);
+      text-align: center;
+      padding: 14px 0;
+      z-index: 1000;
+      border-bottom: 1px solid #444;
+    }
+
+    header a {
+      color: #ffd700;
+      text-decoration: none;
+      margin: 0 12px;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+
+    .overlay {
+      padding-top: 90px;
+      padding-bottom: 60px;
+      background-color: rgba(255,255,255,0.9);
+      min-height: 100vh;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      color: #d25f00;
+      margin-bottom: 24px;
+    }
+
+    .section {
+      margin: 40px auto;
+      max-width: 960px;
+      padding: 0 16px;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: clamp(1.3rem, 4vw, 1.8rem);
+      margin-bottom: 12px;
+      color: #b14c00;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 8px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.2);
+      margin-bottom: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+      min-width: 320px;
+    }
+
+    th {
+      background-color: #ff914d;
+      color: #fff;
+      padding: 12px;
+      border: 1px solid #fff;
+    }
+
+    td {
+      background-color: #fef1dc;
+      padding: 10px;
+      border: 1px solid #fff;
+      text-align: center;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #f9ddb6;
+    }
+
+    .footer {
+      text-align: center;
+      color: #333;
+      padding: 35px 20px;
+      font-size: 0.9em;
+      border-top: 1px dashed #bbb;
+    }
+
+    @media (max-width: 480px) {
+      header a { font-size: 0.95rem; margin: 0 8px; }
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html">🏠 الرئيسية</a>
+    <a href="promo_offer.html">📢 العرض</a>
+    <a href="store.html">🛒 المتجر</a>
+    <a href="https://www.facebook.com/profile.php?id=61574045938687" target="_blank">📘 فيسبوك</a>
+  </header>
+
+  <div class="overlay">
+    <h1>📋 كتالوج MrPizzaHut الرسمي</h1>
+
+    <div class="section">
+      <h2>🍕 قائمة البيتزا</h2>
+      <div class="table-wrapper">
+        <table>
+          <tr>
+            <th>النوع</th>
+            <th>XL</th>
+            <th>L</th>
+            <th>M</th>
+            <th>S</th>
+          </tr>
+          <tr><td>بيتزا شرقية</td><td>65₪</td><td>45₪</td><td>33₪</td><td>17₪</td></tr>
+          <tr><td>بيتزا دجاج</td><td>55₪</td><td>40₪</td><td>23₪</td><td>15₪</td></tr>
+          <tr><td>بيتزا سلامي</td><td>55₪</td><td>40₪</td><td>23₪</td><td>15₪</td></tr>
+          <tr><td>بيتزا نقانق</td><td>55₪</td><td>40₪</td><td>23₪</td><td>15₪</td></tr>
+          <tr><td>بيتزا تونة</td><td>55₪</td><td>40₪</td><td>23₪</td><td>15₪</td></tr>
+          <tr><td>بيتزا خضار</td><td>50₪</td><td>38₪</td><td>20₪</td><td>14₪</td></tr>
+          <tr><td>بيتزا مارجريتا</td><td>50₪</td><td>38₪</td><td>20₪</td><td>14₪</td></tr>
+          <tr><td>كلزوني</td><td>60₪</td><td>40₪</td><td>32₪</td><td>16₪</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>🍟 أطباق جانبية</h2>
+      <div class="table-wrapper">
+        <table>
+          <tr><th>الصنف</th><th>السعر</th></tr>
+          <tr><td>بطاطا صغير</td><td>5₪</td></tr>
+          <tr><td>بطاطا كبير</td><td>10₪</td></tr>
+          <tr><td>جناح دجاج صغير</td><td>12₪</td></tr>
+          <tr><td>جناح دجاج كبير</td><td>25₪</td></tr>
+          <tr><td>زنجر صغير</td><td>12₪</td></tr>
+          <tr><td>زنجر كبير</td><td>25₪</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>🥤 مشروبات</h2>
+      <div class="table-wrapper">
+        <table>
+          <tr><th>المشروب</th><th>السعر</th></tr>
+          <tr><td>كولا 1.25 لتر</td><td>4₪</td></tr>
+          <tr><td>كولا 2 لتر</td><td>6₪</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="footer">
+      بلعين – شارع صفا – رام الله<br>
+      للحجز: <a style="color:#25d366; text-decoration:none;" href="tel:0097256988731">00972 56 988 731</a><br>
+      &copy; 2025 MrPizzaHut
+    </div>
+  </div>
+
+</body>
+</html>

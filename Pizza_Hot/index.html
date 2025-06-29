@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>MrPizzaHut – الصفحة الرئيسية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Tajawal', sans-serif;
+      background: url('assets/images/wood_leaf_bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      scroll-behavior: smooth;
+      line-height: 1.7em;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      justify-content: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #444;
+      z-index: 1000;
+    }
+
+    header a {
+      color: #ffd700;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin: 0 12px;
+    }
+
+    header a:hover {
+      color: #fff;
+    }
+
+    .overlay {
+      padding-top: 80px;
+      background-color: rgba(0,0,0,0.75);
+      min-height: 100vh;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      color: #ffd700;
+      margin: 30px 0 10px;
+    }
+
+    .main-links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      gap: 18px;
+    }
+
+    .main-links a {
+      background-color: rgba(255, 255, 255, 0.08);
+      border: 1px solid #ffd700;
+      border-radius: 10px;
+      color: #fff;
+      padding: 14px 24px;
+      font-size: 1.1rem;
+      text-decoration: none;
+      width: 90%;
+      max-width: 380px;
+      text-align: center;
+      transition: background 0.3s;
+    }
+
+    .main-links a:hover {
+      background-color: #ffd700;
+      color: #000;
+      font-weight: bold;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #ccc;
+      margin-top: 40px;
+      padding-bottom: 30px;
+    }
+
+    @media (max-width: 480px) {
+      header a {
+        font-size: 1rem;
+        margin: 0 6px;
+      }
+
+      .main-links a {
+        font-size: 1rem;
+        padding: 12px 16px;
+      }
+
+      h1 {
+        font-size: 1.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html">🏠</a>
+    <a href="store.html">🛒 القائمة</a>
+    <a href="promo_offer.html">🔥 العرض</a>
+    <a href="https://www.facebook.com/profile.php?id=61574045938687" target="_blank">📘</a>
+  </header>
+
+  <div class="overlay">
+    <h1>مرحبًا بكم في MrPizzaHut</h1>
+
+    <div class="main-links">
+      <a href="promo_offer.html">عرض الحجم العائلي – الآن ودائمًا 🍕</a>
+      <a href="store.html">كتالوج البيتزا والأطباق الجانبية 📝</a>
+      <a href="https://wa.me/972569787731" target="_blank">اطلب عبر واتساب مباشرةً 💬</a>
+    </div>
+
+    <div class="footer">
+      بلعين – شارع صفا – رام الله<br>
+      &copy; 2025 MrPizzaHut
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>📸 حملة MrPizzaHut – بوسترات العرض</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Tajawal', sans-serif;
+      background: url('assets/images/wood_leaf_bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      scroll-behavior: smooth;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      padding: 10px 0;
+      text-align: center;
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+
+    header a {
+      color: #ffd700;
+      text-decoration: none;
+      margin: 0 12px;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    header a:hover {
+      color: #fff;
+    }
+
+    .gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      padding: 100px 20px 60px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .poster {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.4);
+      backdrop-filter: blur(6px);
+      padding: 24px;
+      text-align: center;
+    }
+
+    .poster h2 {
+      font-size: clamp(1.6rem, 5vw, 2.2rem);
+      margin-bottom: 10px;
+      color: #ff914d;
+      text-shadow: 0 0 6px rgba(255,145,77,0.6);
+    }
+
+    .poster p {
+      font-size: 1.1rem;
+      margin-bottom: 16px;
+      color: #fdf4e3;
+    }
+
+    .poster img {
+      width: 90%;
+      max-width: 360px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.6);
+      margin-bottom: 16px;
+    }
+
+    .poster a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 18px;
+      background-color: #ff914d;
+      color: #111;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .poster a:hover {
+      background-color: #ffaa66;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 10px;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    @media (max-width: 480px) {
+      .poster p { font-size: 1rem; }
+      .poster img { width: 95%; }
+      header a { font-size: 0.9rem; margin: 0 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html">🏠 الرئيسية</a>
+    <a href="promo_offer.html">🔥 العرض</a>
+    <a href="store.html">🛒 المتجر</a>
+    <a href="poster_gallery.html">📸 الحملة</a>
+  </header>
+
+  <div class="gallery">
+
+    <div class="poster">
+      <h2>🔥 عرض الحجم العائلي</h2>
+      <img src="assets/images/pizza_deluxe_plate.jpg" alt="عرض الحجم العائلي" />
+      <p>بيتزا XL + بطاطا + كولا 1.25L فقط بـ <strong>60₪</strong></p>
+      <a href="https://wa.me/972569787731" target="_blank">اطلب الآن</a>
+    </div>
+
+    <div class="poster">
+      <h2>🍗 عرض أصابع الدجاج + بطاطا</h2>
+      <img src="assets/images/chicken_fingers_meal.jpg" alt="عرض قطع الدجاج + بطاطا" />
+      <p>6 قطع دجاج مقلية + بطاطا صغير فقط بـ <strong>15₪</strong></p>
+      <a href="https://wa.me/972569787731" target="_blank">اطلب الآن</a>
+    </div>
+
+    <div class="poster">
+      <h2>🎯 قائمة MrPizzaHut</h2>
+      <img src="assets/images/qr_facebook_pizzahot_v6.jpeg" alt="QR قائمة الطعام" />
+      <p>كل أنواع البيتزا، الأطباق الجانبية والمشروبات بأسعار مميزة!</p>
+      <a href="store.html">فتح القائمة</a>
+    </div>
+
+    <div class="poster">
+      <h2>📘 تواصل معنا على فيسبوك</h2>
+      <img src="assets/images/pizza_closeup_main.png" alt="MrPizzaHut Facebook" />
+      <p>عروض متجددة، صور جديدة، وأخبار الحملة أولًا بأول!</p>
+      <a href="https://www.facebook.com/profile.php?id=61574045938687" target="_blank">زيارتنا على فيسبوك</a>
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2025 MrPizzaHut | بلعين – شارع صفا – رام الله<br>
+    للحجز: <a style="color:#25d366; text-decoration:none;" href="tel:0097256988731">00972 56 988 731</a>
+  </footer>
+
+</body>
+</html>
