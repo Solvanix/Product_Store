@@ -1,243 +1,196 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <title>عرض PIZZA HOT – الحجم العائلي</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <title>🔥 عروض PIZZA HOT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       font-family: 'Tajawal', sans-serif;
-      background: url('assets/images/wood_leaf_bg.jpg') no-repeat center center fixed;
-      background-size: cover;
+      background: url('assets/images/wood_leaf_bg.jpg') center center / cover no-repeat fixed;
       color: #fff;
-      scroll-behavior: smooth;
-      line-height: 1.9em;
-      font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+      line-height: 1.8em;
+      font-size: clamp(1.1rem, 2.3vw, 1.25rem);
     }
 
     header {
       position: fixed;
       top: 0;
       width: 100%;
-      background-color: rgba(0,0,0,0.9);
+      background-color: rgba(0,0,0,0.85);
       display: flex;
       justify-content: center;
-      z-index: 1000;
       padding: 12px 0;
-      border-bottom: 1px solid #666;
+      border-bottom: 1px solid #444;
+      z-index: 1000;
     }
 
     header a {
       color: #ffd700;
       text-decoration: none;
-      font-size: 1.3rem;
-      font-weight: bold;
       margin: 0 16px;
-      transition: color 0.3s;
-    }
-
-    header a:hover {
-      color: #fff;
+      font-weight: bold;
+      font-size: 1.2rem;
     }
 
     .overlay {
-      padding-top: 90px;
+      padding-top: 100px;
       padding-bottom: 60px;
       background-color: rgba(0,0,0,0.7);
       min-height: 100vh;
-      box-sizing: border-box;
     }
 
     h1 {
       text-align: center;
-      font-size: clamp(2rem, 6vw, 3rem);
       color: #ffd700;
-      margin-bottom: 24px;
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin-bottom: 30px;
     }
 
-    .gallery {
+    .poster-grid {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 20px;
-      margin: 30px 12px;
+      gap: 24px;
+      padding: 20px;
     }
 
-    .gallery img {
-      width: clamp(150px, 44vw, 240px);
-      border-radius: 12px;
-      box-shadow: 0 0 14px rgba(0,0,0,0.8);
-    }
-
-    .qr-section {
+    .poster-card {
+      width: 280px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 14px;
+      padding: 20px 18px;
       text-align: center;
-      margin: 50px 0 30px;
-    }
-
-    .qr-section img {
-      width: 160px;
-      max-width: 45%;
-      border: 6px solid #fff;
-      border-radius: 10px;
-      box-shadow: 0 0 18px rgba(255,255,255,0.25);
-    }
-
-    .qr-section a {
-      display: inline-block;
-      margin-top: 15px;
-      background-color: #1877f2;
       color: #fff;
-      padding: 12px 24px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1.05rem;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+      transition: transform 0.3s;
     }
 
-    #offers {
-      text-align: center;
-      font-size: clamp(1.2rem, 3.2vw, 1.4rem);
-      padding: 0 18px;
-      margin-bottom: 40px;
+    .poster-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 30px rgba(255,145,77,0.4);
     }
 
-    .price {
-      font-size: clamp(1.5rem, 4.5vw, 2rem);
+    .poster-card h3 {
+      color: #ffae42;
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+    }
+
+    .poster-card p {
+      margin: 8px 0;
+    }
+
+    .old-price {
+      text-decoration: line-through;
+      color: #ccc;
+    }
+
+    .new-price {
       color: #00e676;
       font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .poster-card a.button {
+      display: block;
       margin-top: 12px;
-    }
-
-    .divider {
-      width: 72%;
-      margin: 30px auto;
-      border-top: 1px dashed #aaa;
-    }
-
-    .poster-links {
-      text-align: center;
-      margin: 35px 0 50px;
-    }
-
-    .poster-links a {
-      display: inline-block;
-      margin: 8px;
-      padding: 12px 22px;
+      padding: 10px 18px;
+      background-color: #ff914d;
+      color: #111;
+      text-decoration: none;
       border-radius: 8px;
       font-weight: bold;
-      font-size: 1.05rem;
-      text-decoration: none;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
       transition: background 0.3s;
     }
 
-    .poster-links a:first-child {
-      background-color: #ffd54f;
-      color: #000;
+    .poster-card a.button:hover {
+      background-color: #ffaa66;
     }
 
-    .poster-links a:nth-child(2) {
-      background-color: #ffa726;
-      color: #000;
-    }
-
-    .poster-links a:nth-child(3) {
-      background-color: #ff7043;
+    .poster-card .whatsapp {
+      background-color: #25d366;
       color: #fff;
+      margin-top: 8px;
     }
 
-    .poster-links a:hover {
-      opacity: 0.9;
+    .poster-card .whatsapp:hover {
+      background-color: #1eb154;
     }
 
-    .call-btn {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      background: #25d366;
-      color: #fff;
-      padding: 14px 22px;
-      border-radius: 50px;
-      font-size: 1rem;
-      text-decoration: none;
-      z-index: 1001;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-    }
-
-    .call-btn:hover {
-      background: #20b358;
-    }
-
-    .footer {
+    .footer-note {
       text-align: center;
-      color: #aaa;
-      margin-top: 50px;
       font-size: 0.95rem;
-      line-height: 1.6em;
+      margin-top: 30px;
+      color: #ffdca6;
+      padding: 0 16px;
+    }
+
+    @media (max-width: 480px) {
+      .poster-card {
+        width: 90%;
+      }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <a href="index.html">🏠</a>
-    <a href="https://www.facebook.com/profile.php?id=61574045938687" target="_blank">📘</a>
-    <a href="store.html">🛒</a>
-    <a href="#offers">🎯</a>
+    <a href="index.html">🏠 الرئيسية</a>
+    <a href="store.html">🛒 القائمة</a>
+    <a href="https://www.facebook.com/profile.php?id=61574045938687" target="_blank">📘 فيسبوك</a>
   </header>
 
   <div class="overlay">
+    <h1>🎉 عروض PIZZA HOT الخاصة</h1>
 
-    <h1>🔥 عرض الحجم العائلي – PIZZA HOT</h1>
+    <div class="poster-grid">
 
-    <div class="gallery">
-      <img src="assets/images/pizza_closeup_main.png" alt="بيتزا XL">
-      <img src="assets/images/pizza_deluxe_plate.jpg" alt="بيتزا فاخرة">
-      <img src="assets/images/french_fries_main.jpg" alt="بطاطا مقلية">
-      <img src="assets/images/coke_glass_ice.png" alt="كولا باردة">
+      <!-- بطاقة 1 -->
+      <div class="poster-card">
+        <h3>🍕 الحجم العائلي – وجبة كاملة</h3>
+        <p>بيتزا XL + بطاطا كبيرة + كولا 1.25L</p>
+        <p><span class="old-price">69₪</span> ⟶ <span class="new-price">60₪</span></p>
+        <a class="button" href="poster_view_family.html">🔍 استعراض العرض</a>
+        <a class="button whatsapp" target="_blank" href="https://wa.me/972569788731?text=مرحبًا، أرغب بطلب عرض الحجم العائلي (بيتزا XL + بطاطا + كولا) بسعر 60₪">🟢 اطلب الآن عبر واتساب</a>
+      </div>
+
+      <!-- بطاقة 2 -->
+      <div class="poster-card">
+        <h3>🍗 أجنحة الدجاج – عرض التوفير</h3>
+        <p>6 أجنحة متبّلة + بطاطا كبيرة</p>
+        <p><span class="old-price">22₪</span> ⟶ <span class="new-price">15₪</span></p>
+        <a class="button" href="poster_view_wings.html">🔍 استعراض العرض</a>
+        <a class="button whatsapp" target="_blank" href="https://wa.me/972569788731?text=مرحبًا، أرغب بطلب عرض أجنحة الدجاج + بطاطا بسعر 15₪">🟢 اطلب الآن عبر واتساب</a>
+      </div>
+
+      <!-- بطاقة 3 -->
+      <div class="poster-card">
+        <h3>🧀 بيتزا دجاج XL + بطاطا + كولا</h3>
+        <p>عرض ثابت بسعر مميز</p>
+        <p><span class="old-price">64₪</span> ⟶ <span class="new-price">70₪</span></p>
+        <a class="button" href="poster_view_chicken.html">🔍 استعراض العرض</a>
+        <a class="button whatsapp" target="_blank" href="https://wa.me/972569788731?text=مرحبًا، أرغب بطلب عرض بيتزا دجاج XL + بطاطا + كولا بسعر 70₪">🟢 اطلب الآن عبر واتساب</a>
+      </div>
+
+      <!-- بطاقة 4 -->
+      <div class="poster-card">
+        <h3>📸 استعرض كل العروض</h3>
+        <p>بوسترات بصريّة لكل الوجبات</p>
+        <a class="button" href="poster_gallery.html">👀 فتح معرض العروض</a>
+      </div>
+
     </div>
 
-    <div class="qr-section">
-      <img src="assets/qrcodes/qr_facebook_pizzahot_v6.jpeg" alt="رمز QR لفيسبوك">
-      <br>
-      <a href="https://www.facebook.com/profile.php?id=61574045938687" target="_blank">
-        🔗 زيارة صفحة PIZZA HOT
-      </a>
-    </div>
-
-    <div id="offers">
-      🍕 <strong>بيتزا XL</strong> (طونا – نقانق – خضار – مارجريتا – سلامي)<br>
-      + 🍟 بطاطا كبيرة<br>
-      + 🥤 كولا 1.25L  
-      <div class="price">60 شيكل</div>
-
-      <div class="divider"></div>
-
-      🍗 <strong>بيتزا دجاج XL</strong><br>
-      + 🍟 بطاطا كبيرة<br>
-      + 🥤 كولا 1.25L  
-      <div class="price">70 شيكل</div>
-    </div>
-
-    <div class="poster-links">
-      <a href="poster_view_family.html">🍕 بوستر العرض العائلي</a>
-      <a href="poster_view_wings.html">🍗 بوستر أجنحة الدجاج</a>
-      <a href="poster_gallery.html">📸 تصفّح كل البوسترات</a>
-    </div>
-
-    <div class="footer">
-      للحجز عبر واتساب: 
-      <a style="color:#25d366; text-decoration:none;" href="https://wa.me/972569787731" target="_blank">
-        0097256988731
-      </a><br>
-      بلعين – شارع صفا – رام الله<br>
-      &copy; 2025 PIZZA HOT
+    <div class="footer-note">
+      🔔 بعد إرسال الطلب عبر واتساب، سيتم تأكيده برسالة من حسابنا الرسمي.  
+      ✅ يُرجى عدم اعتبار الطلب مؤكدًا إلا بعد استلام رسالة تأكيد.
     </div>
   </div>
-
-  <a class="call-btn" href="tel:0097256988731">📞 اتصل الآن</a>
 
 </body>
 </html>
