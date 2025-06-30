@@ -1,181 +1,491 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <title>قائمة الطعام – MrPizzaHut</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8">
+  <title>📋 متجر PIZZA HOT</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    * { box-sizing:border-box }
     body {
-      margin: 0;
-      font-family: 'Tajawal', sans-serif;
-      background: url('assets/images/wood_leaf_bg.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #3a2e20;
-      scroll-behavior: smooth;
-      line-height: 1.8em;
+      margin:0;
+      font-family:'Tajawal',sans-serif;
+      background:#f2f2f2;
+      color:#333;
+      line-height:1.6
     }
-
     header {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background-color: rgba(0,0,0,0.85);
-      text-align: center;
-      padding: 14px 0;
-      z-index: 1000;
-      border-bottom: 1px solid #444;
+      position:fixed; top:0; width:100%;
+      background:#0008; color:#ffd700;
+      text-align:center; padding:10px; z-index:10
     }
-
     header a {
-      color: #ffd700;
-      text-decoration: none;
-      margin: 0 12px;
-      font-weight: bold;
-      font-size: 1rem;
+      margin:0 8px; color:inherit;
+      text-decoration:none; font-weight:700
     }
-
     .overlay {
-      padding-top: 90px;
-      padding-bottom: 60px;
-      background-color: rgba(255,255,255,0.9);
-      min-height: 100vh;
+      padding:70px 10px 160px;
+      background:#fff; min-height:100vh
     }
-
     h1 {
-      text-align: center;
-      font-size: clamp(1.8rem, 5vw, 2.5rem);
-      color: #d25f00;
-      margin-bottom: 24px;
+      text-align:center; color:#d25f00;
+      margin:20px 0;
+      font-size:clamp(1.8rem,5vw,2.5rem)
     }
-
     .section {
-      margin: 40px auto;
-      max-width: 960px;
-      padding: 0 16px;
+      max-width:900px; margin:30px auto;
+      padding:0 10px
     }
-
     h2 {
-      text-align: center;
-      font-size: clamp(1.3rem, 4vw, 1.8rem);
-      margin-bottom: 12px;
-      color: #b14c00;
+      text-align:center; color:#b14c00;
+      margin-bottom:12px
     }
-
     .table-wrapper {
-      overflow-x: auto;
-      border-radius: 8px;
-      box-shadow: 0 0 6px rgba(0,0,0,0.2);
-      margin-bottom: 30px;
+      overflow-x:auto; border:1px solid #ddd;
+      border-radius:6px; background:#fff;
+      margin-bottom:20px
     }
-
     table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: clamp(0.9rem, 2.5vw, 1.05rem);
-      min-width: 320px;
+      width:100%; border-collapse:collapse;
+      font-size:1rem
     }
-
+    th,td {
+      text-align:center; border:1px solid #ddd;
+      padding:8px
+    }
     th {
-      background-color: #ff914d;
-      color: #fff;
-      padding: 12px;
-      border: 1px solid #fff;
+      background:#ff914d; color:#fff
     }
-
-    td {
-      background-color: #fef1dc;
-      padding: 10px;
-      border: 1px solid #fff;
-      text-align: center;
-    }
-
     tr:nth-child(even) td {
-      background-color: #f9ddb6;
+      background:#f9ddb6
     }
-
+    select.size,input.qty {
+      padding:6px; border:1px solid #ccc;
+      border-radius:4px; text-align:center
+    }
+    input.qty {
+      width:60px
+    }
+    button.add-btn {
+      background:#ffd700; border:none;
+      padding:6px 12px; border-radius:6px;
+      font-weight:700; cursor:pointer
+    }
+    button.add-btn:hover {
+      background:#ffc107
+    }
+    #cart-manager {
+      position:fixed; bottom:10px; left:10px;
+      width:320px; background:#fff; padding:12px;
+      border:1px solid #ccc; border-radius:6px;
+      z-index:20
+    }
+    #cart-manager input,
+    #cart-manager button,
+    #cart-manager select {
+      width:100%; margin:4px 0; padding:6px
+    }
+    #cart-tabs {
+      margin:8px 0; text-align:center
+    }
+    #cart-tabs button {
+      margin:0 4px; padding:4px 8px; cursor:pointer;
+      border:1px solid #ccc; border-radius:4px;
+      background:#fafafa
+    }
+    #cart-tabs button.active {
+      background:#25d366; color:#fff;
+      border-color:#25d366
+    }
+    .cart-tab {
+      display:none; margin-top:10px
+    }
+    .cart-tab.active {
+      display:block
+    }
+    .cart-tab ul {
+      list-style:none; padding:0; margin:8px 0
+    }
+    .cart-tab li {
+      display:flex; justify-content:space-between;
+      align-items:center; margin:4px 0
+    }
+    .remove-item {
+      background:transparent; border:none;
+      color:#e74c3c; cursor:pointer; font-size:1rem
+    }
+    .btn {
+      display:inline-block; color:#fff;
+      padding:6px 10px; border-radius:6px;
+      font-weight:700; text-decoration:none;
+      text-align:center
+    }
+    .btn.whatsapp {
+      background:#25d366; margin:4px 1px; width:48%
+    }
+    .btn.card {
+      background:#00ab66; margin:4px 1px; width:48%
+    }
     .footer {
-      text-align: center;
-      color: #333;
-      padding: 35px 20px;
-      font-size: 0.9em;
-      border-top: 1px dashed #bbb;
+      text-align:center; color:#666;
+      padding:20px; margin-top:20px;
+      border-top:1px dashed #ccc
     }
-
-    @media (max-width: 480px) {
-      header a { font-size: 0.95rem; margin: 0 8px; }
-      h1 { font-size: 2rem; }
-      h2 { font-size: 1.3rem; }
+    @media(max-width:480px) {
+      input.qty { width:50px }
+      select.size { width:100% }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <a href="index.html">🏠 الرئيسية</a>
-    <a href="promo_offer.html">📢 العرض</a>
-    <a href="store.html">🛒 المتجر</a>
-    <a href="https://www.facebook.com/profile.php?id=61574045938687" target="_blank">📘 فيسبوك</a>
-  </header>
+<header>
+  <a href="index.html">🏠 الرئيسية</a>
+  <a href="promo_offer.html">🔥 العرض</a>
+  <a href="store.html">🛒 المتجر</a>
+</header>
 
-  <div class="overlay">
-    <h1>📋 كتالوج MrPizzaHut الرسمي</h1>
+<div class="overlay">
+  <h1>📋 متجر PIZZA HOT</h1>
 
-    <div class="section">
-      <h2>🍕 قائمة البيتزا</h2>
-      <div class="table-wrapper">
-        <table>
+  <!-- 1) جدول البيتزا -->
+  <div class="section">
+    <h2>🍕 قائمة البيتزا</h2>
+    <div class="table-wrapper">
+      <table id="pizza-menu">
+        <thead>
           <tr>
-            <th>النوع</th>
-            <th>XL</th>
-            <th>L</th>
-            <th>M</th>
-            <th>S</th>
+            <th>النوع</th><th>الحجم</th><th>السعر</th><th>كمية</th><th>أضف</th>
           </tr>
-          <tr><td>بيتزا شرقية</td><td>65₪</td><td>45₪</td><td>33₪</td><td>17₪</td></tr>
-          <tr><td>بيتزا دجاج</td><td>55₪</td><td>40₪</td><td>23₪</td><td>15₪</td></tr>
-          <tr><td>بيتزا سلامي</td><td>55₪</td><td>40₪</td><td>23₪</td><td>15₪</td></tr>
-          <tr><td>بيتزا نقانق</td><td>55₪</td><td>40₪</td><td>23₪</td><td>15₪</td></tr>
-          <tr><td>بيتزا تونة</td><td>55₪</td><td>40₪</td><td>23₪</td><td>15₪</td></tr>
-          <tr><td>بيتزا خضار</td><td>50₪</td><td>38₪</td><td>20₪</td><td>14₪</td></tr>
-          <tr><td>بيتزا مارجريتا</td><td>50₪</td><td>38₪</td><td>20₪</td><td>14₪</td></tr>
-          <tr><td>كلزوني</td><td>60₪</td><td>40₪</td><td>32₪</td><td>16₪</td></tr>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <h2>🍟 أطباق جانبية</h2>
-      <div class="table-wrapper">
-        <table>
-          <tr><th>الصنف</th><th>السعر</th></tr>
-          <tr><td>بطاطا صغير</td><td>5₪</td></tr>
-          <tr><td>بطاطا كبير</td><td>10₪</td></tr>
-          <tr><td>جناح دجاج صغير</td><td>12₪</td></tr>
-          <tr><td>جناح دجاج كبير</td><td>25₪</td></tr>
-          <tr><td>زنجر صغير</td><td>12₪</td></tr>
-          <tr><td>زنجر كبير</td><td>25₪</td></tr>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <h2>🥤 مشروبات</h2>
-      <div class="table-wrapper">
-        <table>
-          <tr><th>المشروب</th><th>السعر</th></tr>
-          <tr><td>كولا 1.25 لتر</td><td>4₪</td></tr>
-          <tr><td>كولا 2 لتر</td><td>6₪</td></tr>
-        </table>
-      </div>
-    </div>
-
-    <div class="footer">
-      بلعين – شارع صفا – رام الله<br>
-      للحجز: <a style="color:#25d366; text-decoration:none;" href="tel:0097256988731">00972 56 988 731</a><br>
-      &copy; 2025 MrPizzaHut
+        </thead>
+        <tbody>
+          <!-- بيتزا دجاج مع الأسعار المحدثة -->
+          <tr data-item="بيتزا دجاج">
+            <td>بيتزا دجاج</td>
+            <td>
+              <select class="size">
+                <option value="56">XL – 56₪</option>
+                <option value="45">L – 45₪</option>
+                <option value="33">M – 33₪</option>
+                <option value="17">S – 17₪</option>
+              </select>
+            </td>
+            <td><span class="price">56₪</span></td>
+            <td><input class="qty" type="number" min="1" value="1"></td>
+            <td><button class="add-btn">أضف</button></td>
+          </tr>
+          <tr data-item="بيتزا سلامي">
+            <td>بيتزا سلامي</td>
+            <td>
+              <select class="size">
+                <option value="55">XL – 55₪</option>
+                <option value="40">L – 40₪</option>
+                <option value="23">M – 23₪</option>
+                <option value="15">S – 15₪</option>
+              </select>
+            </td>
+            <td><span class="price">55₪</span></td>
+            <td><input class="qty" type="number" min="1" value="1"></td>
+            <td><button class="add-btn">أضف</button></td>
+          </tr>
+          <tr data-item="بيتزا نقانق">
+            <td>بيتزا نقانق</td>
+            <td>
+              <select class="size">
+                <option value="55">XL – 55₪</option>
+                <option value="40">L – 40₪</option>
+                <option value="23">M – 23₪</option>
+                <option value="15">S – 15₪</option>
+              </select>
+            </td>
+            <td><span class="price">55₪</span></td>
+            <td><input class="qty" type="number" min="1" value="1"></td>
+            <td><button class="add-btn">أضف</button></td>
+          </tr>
+          <tr data-item="بيتزا تونة">
+            <td>بيتزا تونة</td>
+            <td>
+              <select class="size">
+                <option value="55">XL – 55₪</option>
+                <option value="40">L – 40₪</option>
+                <option value="23">M – 23₪</option>
+                <option value="15">S – 15₪</option>
+              </select>
+            </td>
+            <td><span class="price">55₪</span></td>
+            <td><input class="qty" type="number" min="1" value="1"></td>
+            <td><button class="add-btn">أضف</button></td>
+          </tr>
+          <tr data-item="بيتزا خضار">
+            <td>بيتزا خضار</td>
+            <td>
+              <select class="size">
+                <option value="50">XL – 50₪</option>
+                <option value="38">L – 38₪</option>
+                <option value="20">M – 20₪</option>
+                <option value="14">S – 14₪</option>
+              </select>
+            </td>
+            <td><span class="price">50₪</span></td>
+            <td><input class="qty" type="number" min="1" value="1"></td>
+            <td><button class="add-btn">أضف</button></td>
+          </tr>
+          <tr data-item="بيتزا مارجريتا">
+            <td>بيتزا مارجريتا</td>
+            <td>
+              <select class="size">
+                <option value="50">XL – 50₪</option>
+                <option value="38">L – 38₪</option>
+                <option value="20">M – 20₪</option>
+                <option value="14">S – 14₪</option>
+              </select>
+            </td>
+            <td><span class="price">50₪</span></td>
+            <td><input class="qty" type="number" min="1" value="1"></td>
+            <td><button class="add-btn">أضف</button></td>
+          </tr>
+          <tr data-item="كلزوني">
+            <td>كلزوني</td>
+            <td>
+              <select class="size">
+                <option value="60">XL – 60₪</option>
+                <option value="40">L – 40₪</option>
+                <option value="32">M – 32₪</option>
+                <option value="16">S – 16₪</option>
+              </select>
+            </td>
+            <td><span class="price">60₪</span></td>
+            <td><input class="qty" type="number" min="1" value="1"></td>
+            <td><button class="add-btn">أضف</button></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
-</body>
-</html>
+  <!-- 2) الأطباق الجانبية الثابتة -->
+  <div class="section">
+    <h2>🍟 أطباق جانبية</h2>
+    <div class="table-wrapper">
+      <table id="sides-menu">
+        <thead><tr><th>الصنف</th><th>السعر</th><th>كمية</th><th>أضف</th></tr></thead>
+        <tbody>
+          <tr data-item="بطاطا صغير" data-price="5">
+            <td>بطاطا صغير</td><td>5₪</td>
+            <td><input class="qty" type="number" min="1" value="1"></td>
+            <td><button class="add-btn">أضف</button></td>
+          </tr>
+          <tr data-item="بطاطا كبير" data-price="10">
+            <td>بطاطا كبير</td><td>10₪</td>
+            <td><input class="qty" type="number" min="1" value="1"></td>
+            <td><button class="add-btn">أضف</button></td>
+          </tr>
+          <tr data-item="جناح دجاج صغير" data-price="12">
+            <td>جناح دجاج صغير</td><td>12₪</td>
+            <td><input class="qty" type="number" min="1" value="1"></td>
+            <td><button class="add-btn">أضف</button></td>
+          </tr>
+          <tr data-item="جناح دجاج كبير" data-price="25">
+            <td>جناح دجاج كبير</td><td>25₪</td>
+            <td><input class="qty" type="number" min="1" value="1"></td>
+            <td><button class="add-btn">أضف</button></td>
+          </tr>
+          <tr data-item="زنجر صغير" data-price="12">
+            <td>زنجر صغير</td><td>12₪</td>
+            <td><input class="qty" type="number" min="1" value="1"></td>
+            <td><button class="add-btn">أضف</button></td>
+          </tr>
+          <tr data-item="زنجر كبير" data-price="25">
+            <td>زنجر كبير</td><td>25₪</td>
+            <td><input class="qty" type="number" min="1" value="1"></td>
+            <td><button class="add-btn">أضف</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 3) المشروبات الثابتة -->
+  <div class="section">
+    <h2>🥤 مشروبات</h2>
+    <div class="table-wrapper">
+      <table id="drinks-menu">
+        <thead><tr><th>المشروب</th><th>السعر</th><th>كمية</th><th>أضف</th></tr></thead>
+        <tbody>
+          <tr data-item="كولا 1.25 لتر" data-price="4">
+            <td>كولا 1.25 لتر</td><td>4₪</td>
+            <td><input class="qty" type="number" min="1" value="1"></td>
+            <td><button class="add-btn">أضف</button></td>
+          </tr>
+          <tr data-item="كولا 2 لتر" data-price="6">
+            <td>كولا 2 لتر</td><td>6₪</td>
+            <td><input class="qty" type="number" min="1" value="1"></td>
+            <td><button class="add-btn">أضف</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- مدير السلة وإدارة المستخدم -->
+<div id="cart-manager">
+  <!-- مدخلات اختيارية قبل البدء -->
+  <input id="user-name" placeholder="اسمك (اختياري)">
+  <input id="user-address" placeholder="العنوان/هاتف (اختياري)">
+  <button id="start-btn">☑ بدء الطلب</button>
+
+  <!-- أدوات السلة تظهر بعد الضغط -->
+  <div id="cart-controls" style="display:none">
+    <button id="add-cart">➕ سلة جديدة</button>
+    <input id="cart-name" placeholder="اسم السلة">
+    <button id="save-cart">💾 حفظ</button>
+    <select id="load-cart"></select>
+    <button id="delete-cart">🗑️ حذف</button>
+    <div id="cart-tabs"></div>
+  </div>
+</div>
+
+<script>
+  let userName='',userAddr='',key='',carts={},cur=null;
+  const nameIn=document.getElementById('user-name'),
+        addrIn=document.getElementById('user-address'),
+        startBtn=document.getElementById('start-btn'),
+        ctrls=document.getElementById('cart-controls'),
+        addBtn=document.getElementById('add-cart'),
+        cartNameIn=document.getElementById('cart-name'),
+        saveBtn=document.getElementById('save-cart'),
+        loadSel=document.getElementById('load-cart'),
+        delBtn=document.getElementById('delete-cart'),
+        tabsDiv=document.getElementById('cart-tabs'),
+        mgr=document.getElementById('cart-manager');
+
+  function loadData(){
+    userName=localStorage.getItem('userName')||'';
+    userAddr=localStorage.getItem('userAddr')||'';
+    key='orders_'+(userName||'guest');
+    const d=JSON.parse(localStorage.getItem(key)||'{}');
+    carts=d.carts||{'1':[],'2':[]};
+    cur=d.cur||'1';
+  }
+  function saveData(){
+    localStorage.setItem('userName',userName);
+    localStorage.setItem('userAddr',userAddr);
+    localStorage.setItem(key,JSON.stringify({carts,cur}));
+  }
+  function buildTabs(){
+    tabsDiv.innerHTML='';
+    loadSel.innerHTML='';
+    for(const name in carts){
+      const b=document.createElement('button');
+      b.textContent=name; b.dataset.cart=name;
+      b.onclick=()=>selectCart(name);
+      tabsDiv.appendChild(b);
+      const o=document.createElement('option');
+      o.value=name; o.textContent=name;
+      loadSel.appendChild(o);
+    }
+    selectCart(cur);
+  }
+  function selectCart(name){
+    cur=name; saveData();
+    tabsDiv.querySelectorAll('button')
+      .forEach(b=>b.classList.toggle('active',b.dataset.cart===name));
+    document.querySelectorAll('.cart-tab').forEach(e=>e.remove());
+    const d=document.createElement('div');
+    d.id='cart-'+name; d.className='cart-tab active';
+    d.innerHTML=`
+      <strong>🧺 سلة: ${name}</strong>
+      <ul id="items-${name}"></ul>
+      <div><strong>الإجمالي:</strong> <span id="total-${name}">0₪</span></div>
+      <button id="clear-${name}">🚮 تفريغ</button><br>
+      <a id="wa-${name}" class="btn whatsapp" href="#" target="_blank">واتساب</a>
+      <a id="card-${name}" class="btn card" href="#" target="_blank">بطاقة</a>`;
+    mgr.appendChild(d);
+    d.querySelector(`#clear-${name}`).onclick=()=>{
+      carts[name]=[]; saveData(); renderCart(name);
+    };
+    renderCart(name);
+  }
+  function renderCart(name){
+    const ul=document.getElementById('items-'+name),
+          ttl=document.getElementById('total-'+name),
+          wa =document.getElementById('wa-'+name),
+          cd =document.getElementById('card-'+name);
+    ul.innerHTML=''; let sum=0,msg=`مرحبًا ${userName||'ضيف'}%0A`;
+    if(userAddr) msg+=`📍 ${userAddr}%0A`;
+    msg+='طلب:%0A';
+    carts[name].forEach((it,i)=>{
+      const lt=it.price*it.qty; sum+=lt;
+      const li=document.createElement('li');
+      li.innerHTML=`
+        ${it.item} (${it.qty}) – ${lt}₪
+        <button class="remove-item" data-i="${i}">❌</button>`;
+      ul.appendChild(li);
+      li.querySelector('.remove-item').onclick=()=>{
+        carts[name].splice(i,1); saveData(); renderCart(name);
+      };
+      msg+=`• ${it.item} (${it.qty}) – ${lt}₪%0A`;
+    });
+    ttl.textContent=sum+'₪';
+    wa.href='https://wa.me/972569788731?text='+encodeURIComponent(msg);
+    cd.href='https://your-gateway.com/pay?cart='+encodeURIComponent(msg);
+    loadSel.value=name;
+  }
+  addBtn.onclick=()=>{
+    let nm=cartNameIn.value.trim()||prompt('اسم السلة الجديدة:');
+    if(!nm||carts[nm]) return alert('فارغ أو موجود');
+    carts[nm]=[]; saveData(); buildTabs();
+  };
+  saveBtn.onclick=()=>{
+    let nm=cartNameIn.value.trim();
+    if(!nm) return alert('سجل اسماً');
+    carts[nm]=carts[cur]||[]; delete carts[cur];
+    cur=nm; saveData(); buildTabs();
+  };
+  loadSel.onchange=()=>selectCart(loadSel.value);
+  delBtn.onclick=()=>{
+    delete carts[loadSel.value];
+    cur=Object.keys(carts)[0]||null; saveData(); buildTabs();
+  };
+  function addToCart(item,price,qty){
+    carts[cur]=carts[cur]||[];
+    carts[cur].push({item,price,qty});
+    saveData(); renderCart(cur);
+  }
+  document.querySelectorAll('#pizza-menu, #sides-menu, #drinks-menu')
+    .forEach(tbl=>{
+      tbl.addEventListener('change', e=>{
+        if(e.target.classList.contains('size')){
+          const row=e.target.closest('tr');
+          row.querySelector('.price').textContent=e.target.value+'₪';
+        }
+      });
+      tbl.addEventListener('click', e=>{
+        if(!e.target.classList.contains('add-btn')) return;
+        const row=e.target.closest('tr'),
+              qty=+row.querySelector('.qty').value,
+              sel=row.querySelector('.size'),
+              price=sel?+sel.value:+row.dataset.price,
+              item=sel
+                ?`${row.dataset.item} (${sel.selectedOptions[0].text})`
+                :row.dataset.item;
+        addToCart(item,price,qty);
+      });
+    });
+  // بدء الطلب
+  loadData();
+  startBtn.onclick=()=>{
+    userName=nameIn.value.trim();
+    userAddr=addrIn.value.trim();
+    if(!userName&&!confirm('المتابعة كضيف؟')) return;
+    saveData();
+    nameIn.style.display=addrIn.style.display=startBtn.style.display='none';
+    controls.style.display='block';
+    buildTabs();
+  };
+</script>
+
+<div class="footer">
+  بلعين – شارع صفا – رام الله<br>&copy; 2025 PIZZA HOT
+</div>
