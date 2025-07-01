@@ -11,7 +11,7 @@
   <!-- Favicon -->
   <link rel="icon" href="assets/images/favicon.png" type="image/png" />
 
-  <!-- FontAwesome -->
+  <!-- FontAwesome for icons -->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -28,6 +28,8 @@
       color: #fff;
       padding-bottom: 140px;
     }
+
+    /* NAVIGATION BAR */
     header {
       background: rgba(0,0,0,0.85);
       position: sticky;
@@ -53,9 +55,11 @@
       margin: 40px 0 20px;
       font-size: clamp(1.8rem,4vw,2.4rem);
     }
+
     section {
       margin: 40px 20px;
     }
+
     section h2 {
       margin-bottom: 16px;
       color: #00e676;
@@ -63,12 +67,14 @@
       padding-bottom: 4px;
       font-size: 1.5rem;
     }
+
     .poster-grid {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 20px;
     }
+
     .poster-card {
       background: rgba(255,255,255,0.05);
       backdrop-filter: blur(10px);
@@ -85,6 +91,7 @@
     }
     .poster-card h3 { margin-bottom:10px; }
     .poster-card p { margin:6px 0; }
+
     .poster-card table {
       width:100%;
       margin-top:10px;
@@ -100,6 +107,7 @@
       border:1px solid rgba(255,255,255,0.1);
       text-align:center;
     }
+
     .btn {
       display:inline-block;
       margin-top:10px;
@@ -113,12 +121,14 @@
       transition:0.3s;
     }
     .btn:hover { background-color:#ffc107; }
+
     .btn.whatsapp {
       background-color:#25d366;
       color:#fff;
     }
     .btn.whatsapp:hover { background-color:#1ebe5d; }
 
+    /* CART */
     #cart {
       position:fixed;
       bottom:10px;
@@ -134,16 +144,9 @@
     }
     #cart strong { color:#00ff90; }
     #cart ul { margin:8px 0; padding-left:20px; }
-    #cart a {
-      margin-top:10px;
-      display:inline-block;
-      padding:8px 10px;
-      background:#00ab66;
-      color:#fff;
-      border-radius:8px;
-      text-decoration:none;
-    }
+    #cart a { margin-top:10px; display:inline-block; padding:8px 10px; background:#00ab66; color:#fff; border-radius:8px; text-decoration:none; }
 
+    /* FOOTER */
     footer {
       text-align:center;
       padding:20px;
@@ -173,6 +176,7 @@
     <h2>🔥 العروض الحصرية</h2>
     <div class="poster-grid">
 
+      <!-- بيتزا دجاج XL -->
       <div class="poster-card">
         <h3>🧀 عرض بيتزا دجاج XL</h3>
         <p>مع بطاطا وكولا</p>
@@ -185,8 +189,13 @@
             <td><button class="btn" onclick="addToCart('عرض بيتزا دجاج XL',70)">أضف</button></td>
           </tr>
         </table>
+        <a class="btn whatsapp"
+           href="https://wa.me/972569788731?text=أرغب%20بعرض%20بيتزا%20دجاج%20XL%20بـ70₪">
+          <i class="fab fa-whatsapp"></i> اطلب عبر واتساب
+        </a>
       </div>
 
+      <!-- الحجم العائلي -->
       <div class="poster-card">
         <h3>🍕 العرض العائلي – XL + بطاطا + كولا</h3>
         <p><span class="old-price">79₪</span> ⟶ <span class="new-price">60₪</span></p>
@@ -198,8 +207,13 @@
             <td><button class="btn" onclick="addToCart('العرض العائلي XL',60)">أضف</button></td>
           </tr>
         </table>
+        <a class="btn whatsapp"
+           href="https://wa.me/972569788731?text=أرغب%20بالعرض%20العائلي%20بـ60₪">
+          <i class="fab fa-whatsapp"></i> اطلب عبر واتساب
+        </a>
       </div>
 
+      <!-- أجنحة الدجاج -->
       <div class="poster-card">
         <h3>🍗 عرض أجنحة الدجاج</h3>
         <p>6 أجنحة + بطاطا كبيرة</p>
@@ -212,6 +226,10 @@
             <td><button class="btn" onclick="addToCart('عرض أجنحة الدجاج',15)">أضف</button></td>
           </tr>
         </table>
+        <a class="btn whatsapp"
+           href="https://wa.me/972569788731?text=طلب%20أجنحة%20الدجاج%20بـ15₪">
+          <i class="fab fa-whatsapp"></i> اطلب عبر واتساب
+        </a>
       </div>
 
     </div>
@@ -221,42 +239,49 @@
   <section>
     <h2>🧀 المنتجات الفردية (خارج العرض)</h2>
     <div class="poster-grid">
+
       <div class="poster-card">
         <h3>🍕 بيتزا دجاج M</h3>
         <p>الحجم المتوسط</p>
         <p><strong>33₪</strong></p>
         <button class="btn" onclick="addToCart('بيتزا دجاج M',33)">أضف إلى السلة</button>
       </div>
+
       <div class="poster-card">
         <h3>🍕 بيتزا دجاج S</h3>
         <p>الحجم الصغير</p>
         <p><strong>17₪</strong></p>
         <button class="btn" onclick="addToCart('بيتزا دجاج S',17)">أضف إلى السلة</button>
       </div>
+
       <div class="poster-card">
         <h3>🐟 بيتزا تونة L</h3>
         <p>حجم كبير</p>
         <p><strong>45₪</strong></p>
         <button class="btn" onclick="addToCart('بيتزا تونة L',45)">أضف إلى السلة</button>
       </div>
+
       <div class="poster-card">
         <h3>🌶️ زنجر كبير</h3>
         <p>دجاج مقلي حار</p>
         <p><strong>25₪</strong></p>
         <button class="btn" onclick="addToCart('زنجر كبير',25)">أضف إلى السلة</button>
       </div>
+
       <div class="poster-card">
         <h3>🍟 بطاطا كبيرة</h3>
         <p>مقرمشة ومبهّرة</p>
         <p><strong>10₪</strong></p>
         <button class="btn" onclick="addToCart('بطاطا كبيرة',10)">أضف إلى السلة</button>
       </div>
+
       <div class="poster-card">
         <h3>🥤 كولا 1.25 لتر</h3>
         <p>باردة ومنعشة</p>
         <p><strong>4₪</strong></p>
         <button class="btn" onclick="addToCart('كولا 1.25L',4)">أضف إلى السلة</button>
       </div>
+
     </div>
   </section>
 
@@ -277,36 +302,31 @@
   <script>
     const cart = [];
     function addToCart(item, price) {
-      cart.push({ item, price });
+      cart.push({item,price});
       updateCart();
     }
     function updateCart() {
-      const list    = document.getElementById('cart-items'),
+      const list = document.getElementById('cart-items'),
             totalEl = document.getElementById('cart-total'),
-            waLink  = document.getElementById('whatsapp-link');
+            waLink = document.getElementById('whatsapp-link');
       list.innerHTML = '';
-      let total = 0,
-          itemsText = 'مرحبًا، أرغب في الطلب التالي:%0A';
-
-      cart.forEach(({ item, price }) => {
-        const li = document.createElement('li');
+      let total = 0, msg = 'مرحبًا، أرغب في الطلب التالي:%0A';
+      cart.forEach(({item,price})=>{
+        let li = document.createElement('li');
         li.textContent = `${item} – ${price}₪`;
         list.appendChild(li);
         total += price;
-        itemsText += `• ${item} – ${price}₪%0A`;
+        msg += `• ${item} – ${price}₪%0A`;
       });
-
       totalEl.textContent = total + '₪';
-      itemsText += `------------------%0Aالإجمالي: ${total}₪`;
-
-      // ترميز المسافات والرموز في الرسالة كاملة
-      waLink.href = 'https://wa.me/972569788731?text=' + encodeURIComponent(itemsText);
+      msg += `------------------%0Aالإجمالي: ${total}₪`;
+      waLink.href = 'https://wa.me/972569788731?text=' + msg;
     }
   </script>
 
   <!-- FOOTER -->
   <footer>
-    © 2025 PIZZA HOT – جميع الحقوق محفوظة.
+    © 2025 PIZZA HOT جميع الحقوق محفوظة
   </footer>
 </body>
 </html>
