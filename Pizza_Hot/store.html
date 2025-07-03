@@ -1,972 +1,371 @@
-<!-- ###################################### -->
-<!-- ######### 1/4: رأس الصفحة <head> ######### -->
-<!-- ###################################### -->
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <title>PIZZA HOT | القائمة</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- الخط العربي -->
+  <meta charset="UTF-8">
+  <title>📋 متجر PIZZA HOT</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
-
-  <!-- أيقونات -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
   <style>
-    :root {
-      --main-red: #e53935;
-      --amber: #ffb300;
-      --dark: #121212;
-      --glass: rgba(255,255,255,0.08);
-      --border: rgba(255,255,255,0.1);
-      --green: #25d366;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: 'Tajawal', sans-serif;
-      background: var(--dark);
-      color: #fff;
-    }
-
-    header {
-      background: linear-gradient(to right, var(--main-red), var(--amber));
-      padding: 14px 0;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    header a {
-      color: #fff;
-      margin: 0 12px;
-      font-weight: bold;
-      text-decoration: none;
-    }
-
-    header a:hover {
-      color: #000;
-    }
-
-    .promo-bar {
-      background: #2e7d32;
-      padding: 10px;
-      text-align: center;
-      font-weight: bold;
-      font-size: 1rem;
-      color: #fff;
-    }
-
-    .overlay {
-      padding: 80px 16px 160px;
-      max-width: 960px;
-      margin: auto;
-    }
-
-    h1, h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      font-size: 2rem;
-      color: var(--amber);
-    }
-
-    h2 {
-      font-size: 1.5rem;
-      color: #00e676;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 6px;
-    }
-
-    .section {
-      background: var(--glass);
-      backdrop-filter: blur(10px);
-      border-radius: 14px;
-      padding: 20px;
-      margin-bottom: 40px;
-      border: 1px solid var(--border);
-      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: rgba(255,255,255,0.02);
-    }
-
-    th, td {
-      padding: 10px;
-      text-align: center;
-      border: 1px solid var(--border);
-    }
-
-    th {
-      background: var(--main-red);
-      color: #fff;
-    }
-
-    tr:nth-child(even) {
-      background-color: rgba(255,255,255,0.04);
-    }
-
-    select.size, input.qty {
-      padding: 6px;
-      border-radius: 6px;
-      border: 1px solid #444;
-      background: #1e1e1e;
-      color: #fff;
-      text-align: center;
-      width: 100%;
-    }
-
-    .add-btn {
-      background: var(--amber);
-      color: #000;
-      border: none;
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .add-btn:hover {
-      background: var(--green);
-      color: #fff;
-    }
-
-    .btn.call-now {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: var(--green);
-      color: white;
-      padding: 12px 18px;
-      border-radius: 100px;
-      text-decoration: none;
-      font-weight: bold;
-      box-shadow: 0 0 10px rgba(0,200,83,0.4);
-      z-index: 1001;
-    }
-
-    .footer {
-      text-align: center;
-      padding: 30px 10px;
-      color: #aaa;
-      font-size: 0.9rem;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      margin-top: 60px;
-    }
+    * { box-sizing:border-box }
+    body{margin:0;font-family:'Tajawal',sans-serif;background:#f2f2f2;color:#333;line-height:1.6}
+    header{position:fixed;top:0;width:100%;background:#0008;color:#ffd700;text-align:center;padding:10px;z-index:10}
+    header a{margin:0 8px;color:inherit;text-decoration:none;font-weight:700}
+    .overlay{padding:70px 10px 160px;background:#fff;min-height:100vh}
+    h1{text-align:center;color:#d25f00;margin:20px 0;font-size:clamp(1.8rem,5vw,2.5rem)}
+    .section{max-width:900px;margin:30px auto;padding:0 10px}
+    h2{text-align:center;color:#b14c00;margin-bottom:12px}
+    .table-wrapper{overflow-x:auto;border:1px solid #ddd;border-radius:6px;background:#fff;margin-bottom:20px}
+    table{width:100%;border-collapse:collapse;font-size:1rem}
+    th,td{text-align:center;border:1px solid #ddd;padding:8px}
+    th{background:#ff914d;color:#fff}
+    tr:nth-child(even) td{background:#f9ddb6}
+    select.size,input.qty{padding:6px;border:1px solid #ccc;border-radius:4px;text-align:center}
+    input.qty{width:60px}
+    button.add-btn{background:#ffd700;border:none;padding:6px 12px;border-radius:6px;font-weight:700;cursor:pointer}
+    button.add-btn:hover{background:#ffc107}
+    .footer{text-align:center;color:#666;padding:20px;margin-top:20px;border-top:1px dashed #ccc}
   </style>
 </head>
-<!-- ###################################### -->
-<!-- ######### 2/4: جسم الصفحة والقوائم ######### -->
-<!-- ###################################### -->
 <body>
-  <!-- 🎯 شريط حملة / استدامة -->
-  <div class="promo-bar">
-    🥗 نستخدم مكونات طبيعية فقط! | <a href="promo_offer.html" style="color:#fff; text-decoration:underline;">📢 اكتشف عرض اليوم</a>
-  </div>
 
-  <!-- 🧭 شريط التنقل -->
-  <header>
-    <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
-    <a href="store.html"><i class="fas fa-list"></i> القائمة</a>
-    <a href="promo_offer.html"><i class="fas fa-fire"></i> العروض</a>
-    <a href="poster_gallery.html"><i class="fas fa-image"></i> البوسترات</a>
-  </header>
+<header>
+  <a href="index.html">🏠 الرئيسية</a>
+  <a href="promo_offer.html">🔥 العرض</a>
+  <a href="store.html">🛒 المتجر</a>
+</header>
 
-  <div class="overlay">
-    <h1>🍕 اطلب وجبتك الآن من PIZZA HOT</h1>
+<div class="overlay">
+  <h1>📋 متجر PIZZA HOT</h1>
 
-    <!-- 🍕 قسم البيتزا -->
-    <div class="section">
-      <h2>قائمة البيتزا</h2>
+  <!-- 🍕 قائمة البيتزا -->
+  <div class="section">
+    <h2>🍕 قائمة البيتزا</h2>
+    <div class="table-wrapper">
       <table id="pizza-menu">
-        <thead>
-          <tr><th>النوع</th><th>الحجم</th><th>السعر</th><th>كمية</th><th>أضف</th></tr>
-        </thead>
+        <thead><tr><th>النوع</th><th>الحجم</th><th>السعر</th><th>كمية</th><th>أضف</th></tr></thead>
         <tbody>
           <tr data-item="بيتزا دجاج">
             <td>بيتزا دجاج</td>
             <td>
               <select class="size">
-                <option value="56">XL – 56₪</option>
+                <option value="65">XL – 65₪</option>
                 <option value="45">L – 45₪</option>
                 <option value="33">M – 33₪</option>
                 <option value="17">S – 17₪</option>
               </select>
             </td>
-            <td><span class="price">56₪</span></td>
-            <td><input class="qty" type="number" min="1" value="1" /></td>
+            <td><span class="price">65₪</span></td>
+            <td><input class="qty" type="number" min="1" value="1"></td>
             <td><button class="add-btn">أضف</button></td>
           </tr>
-          <tr data-item="بيتزا نقانق">
-            <td>بيتزا نقانق</td>
-            <td>
-              <select class="size">
-                <option value="54">XL – 54₪</option>
-                <option value="40">L – 40₪</option>
-                <option value="28">M – 28₪</option>
-                <option value="16">S – 16₪</option>
-              </select>
-            </td>
-            <td><span class="price">54₪</span></td>
-            <td><input class="qty" type="number" min="1" value="1" /></td>
-            <td><button class="add-btn">أضف</button></td>
-          </tr>
-          <tr data-item="بيتزا تونة">
-            <td>بيتزا تونة</td>
+          <!-- 👇 أضف بقية أنواع البيتزا بنفس التنسيق والسعر الصحيح -->
+          <tr data-item="بيتزا خضار">
+            <td>بيتزا خضار</td>
             <td>
               <select class="size">
                 <option value="50">XL – 50₪</option>
                 <option value="38">L – 38₪</option>
-                <option value="26">M – 26₪</option>
-                <option value="15">S – 15₪</option>
+                <option value="20">M – 20₪</option>
+                <option value="14">S – 14₪</option>
               </select>
             </td>
             <td><span class="price">50₪</span></td>
-            <td><input class="qty" type="number" min="1" value="1" /></td>
+            <td><input class="qty" type="number" min="1" value="1"></td>
             <td><button class="add-btn">أضف</button></td>
           </tr>
-          <!-- أضف المزيد حسب الحاجة -->
-        </tbody>
+        
+<tr data-item="بيتزا سلامي">
+  <td>بيتزا سلامي</td>
+  <td>
+    <select class="size">
+      <option value="55">XL – 55₪</option>
+      <option value="40">L – 40₪</option>
+      <option value="23">M – 23₪</option>
+      <option value="15">S – 15₪</option>
+    </select>
+  </td>
+  <td><span class="price">55₪</span></td>
+  <td><input class="qty" type="number" min="1" value="1" /></td>
+  <td><button class="add-btn">أضف</button></td>
+</tr>
+
+<tr data-item="بيتزا نقانق">
+  <td>بيتزا نقانق</td>
+  <td>
+    <select class="size">
+      <option value="55">XL – 55₪</option>
+      <option value="40">L – 40₪</option>
+      <option value="23">M – 23₪</option>
+      <option value="15">S – 15₪</option>
+    </select>
+  </td>
+  <td><span class="price">55₪</span></td>
+  <td><input class="qty" type="number" min="1" value="1" /></td>
+  <td><button class="add-btn">أضف</button></td>
+</tr>
+
+<tr data-item="بيتزا تونة">
+  <td>بيتزا تونة</td>
+  <td>
+    <select class="size">
+      <option value="55">XL – 55₪</option>
+      <option value="40">L – 40₪</option>
+      <option value="23">M – 23₪</option>
+      <option value="15">S – 15₪</option>
+    </select>
+  </td>
+  <td><span class="price">55₪</span></td>
+  <td><input class="qty" type="number" min="1" value="1" /></td>
+  <td><button class="add-btn">أضف</button></td>
+</tr>
+
+<tr data-item="بيتزا مارجريتا">
+  <td>بيتزا مارجريتا</td>
+  <td>
+    <select class="size">
+      <option value="50">XL – 50₪</option>
+      <option value="38">L – 38₪</option>
+      <option value="20">M – 20₪</option>
+      <option value="14">S – 14₪</option>
+    </select>
+  </td>
+  <td><span class="price">50₪</span></td>
+  <td><input class="qty" type="number" min="1" value="1" /></td>
+  <td><button class="add-btn">أضف</button></td>
+</tr>
+
+<tr data-item="كلزوني">
+  <td>كلزوني</td>
+  <td>
+    <select class="size">
+      <option value="60">XL – 60₪</option>
+      <option value="40">L – 40₪</option>
+      <option value="32">M – 32₪</option>
+      <option value="16">S – 16₪</option>
+    </select>
+  </td>
+  <td><span class="price">60₪</span></td>
+  <td><input class="qty" type="number" min="1" value="1" /></td>
+  <td><button class="add-btn">أضف</button></td>
+</tr>
+</tbody>
       </table>
     </div>
+  </div>
 
-    <!-- 🍟 قسم الأطباق الجانبية -->
-    <div class="section">
-      <h2>الأطباق الجانبية</h2>
+  <!-- 🍟 أطباق جانبية -->
+  <div class="section">
+    <h2>🍟 أطباق جانبية</h2>
+    <div class="table-wrapper">
       <table id="sides-menu">
-        <thead>
-          <tr><th>الصنف</th><th>السعر</th><th>كمية</th><th>أضف</th></tr>
-        </thead>
+        <thead><tr><th>الصنف</th><th>السعر</th><th>كمية</th><th>أضف</th></tr></thead>
         <tbody>
           <tr data-item="بطاطا صغير" data-price="5">
             <td>بطاطا صغير</td><td>5₪</td>
-            <td><input class="qty" type="number" min="1" value="1" /></td>
+            <td><input class="qty" type="number" min="1" value="1"></td>
             <td><button class="add-btn">أضف</button></td>
           </tr>
           <tr data-item="زنجر كبير" data-price="25">
             <td>زنجر كبير</td><td>25₪</td>
-            <td><input class="qty" type="number" min="1" value="1" /></td>
+            <td><input class="qty" type="number" min="1" value="1"></td>
             <td><button class="add-btn">أضف</button></td>
           </tr>
-        </tbody>
+        
+<tr data-item="بطاطا كبير" data-price="10">
+  <td>بطاطا كبير</td><td>10₪</td>
+  <td><input class="qty" type="number" min="1" value="1" /></td>
+  <td><button class="add-btn">أضف</button></td>
+</tr>
+
+<tr data-item="زنجر صغير" data-price="12">
+  <td>زنجر صغير</td><td>12₪</td>
+  <td><input class="qty" type="number" min="1" value="1" /></td>
+  <td><button class="add-btn">أضف</button></td>
+</tr>
+</tbody>
       </table>
     </div>
+  </div>
 
-    <!-- 🥤 قسم المشروبات -->
-    <div class="section">
-      <h2>المشروبات</h2>
+  <!-- 🥤 مشروبات -->
+  <div class="section">
+    <h2>🥤 مشروبات</h2>
+    <div class="table-wrapper">
       <table id="drinks-menu">
-        <thead>
-          <tr><th>الصنف</th><th>السعر</th><th>كمية</th><th>أضف</th></tr>
-        </thead>
+        <thead><tr><th>المشروب</th><th>السعر</th><th>كمية</th><th>أضف</th></tr></thead>
         <tbody>
           <tr data-item="كولا 1.25 لتر" data-price="4">
             <td>كولا 1.25 لتر</td><td>4₪</td>
-            <td><input class="qty" type="number" min="1" value="1" /></td>
+            <td><input class="qty" type="number" min="1" value="1"></td>
             <td><button class="add-btn">أضف</button></td>
           </tr>
           <tr data-item="كولا 2 لتر" data-price="6">
             <td>كولا 2 لتر</td><td>6₪</td>
-            <td><input class="qty" type="number" min="1" value="1" /></td>
+            <td><input class="qty" type="number" min="1" value="1"></td>
             <td><button class="add-btn">أضف</button></td>
           </tr>
         </tbody>
       </table>
     </div>
-<!-- ###################################### -->
-<!-- ######### 3/4: السلة الجانبية الذكية ######### -->
-<!-- ###################################### -->
-
-  <!-- 🧺 السلة الجانبية -->
-  <div id="cart" style="
-    position: fixed;
-    top: 100px;
-    left: 20px;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 16px;
-    border-radius: 14px;
-    max-width: 300px;
-    font-size: 0.9rem;
-    z-index: 9999;
-    box-shadow: 0 0 12px rgba(0,0,0,0.4);
-  ">
-    <strong style="color:#00ff90;">🛍️ سلتك:</strong>
-    <ul id="cart-items" style="margin:12px 0; padding-left:20px;"></ul>
-    <div><strong>الإجمالي:</strong> <span id="cart-total">0₪</span></div>
-    <br>
-    <a id="whatsapp-link"
-       class="btn whatsapp"
-       style="background:#25d366; color:#fff; text-decoration:none;"
-       href="#"
-       target="_blank">
-      <i class="fab fa-whatsapp"></i> إرسال عبر واتساب
-    </a><br><br>
-    <a class="btn"
-       style="background:#ffb300; color:#111; text-decoration:none;"
-       href="https://your-payment-gateway.com"
-       target="_blank">
-      <i class="fas fa-credit-card"></i> الدفع بالبطاقة
-    </a>
   </div>
+</div>
 
-  <!-- ☎️ زر الاتصال العائم -->
-  <a href="tel:0097256988731" class="btn call-now">
-    <i class="fas fa-phone-alt"></i> اتصل الآن
-  </a>
-<!-- ###################################### -->
-<!-- ######### 3/4: السلة الجانبية الذكية ######### -->
-<!-- ###################################### -->
-
-  <!-- 🧺 السلة الجانبية -->
-  <div id="cart" style="
-    position: fixed;
-    top: 100px;
-    left: 20px;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 16px;
-    border-radius: 14px;
-    max-width: 300px;
-    font-size: 0.9rem;
-    z-index: 9999;
-    box-shadow: 0 0 12px rgba(0,0,0,0.4);
-  ">
-    <strong style="color:#00ff90;">🛍️ سلتك:</strong>
-    <ul id="cart-items" style="margin:12px 0; padding-left:20px;"></ul>
-    <div><strong>الإجمالي:</strong> <span id="cart-total">0₪</span></div>
-    <br>
-    <a id="whatsapp-link"
-       class="btn whatsapp"
-       style="background:#25d366; color:#fff; text-decoration:none;"
-       href="#"
-       target="_blank">
-      <i class="fab fa-whatsapp"></i> إرسال عبر واتساب
-    </a><br><br>
-    <a class="btn"
-       style="background:#ffb300; color:#111; text-decoration:none;"
-       href="https://your-payment-gateway.com"
-       target="_blank">
-      <i class="fas fa-credit-card"></i> الدفع بالبطاقة
-    </a>
+<!-- 🛒 السلة الجانبية -->
+<div id="cart-manager" style="position:fixed;bottom:10px;left:10px;width:320px;background:#fff;padding:12px;border:1px solid #ccc;border-radius:6px;z-index:20">
+  <input id="user-name" placeholder="اسمك (اختياري)" />
+  <input id="user-address" placeholder="العنوان/هاتف (اختياري)" />
+  <button id="start-btn">☑ بدء الطلب</button>
+  <div id="cart-controls" style="display:none">
+    <button id="add-cart">➕ سلة جديدة</button>
+    <input id="cart-name" placeholder="اسم السلة" />
+    <button id="save-cart">💾 حفظ</button>
+    <select id="load-cart"></select>
+    <button id="delete-cart">🗑️ حذف</button>
+    <div id="cart-tabs"></div>
   </div>
-
-  <!-- ☎️ زر الاتصال العائم -->
-  <a href="tel:0097256988731" class="btn call-now">
-    <i class="fas fa-phone-alt"></i> اتصل الآن
-  </a>
-<!-- ###################################### -->
-<!-- ######### 3/4: السلة الجانبية الذكية ######### -->
-<!-- ###################################### -->
-
-  <!-- 🧺 السلة الجانبية -->
-  <div id="cart" style="
-    position: fixed;
-    top: 100px;
-    left: 20px;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 16px;
-    border-radius: 14px;
-    max-width: 300px;
-    font-size: 0.9rem;
-    z-index: 9999;
-    box-shadow: 0 0 12px rgba(0,0,0,0.4);
-  ">
-    <strong style="color:#00ff90;">🛍️ سلتك:</strong>
-    <ul id="cart-items" style="margin:12px 0; padding-left:20px;"></ul>
-    <div><strong>الإجمالي:</strong> <span id="cart-total">0₪</span></div>
-    <br>
-    <a id="whatsapp-link"
-       class="btn whatsapp"
-       style="background:#25d366; color:#fff; text-decoration:none;"
-       href="#"
-       target="_blank">
-      <i class="fab fa-whatsapp"></i> إرسال عبر واتساب
-    </a><br><br>
-    <a class="btn"
-       style="background:#ffb300; color:#111; text-decoration:none;"
-       href="https://your-payment-gateway.com"
-       target="_blank">
-      <i class="fas fa-credit-card"></i> الدفع بالبطاقة
-    </a>
-  </div>
-
-  <!-- ☎️ زر الاتصال العائم -->
-  <a href="tel:0097256988731" class="btn call-now">
-    <i class="fas fa-phone-alt"></i> اتصل الآن
-  </a>
-<!-- ###################################### -->
-<!-- ######### 3/4: السلة الجانبية الذكية ######### -->
-<!-- ###################################### -->
-
-  <!-- 🧺 السلة الجانبية -->
-  <div id="cart" style="
-    position: fixed;
-    top: 100px;
-    left: 20px;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 16px;
-    border-radius: 14px;
-    max-width: 300px;
-    font-size: 0.9rem;
-    z-index: 9999;
-    box-shadow: 0 0 12px rgba(0,0,0,0.4);
-  ">
-    <strong style="color:#00ff90;">🛍️ سلتك:</strong>
-    <ul id="cart-items" style="margin:12px 0; padding-left:20px;"></ul>
-    <div><strong>الإجمالي:</strong> <span id="cart-total">0₪</span></div>
-    <br>
-    <a id="whatsapp-link"
-       class="btn whatsapp"
-       style="background:#25d366; color:#fff; text-decoration:none;"
-       href="#"
-       target="_blank">
-      <i class="fab fa-whatsapp"></i> إرسال عبر واتساب
-    </a><br><br>
-    <a class="btn"
-       style="background:#ffb300; color:#111; text-decoration:none;"
-       href="https://your-payment-gateway.com"
-       target="_blank">
-      <i class="fas fa-credit-card"></i> الدفع بالبطاقة
-    </a>
-  </div>
-
-  <!-- ☎️ زر الاتصال العائم -->
-  <a href="tel:0097256988731" class="btn call-now">
-    <i class="fas fa-phone-alt"></i> اتصل الآن
-  </a>
-<!-- ###################################### -->
-<!-- ######### 3/4: السلة الجانبية الذكية ######### -->
-<!-- ###################################### -->
-
-  <!-- 🧺 السلة الجانبية -->
-  <div id="cart" style="
-    position: fixed;
-    top: 100px;
-    left: 20px;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 16px;
-    border-radius: 14px;
-    max-width: 300px;
-    font-size: 0.9rem;
-    z-index: 9999;
-    box-shadow: 0 0 12px rgba(0,0,0,0.4);
-  ">
-    <strong style="color:#00ff90;">🛍️ سلتك:</strong>
-    <ul id="cart-items" style="margin:12px 0; padding-left:20px;"></ul>
-    <div><strong>الإجمالي:</strong> <span id="cart-total">0₪</span></div>
-    <br>
-    <a id="whatsapp-link"
-       class="btn whatsapp"
-       style="background:#25d366; color:#fff; text-decoration:none;"
-       href="#"
-       target="_blank">
-      <i class="fab fa-whatsapp"></i> إرسال عبر واتساب
-    </a><br><br>
-    <a class="btn"
-       style="background:#ffb300; color:#111; text-decoration:none;"
-       href="https://your-payment-gateway.com"
-       target="_blank">
-      <i class="fas fa-credit-card"></i> الدفع بالبطاقة
-    </a>
-  </div>
-
-  <!-- ☎️ زر الاتصال العائم -->
-  <a href="tel:0097256988731" class="btn call-now">
-    <i class="fas fa-phone-alt"></i> اتصل الآن
-  </a>
-<!-- ###################################### -->
-<!-- ######### 3/4: السلة الجانبية الذكية ######### -->
-<!-- ###################################### -->
-
-  <!-- 🧺 السلة الجانبية -->
-  <div id="cart" style="
-    position: fixed;
-    top: 100px;
-    left: 20px;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 16px;
-    border-radius: 14px;
-    max-width: 300px;
-    font-size: 0.9rem;
-    z-index: 9999;
-    box-shadow: 0 0 12px rgba(0,0,0,0.4);
-  ">
-    <strong style="color:#00ff90;">🛍️ سلتك:</strong>
-    <ul id="cart-items" style="margin:12px 0; padding-left:20px;"></ul>
-    <div><strong>الإجمالي:</strong> <span id="cart-total">0₪</span></div>
-    <br>
-    <a id="whatsapp-link"
-       class="btn whatsapp"
-       style="background:#25d366; color:#fff; text-decoration:none;"
-       href="#"
-       target="_blank">
-      <i class="fab fa-whatsapp"></i> إرسال عبر واتساب
-    </a><br><br>
-    <a class="btn"
-       style="background:#ffb300; color:#111; text-decoration:none;"
-       href="https://your-payment-gateway.com"
-       target="_blank">
-      <i class="fas fa-credit-card"></i> الدفع بالبطاقة
-    </a>
-  </div>
-
-  <!-- ☎️ زر الاتصال العائم -->
-  <a href="tel:0097256988731" class="btn call-now">
-    <i class="fas fa-phone-alt"></i> اتصل الآن
-  </a>
-<!-- ###################################### -->
-<!-- ######### 3/4: السلة الجانبية الذكية ######### -->
-<!-- ###################################### -->
-
-  <!-- 🧺 السلة الجانبية -->
-  <div id="cart" style="
-    position: fixed;
-    top: 100px;
-    left: 20px;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 16px;
-    border-radius: 14px;
-    max-width: 300px;
-    font-size: 0.9rem;
-    z-index: 9999;
-    box-shadow: 0 0 12px rgba(0,0,0,0.4);
-  ">
-    <strong style="color:#00ff90;">🛍️ سلتك:</strong>
-    <ul id="cart-items" style="margin:12px 0; padding-left:20px;"></ul>
-    <div><strong>الإجمالي:</strong> <span id="cart-total">0₪</span></div>
-    <br>
-    <a id="whatsapp-link"
-       class="btn whatsapp"
-       style="background:#25d366; color:#fff; text-decoration:none;"
-       href="#"
-       target="_blank">
-      <i class="fab fa-whatsapp"></i> إرسال عبر واتساب
-    </a><br><br>
-    <a class="btn"
-       style="background:#ffb300; color:#111; text-decoration:none;"
-       href="https://your-payment-gateway.com"
-       target="_blank">
-      <i class="fas fa-credit-card"></i> الدفع بالبطاقة
-    </a>
-  </div>
-
-  <!-- ☎️ زر الاتصال العائم -->
-  <a href="tel:0097256988731" class="btn call-now">
-    <i class="fas fa-phone-alt"></i> اتصل الآن
-  </a>
-<!-- ###################################### -->
-<!-- ######### 1/4: رأس الصفحة <head> ######### -->
-<!-- ###################################### -->
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8" />
-  <title>PIZZA HOT | القائمة</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- الخط العربي -->
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
-
-  <!-- أيقونات -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-  <style>
-    :root {
-      --main-red: #e53935;
-      --amber: #ffb300;
-      --dark: #121212;
-      --glass: rgba(255,255,255,0.08);
-      --border: rgba(255,255,255,0.1);
-      --green: #25d366;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: 'Tajawal', sans-serif;
-      background: var(--dark);
-      color: #fff;
-    }
-
-    header {
-      background: linear-gradient(to right, var(--main-red), var(--amber));
-      padding: 14px 0;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    header a {
-      color: #fff;
-      margin: 0 12px;
-      font-weight: bold;
-      text-decoration: none;
-    }
-
-    header a:hover {
-      color: #000;
-    }
-
-    .promo-bar {
-      background: #2e7d32;
-      padding: 10px;
-      text-align: center;
-      font-weight: bold;
-      font-size: 1rem;
-      color: #fff;
-    }
-
-    .overlay {
-      padding: 80px 16px 160px;
-      max-width: 960px;
-      margin: auto;
-    }
-
-    h1, h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      font-size: 2rem;
-      color: var(--amber);
-    }
-
-    h2 {
-      font-size: 1.5rem;
-      color: #00e676;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 6px;
-    }
-
-    .section {
-      background: var(--glass);
-      backdrop-filter: blur(10px);
-      border-radius: 14px;
-      padding: 20px;
-      margin-bottom: 40px;
-      border: 1px solid var(--border);
-      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: rgba(255,255,255,0.02);
-    }
-
-    th, td {
-      padding: 10px;
-      text-align: center;
-      border: 1px solid var(--border);
-    }
-
-    th {
-      background: var(--main-red);
-      color: #fff;
-    }
-
-    tr:nth-child(even) {
-      background-color: rgba(255,255,255,0.04);
-    }
-
-    select.size, input.qty {
-      padding: 6px;
-      border-radius: 6px;
-      border: 1px solid #444;
-      background: #1e1e1e;
-      color: #fff;
-      text-align: center;
-      width: 100%;
-    }
-
-    .add-btn {
-      background: var(--amber);
-      color: #000;
-      border: none;
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .add-btn:hover {
-      background: var(--green);
-      color: #fff;
-    }
-
-    .btn.call-now {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: var(--green);
-      color: white;
-      padding: 12px 18px;
-      border-radius: 100px;
-      text-decoration: none;
-      font-weight: bold;
-      box-shadow: 0 0 10px rgba(0,200,83,0.4);
-      z-index: 1001;
-    }
-
-    .footer {
-      text-align: center;
-      padding: 30px 10px;
-      color: #aaa;
-      font-size: 0.9rem;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      margin-top: 60px;
-    }
-  </style>
-</head>
-<!-- ###################################### -->
-<!-- ######### 2/4: جسم الصفحة والقوائم ######### -->
-<!-- ###################################### -->
-<body>
-  <!-- 🎯 شريط حملة / استدامة -->
-  <div class="promo-bar">
-    🥗 نستخدم مكونات طبيعية فقط! | <a href="promo_offer.html" style="color:#fff; text-decoration:underline;">📢 اكتشف عرض اليوم</a>
-  </div>
-
-  <!-- 🧭 شريط التنقل -->
-  <header>
-    <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
-    <a href="store.html"><i class="fas fa-list"></i> القائمة</a>
-    <a href="promo_offer.html"><i class="fas fa-fire"></i> العروض</a>
-    <a href="poster_gallery.html"><i class="fas fa-image"></i> البوسترات</a>
-  </header>
-
-  <div class="overlay">
-    <h1>🍕 اطلب وجبتك الآن من PIZZA HOT</h1>
-
-    <!-- 🍕 قسم البيتزا -->
-    <div class="section">
-      <h2>قائمة البيتزا</h2>
-      <table id="pizza-menu">
-        <thead>
-          <tr><th>النوع</th><th>الحجم</th><th>السعر</th><th>كمية</th><th>أضف</th></tr>
-        </thead>
-        <tbody>
-          <tr data-item="بيتزا دجاج">
-            <td>بيتزا دجاج</td>
-            <td>
-              <select class="size">
-                <option value="56">XL – 56₪</option>
-                <option value="45">L – 45₪</option>
-                <option value="33">M – 33₪</option>
-                <option value="17">S – 17₪</option>
-              </select>
-            </td>
-            <td><span class="price">56₪</span></td>
-            <td><input class="qty" type="number" min="1" value="1" /></td>
-            <td><button class="add-btn">أضف</button></td>
-          </tr>
-          <tr data-item="بيتزا نقانق">
-            <td>بيتزا نقانق</td>
-            <td>
-              <select class="size">
-                <option value="54">XL – 54₪</option>
-                <option value="40">L – 40₪</option>
-                <option value="28">M – 28₪</option>
-                <option value="16">S – 16₪</option>
-              </select>
-            </td>
-            <td><span class="price">54₪</span></td>
-            <td><input class="qty" type="number" min="1" value="1" /></td>
-            <td><button class="add-btn">أضف</button></td>
-          </tr>
-          <tr data-item="بيتزا تونة">
-            <td>بيتزا تونة</td>
-            <td>
-              <select class="size">
-                <option value="50">XL – 50₪</option>
-                <option value="38">L – 38₪</option>
-                <option value="26">M – 26₪</option>
-                <option value="15">S – 15₪</option>
-              </select>
-            </td>
-            <td><span class="price">50₪</span></td>
-            <td><input class="qty" type="number" min="1" value="1" /></td>
-            <td><button class="add-btn">أضف</button></td>
-          </tr>
-          <!-- أضف المزيد حسب الحاجة -->
-        </tbody>
-      </table>
-    </div>
-
-    <!-- 🍟 قسم الأطباق الجانبية -->
-    <div class="section">
-      <h2>الأطباق الجانبية</h2>
-      <table id="sides-menu">
-        <thead>
-          <tr><th>الصنف</th><th>السعر</th><th>كمية</th><th>أضف</th></tr>
-        </thead>
-        <tbody>
-          <tr data-item="بطاطا صغير" data-price="5">
-            <td>بطاطا صغير</td><td>5₪</td>
-            <td><input class="qty" type="number" min="1" value="1" /></td>
-            <td><button class="add-btn">أضف</button></td>
-          </tr>
-          <tr data-item="زنجر كبير" data-price="25">
-            <td>زنجر كبير</td><td>25₪</td>
-            <td><input class="qty" type="number" min="1" value="1" /></td>
-            <td><button class="add-btn">أضف</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- 🥤 قسم المشروبات -->
-    <div class="section">
-      <h2>المشروبات</h2>
-      <table id="drinks-menu">
-        <thead>
-          <tr><th>الصنف</th><th>السعر</th><th>كمية</th><th>أضف</th></tr>
-        </thead>
-        <tbody>
-          <tr data-item="كولا 1.25 لتر" data-price="4">
-            <td>كولا 1.25 لتر</td><td>4₪</td>
-            <td><input class="qty" type="number" min="1" value="1" /></td>
-            <td><button class="add-btn">أضف</button></td>
-          </tr>
-          <tr data-item="كولا 2 لتر" data-price="6">
-            <td>كولا 2 لتر</td><td>6₪</td>
-            <td><input class="qty" type="number" min="1" value="1" /></td>
-            <td><button class="add-btn">أضف</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-<!-- ###################################### -->
-<!-- ######### 3/4: السلة الجانبية الذكية ######### -->
-<!-- ###################################### -->
-
-  <!-- 🧺 السلة الجانبية -->
-  <div id="cart" style="
-    position: fixed;
-    top: 100px;
-    left: 20px;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 16px;
-    border-radius: 14px;
-    max-width: 300px;
-    font-size: 0.9rem;
-    z-index: 9999;
-    box-shadow: 0 0 12px rgba(0,0,0,0.4);
-  ">
-    <strong style="color:#00ff90;">🛍️ سلتك:</strong>
-    <ul id="cart-items" style="margin:12px 0; padding-left:20px;"></ul>
-    <div><strong>الإجمالي:</strong> <span id="cart-total">0₪</span></div>
-    <br>
-    <a id="whatsapp-link"
-       class="btn whatsapp"
-       style="background:#25d366; color:#fff; text-decoration:none;"
-       href="#"
-       target="_blank">
-      <i class="fab fa-whatsapp"></i> إرسال عبر واتساب
-    </a><br><br>
-    <a class="btn"
-       style="background:#ffb300; color:#111; text-decoration:none;"
-       href="https://your-payment-gateway.com"
-       target="_blank">
-      <i class="fas fa-credit-card"></i> الدفع بالبطاقة
-    </a>
-  </div>
-
-  <!-- ☎️ زر الاتصال العائم -->
-  <a href="tel:0097256988731" class="btn call-now">
-    <i class="fas fa-phone-alt"></i> اتصل الآن
-  </a>
-<!-- ###################################### -->
-<!-- ######### 4/4: السكربت + التذييل ######### -->
-<!-- ###################################### -->
-
-<!-- JavaScript لتحديث السلة -->
+</div>
 <script>
-  const cart = [];
-  function addToCart(item, price) {
-    cart.push({item, price});
-    updateCart();
+  let userName = '', userAddr = '', key = '', carts = {}, cur = null;
+  const nameIn = document.getElementById('user-name'),
+        addrIn = document.getElementById('user-address'),
+        startBtn = document.getElementById('start-btn'),
+        controls = document.getElementById('cart-controls'),
+        addBtn = document.getElementById('add-cart'),
+        cartNameIn = document.getElementById('cart-name'),
+        saveBtn = document.getElementById('save-cart'),
+        loadSel = document.getElementById('load-cart'),
+        delBtn = document.getElementById('delete-cart'),
+        tabsDiv = document.getElementById('cart-tabs'),
+        mgr = document.getElementById('cart-manager');
+
+  function loadData(){
+    userName = localStorage.getItem('userName')||'';
+    userAddr = localStorage.getItem('userAddr')||'';
+    key = 'orders_' + (userName||'guest');
+    const d = JSON.parse(localStorage.getItem(key)||'{}');
+    carts = d.carts || {'1':[]}; cur = d.cur || '1';
   }
 
-  function updateCart() {
-    const list = document.getElementById('cart-items'),
-          totalEl = document.getElementById('cart-total'),
-          waLink = document.getElementById('whatsapp-link');
-    list.innerHTML = '';
-    let total = 0;
-    let msg = 'مرحبًا، أرغب في الطلب التالي:%0A';
-
-    cart.forEach(({item, price}) => {
-      let li = document.createElement('li');
-      li.textContent = `${item} – ${price}₪`;
-      list.appendChild(li);
-      total += price;
-      msg += `• ${item} – ${price}₪%0A`;
-    });
-
-    totalEl.textContent = total + '₪';
-    msg += `------------------%0Aالإجمالي: ${total}₪`;
-    waLink.href = 'https://wa.me/972569788731?text=' + msg;
+  function saveData(){
+    localStorage.setItem('userName', userName);
+    localStorage.setItem('userAddr', userAddr);
+    localStorage.setItem(key, JSON.stringify({ carts, cur }));
   }
 
-  // التعامل مع القوائم
-  document.querySelectorAll('#pizza-menu, #sides-menu, #drinks-menu').forEach(table => {
-    table.addEventListener('click', e => {
-      if (!e.target.classList.contains('add-btn')) return;
-      const row = e.target.closest('tr'),
-            qty = +row.querySelector('.qty').value,
-            sel = row.querySelector('.size'),
-            price = sel ? +sel.value : +row.dataset.price,
-            item = sel
-              ? `${row.dataset.item} (${sel.selectedOptions[0].text})`
-              : row.dataset.item;
-      for (let i = 0; i < qty; i++) addToCart(item, price);
+  function buildTabs(){
+    tabsDiv.innerHTML = ''; loadSel.innerHTML = '';
+    for(const name in carts){
+      const b = document.createElement('button');
+      b.textContent = name; b.dataset.cart = name;
+      b.onclick = ()=>selectCart(name);
+      tabsDiv.appendChild(b);
+      const o = document.createElement('option');
+      o.value = name; o.textContent = name; loadSel.append(o);
+    }
+    selectCart(cur);
+  }
+
+  function selectCart(name){
+    cur = name; saveData();
+    tabsDiv.querySelectorAll('button')
+      .forEach(b=>b.classList.toggle('active', b.dataset.cart===name));
+    document.querySelectorAll('.cart-tab').forEach(e=>e.remove());
+    const d = document.createElement('div');
+    d.id = 'cart-'+name; d.className='cart-tab active';
+    d.innerHTML = `
+      <strong>🧺 سلة: ${name}</strong>
+      <ul id="items-${name}"></ul>
+      <div><strong>الإجمالي:</strong> <span id="total-${name}">0₪</span></div>
+      <button id="clear-${name}">🚮 تفريغ</button><br>
+      <a id="wa-${name}" class="btn whatsapp" href="#" target="_blank">واتساب</a>
+      <a id="card-${name}" class="btn card" href="#" target="_blank">بطاقة</a>`;
+    mgr.appendChild(d);
+    d.querySelector(`#clear-${name}`).onclick = ()=>{
+      carts[name]=[]; saveData(); renderCart(name);
+    };
+    renderCart(name);
+  }
+
+  function renderCart(name){
+    const ul = document.getElementById('items-'+name),
+          ttl = document.getElementById('total-'+name),
+          wa  = document.getElementById('wa-'+name),
+          cd  = document.getElementById('card-'+name);
+    ul.innerHTML=''; let sum=0,
+    msg = `مرحبًا ${userName||'ضيف'}%0A`; if(userAddr) msg += `📍 ${userAddr}%0A`;
+    msg += `طلب:%0A`;
+    carts[name].forEach((it,i)=>{
+      const lt = it.price*it.qty; sum+=lt;
+      const li = document.createElement('li');
+      li.innerHTML = `${it.item} (${it.qty}) – ${lt}₪ <button class="remove-item" data-i="${i}">❌</button>`;
+      ul.appendChild(li);
+      li.querySelector('.remove-item').onclick = ()=>{
+        carts[name].splice(i,1); saveData(); renderCart(name);
+      };
+      msg += `• ${it.item} (${it.qty}) – ${lt}₪%0A`;
+    });
+    ttl.textContent = sum+'₪';
+    wa.href = 'https://wa.me/972569788731?text='+encodeURIComponent(msg);
+    cd.href = 'https://your-gateway.com/pay?cart='+encodeURIComponent(msg);
+    loadSel.value = name;
+  }
+
+  addBtn.onclick = ()=>{
+    let nm = cartNameIn.value.trim()||prompt('اسم السلة الجديدة:');
+    if(!nm||carts[nm]) return alert('فارغ أو موجود');
+    carts[nm]=[]; saveData(); buildTabs();
+  };
+  saveBtn.onclick = ()=>{
+    let nm = cartNameIn.value.trim();
+    if(!nm) return alert('سجّل اسماً');
+    carts[nm] = carts[cur]||[]; delete carts[cur];
+    cur=nm; saveData(); buildTabs();
+  };
+  loadSel.onchange = ()=>selectCart(loadSel.value);
+  delBtn.onclick = ()=>{
+    delete carts[loadSel.value]; cur = Object.keys(carts)[0]||null;
+    saveData(); buildTabs();
+  };
+
+  function addToCart(item, price, qty){
+    carts[cur] = carts[cur]||[];
+    carts[cur].push({ item, price, qty });
+    saveData(); renderCart(cur);
+  }
+
+  document.querySelectorAll('#pizza-menu, #sides-menu, #drinks-menu')
+    .forEach(tbl=>{
+      tbl.addEventListener('change', e=>{
+        if(e.target.classList.contains('size')){
+          const r = e.target.closest('tr');
+          r.querySelector('.price').textContent = e.target.value+'₪';
+        }
+      });
+      tbl.addEventListener('click', e=>{
+        if(!e.target.classList.contains('add-btn')) return;
+        const row = e.target.closest('tr'),
+              qty = +row.querySelector('.qty').value,
+              sel = row.querySelector('.size'),
+              price = sel ? +sel.value : +row.dataset.price,
+              item = sel ? `${row.dataset.item} (${sel.selectedOptions[0].text})` : row.dataset.item;
+        addToCart(item, price, qty);
+      });
     });
 
-    table.addEventListener('change', e => {
-      if (e.target.classList.contains('size')) {
-        const priceSpan = e.target.closest('tr').querySelector('.price');
-        priceSpan.textContent = e.target.value + '₪';
-      }
-    });
-  });
+  loadData();
+  startBtn.onclick = ()=>{
+    userName = nameIn.value.trim();
+    userAddr = addrIn.value.trim();
+    if(!userName && !confirm('المتابعة كـ “ضيف”؟')) return;
+    saveData(); nameIn.style.display = addrIn.style.display = startBtn.style.display = 'none';
+    controls.style.display = 'block'; buildTabs();
+  };
 </script>
 
-<!-- FOOTER -->
 <div class="footer">
-  <p>© 2025 PIZZA HOT — جميع الحقوق محفوظة.</p>
-  <p>بلعين – شارع صفا – رام الله</p>
-  <p>هذا الموقع مدعوم بنظام <strong style="color:#ffd700;">Fitra</strong> الإدراكي للطلب والتفاعل المرئي</p>
+  بلعين – شارع صفا – رام الله<br>
+  © 2025 PIZZA HOT — جميع الحقوق محفوظة.
 </div>
+
 </body>
 </html>
