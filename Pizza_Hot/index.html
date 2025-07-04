@@ -107,6 +107,7 @@
       }
     }
   </style>
+  <script src="cart.js"></script>
 </head>
 <body>
 
@@ -124,13 +125,29 @@
       <a href="promo_offer.html">🔥 عرض العائلة من PIZZA HOT</a>
       <a href="store.html">📋 كتالوج البيتزا والأطباق الجانبية</a>
       <a href="https://wa.me/972569788731" target="_blank">💬 اطلب عبر واتساب مباشرةً</a>
-    </div>
+      <a href="poster_gallery.html">📸 استعرض البوسترات والعروض المصوّرة</a>
+  <a href="poster_view_chicken.html">🍕 عرض بيتزا دجاج XL</a>
+  <a href="poster_view_wings.html">🍗 عرض أجنحة الدجاج</a>
+</div>
 
     <div class="footer">
       بلعين – شارع صفا – رام الله<br>
       &copy; 2025 PIZZA HOT
     </div>
   </div>
+
+
+<!-- 🛒 عنصر السلة الموحدة -->
+<div id="cart" style="position:fixed;bottom:10px;left:10px;background:#222;padding:12px;border:1px solid #555;border-radius:10px;max-width:320px;color:#fff;z-index:9999;font-size:0.9rem;">
+  <strong>🧺 سلتك:</strong>
+  <ul id="cart-items"></ul>
+  <div><strong>📦 الإجمالي:</strong> <span id="cart-total">0₪</span></div>
+  <textarea id="cart-note" rows="2" placeholder="📝 ملاحظات إضافية (اختياري)" style="width:100%;margin:6px 0;"></textarea>
+  <a id="whatsapp-link" class="btn whatsapp" href="#" target="_blank"
+     style="display:inline-block;margin-top:8px;padding:8px 10px;background:#25d366;color:#fff;border-radius:6px;text-decoration:none;">
+    <i class="fab fa-whatsapp"></i> إرسال عبر واتساب
+  </a>
+</div>
 
 </body>
 </html>

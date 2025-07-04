@@ -64,6 +64,7 @@
       background-color: #ffaa66;
     }
   </style>
+  <script src="cart.js"></script>
 </head>
 <body>
 
@@ -74,8 +75,22 @@
     <p>🍟 بطاطا XL ساخنة ولذيذة</p>
     <p>🥤 كولا 1.25L باردة ومنعشة</p>
     <div class="price">فقط بـ 70₪</div>
-    <a href="https://wa.me/972569787731" target="_blank">اطلب الآن عبر واتساب</a>
+    <a href="https://wa.me/972569787731" target="_blank">اطلب الآن عبر واتساب</a><br>
+    <button onclick="addToCart('عرض بيتزا دجاج XL', 70)">🛒 أضف إلى السلة</button>
   </div>
+
+
+<!-- 🧺 السلة الموحدة -->
+<div id="cart" style="position:fixed;bottom:10px;left:10px;background:#222;padding:12px;border:1px solid #555;border-radius:10px;max-width:320px;color:#fff;z-index:9999;font-size:0.9rem;">
+  <strong>🧺 سلتك:</strong>
+  <ul id="cart-items"></ul>
+  <div><strong>📦 الإجمالي:</strong> <span id="cart-total">0₪</span></div>
+  <textarea id="cart-note" rows="2" placeholder="📝 ملاحظات إضافية" style="width:100%;margin:6px 0;"></textarea>
+  <a id="whatsapp-link" class="btn whatsapp" href="#" target="_blank"
+     style="display:inline-block;margin-top:8px;padding:8px 10px;background:#25d366;color:#fff;border-radius:6px;text-decoration:none;">
+     <i class="fab fa-whatsapp"></i> إرسال الطلب
+  </a>
+</div>
 
 </body>
 </html>

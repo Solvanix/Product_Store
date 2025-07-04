@@ -2,9 +2,10 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <title>📸 حملة MrPizzaHut – بوسترات العرض</title>
+  <title>📸 حملة Pizza Hot – بوسترات العرض</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet" />
+  <script src="cart.js"></script>
   <style>
     body {
       margin: 0;
@@ -36,9 +37,7 @@
       transition: color 0.3s;
     }
 
-    header a:hover {
-      color: #fff;
-    }
+    header a:hover { color: #fff; }
 
     .gallery {
       display: flex;
@@ -79,9 +78,10 @@
       margin-bottom: 16px;
     }
 
-    .poster a {
+    .poster a,
+    .poster button {
       display: inline-block;
-      margin-top: 10px;
+      margin: 5px;
       padding: 10px 18px;
       background-color: #ff914d;
       color: #111;
@@ -89,9 +89,12 @@
       border-radius: 8px;
       font-weight: bold;
       transition: background 0.3s;
+      border: none;
+      cursor: pointer;
     }
 
-    .poster a:hover {
+    .poster a:hover,
+    .poster button:hover {
       background-color: #ffaa66;
     }
 
@@ -115,7 +118,7 @@
     <a href="index.html">🏠 الرئيسية</a>
     <a href="promo_offer.html">🔥 العرض</a>
     <a href="store.html">🛒 المتجر</a>
-    <a href="poster_gallery.html">📸 الحملة</a>
+    <a href="poster_gallery.html">📸 البوسترات</a>
   </header>
 
   <div class="gallery">
@@ -124,36 +127,49 @@
       <h2>🔥 عرض الحجم العائلي</h2>
       <img src="assets/images/pizza_deluxe_plate.jpg" alt="عرض الحجم العائلي" />
       <p>بيتزا XL + بطاطا + كولا 1.25L فقط بـ <strong>60₪</strong></p>
-      <a href="https://wa.me/972569787731" target="_blank">اطلب الآن</a>
+      <a href="https://wa.me/972569788731?text=أرغب بعرض الحجم العائلي بسعر 60₪" target="_blank">💬 اطلب الآن</a>
+      <button onclick="addToCart('عرض الحجم العائلي', 60)">🛒 أضف إلى السلة</button>
     </div>
 
     <div class="poster">
       <h2>🍗 عرض أصابع الدجاج + بطاطا</h2>
       <img src="assets/images/chicken_fingers_meal.jpg" alt="عرض قطع الدجاج + بطاطا" />
       <p>6 قطع دجاج مقلية + بطاطا صغير فقط بـ <strong>15₪</strong></p>
-      <a href="https://wa.me/972569787731" target="_blank">اطلب الآن</a>
+      <a href="https://wa.me/972569788731?text=أرغب بعرض أصابع الدجاج بسعر 15₪" target="_blank">💬 اطلب الآن</a>
+      <button onclick="addToCart('عرض أصابع الدجاج', 15)">🛒 أضف إلى السلة</button>
     </div>
 
     <div class="poster">
-      <h2>🎯 قائمة MrPizzaHut</h2>
+      <h2>🎯 قائمة Pizza Hot</h2>
       <img src="assets/images/qr_facebook_pizzahot_v6.jpeg" alt="QR قائمة الطعام" />
       <p>كل أنواع البيتزا، الأطباق الجانبية والمشروبات بأسعار مميزة!</p>
-      <a href="store.html">فتح القائمة</a>
+      <a href="store.html">📋 فتح القائمة</a>
     </div>
 
     <div class="poster">
       <h2>📘 تواصل معنا على فيسبوك</h2>
-      <img src="assets/images/pizza_closeup_main.png" alt="MrPizzaHut Facebook" />
+      <img src="assets/images/pizza_closeup_main.png" alt="Pizza Hot Facebook" />
       <p>عروض متجددة، صور جديدة، وأخبار الحملة أولًا بأول!</p>
-      <a href="https://www.facebook.com/profile.php?id=61574045938687" target="_blank">زيارتنا على فيسبوك</a>
+      <a href="https://www.facebook.com/profile.php?id=61574045938687" target="_blank">📘 فيسبوك</a>
     </div>
 
   </div>
 
+  <!-- 🧺 عنصر السلة الموحدة -->
+  <div id="cart" style="position:fixed;bottom:10px;left:10px;background:#222;padding:12px;border:1px solid #555;border-radius:10px;max-width:320px;color:#fff;z-index:9999;font-size:0.9rem;">
+    <strong>🧺 سلتك:</strong>
+    <ul id="cart-items"></ul>
+    <div><strong>📦 الإجمالي:</strong> <span id="cart-total">0₪</span></div>
+    <textarea id="cart-note" rows="2" placeholder="📝 ملاحظات إضافية" style="width:100%;margin:6px 0;"></textarea>
+    <a id="whatsapp-link" class="btn whatsapp" href="#" target="_blank"
+      style="display:inline-block;margin-top:8px;padding:8px 10px;background:#25d366;color:#fff;border-radius:6px;text-decoration:none;">
+      <i class="fab fa-whatsapp"></i> إرسال الطلب
+    </a>
+  </div>
+
   <footer>
-    &copy; 2025 MrPizzaHut | بلعين – شارع صفا – رام الله<br>
+    &copy; 2025 Pizza Hot | بلعين – شارع صفا – رام الله<br>
     للحجز: <a style="color:#25d366; text-decoration:none;" href="tel:0097256988731">00972 56 988 731</a>
   </footer>
-
 </body>
 </html>
