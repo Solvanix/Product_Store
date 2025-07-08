@@ -12,13 +12,12 @@
   <link rel="icon" href="assets/images/favicon.png" type="image/png" />
 
   <!-- FontAwesome -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    integrity="sha512-yH9Q5YdXf/enAkK2..."
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  />
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- السلة الموحدة -->
+  <script src="cart.js"></script>
 
   <style>
     body {
@@ -26,18 +25,21 @@
       font-family: 'Tajawal', sans-serif;
       background: #121212;
       color: #fff;
-      padding-bottom: 140px;
+      padding-bottom: 160px;
     }
+
     header {
       background: rgba(0,0,0,0.85);
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 1000;
       display: flex;
       justify-content: center;
+      flex-wrap: wrap;
       gap: 16px;
       padding: 12px 0;
     }
+
     header a {
       color: #ffd700;
       text-decoration: none;
@@ -45,6 +47,7 @@
       font-size: 1rem;
       transition: color 0.2s;
     }
+
     header a:hover { color: #fff; }
 
     h1 {
@@ -53,9 +56,11 @@
       margin: 40px 0 20px;
       font-size: clamp(1.8rem,4vw,2.4rem);
     }
+
     section {
       margin: 40px 20px;
     }
+
     section h2 {
       margin-bottom: 16px;
       color: #00e676;
@@ -63,12 +68,14 @@
       padding-bottom: 4px;
       font-size: 1.5rem;
     }
+
     .poster-grid {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 20px;
     }
+
     .poster-card {
       background: rgba(255,255,255,0.05);
       backdrop-filter: blur(10px);
@@ -78,237 +85,154 @@
       box-shadow: 0 0 8px rgba(255,80,0,0.15);
       transition: 0.3s ease-in-out;
     }
+
     .poster-card:hover {
       background: rgba(255,90,0,0.2);
       box-shadow: 0 0 12px #ff6600, 0 0 30px rgba(255,80,0,0.4);
       transform: scale(1.03);
     }
+
     .poster-card h3 { margin-bottom:10px; }
     .poster-card p { margin:6px 0; }
-    .poster-card table {
-      width:100%;
-      margin-top:10px;
-      font-size:0.9rem;
-      background:rgba(255,255,255,0.05);
-      border-collapse:collapse;
-      border-radius:8px;
-      overflow:hidden;
+
+    .poster-card button {
+      margin-top: 10px;
+      padding: 10px 14px;
+      background-color: #ffd700;
+      color: #000;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      width: 100%;
     }
-    .poster-card table th,
-    .poster-card table td {
-      padding:6px;
-      border:1px solid rgba(255,255,255,0.1);
-      text-align:center;
+
+    .poster-card button:hover {
+      background-color: #ffc107;
     }
-    .btn {
-      display:inline-block;
-      margin-top:10px;
-      padding:10px 14px;
-      background-color:#ffd700;
-      color:#000;
-      border-radius:8px;
-      text-decoration:none;
-      font-weight:bold;
-      cursor:pointer;
-      transition:0.3s;
-    }
-    .btn:hover { background-color:#ffc107; }
-    .btn.whatsapp {
-      background-color:#25d366;
-      color:#fff;
-    }
-    .btn.whatsapp:hover { background-color:#1ebe5d; }
 
     #cart {
-      position:fixed;
-      bottom:10px;
-      left:10px;
-      background:rgba(255,255,255,0.1);
-      backdrop-filter:blur(6px);
-      border:1px solid rgba(255,255,255,0.2);
-      padding:14px;
-      border-radius:12px;
-      max-width:300px;
-      font-size:0.9rem;
-      z-index:999;
+      position: fixed;
+      bottom: 12px;
+      left: 12px;
+      background: #1b1b1b;
+      border: 1px solid #444;
+      padding: 12px;
+      border-radius: 12px;
+      max-width: 320px;
+      font-size: 0.9rem;
+      color: #fff;
+      z-index: 9999;
     }
-    #cart strong { color:#00ff90; }
-    #cart ul { margin:8px 0; padding-left:20px; }
+
+    #cart strong { color: #ffd700; }
+    #cart ul { margin: 6px 0; padding-left: 20px; }
+    #cart textarea {
+      width: 100%;
+      margin-top: 6px;
+      padding: 6px;
+      border-radius: 6px;
+      border: none;
+      font-family: 'Tajawal', sans-serif;
+    }
+
     #cart a {
-      margin-top:10px;
-      display:inline-block;
-      padding:8px 10px;
-      background:#00ab66;
-      color:#fff;
-      border-radius:8px;
-      text-decoration:none;
+      display: inline-block;
+      margin-top: 6px;
+      padding: 8px 12px;
+      background: #25d366;
+      color: #fff;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+
+    #cart a:hover {
+      background: #1ebe5d;
     }
 
     footer {
-      text-align:center;
-      padding:20px;
-      font-size:0.85rem;
-      color:#aaa;
-      border-top:1px solid #333;
-      margin-top:40px;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.85rem;
+      color: #aaa;
+      border-top: 1px solid #333;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 480px) {
+      #cart {
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90vw;
+        font-size: 0.85rem;
+      }
+
+      header {
+        flex-direction: column;
+        gap: 6px;
+      }
     }
   </style>
-
-  <script src="cart.js"></script>
 </head>
 
 <body>
-  <!-- NAVIGATION -->
   <header>
     <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
     <a href="store.html"><i class="fas fa-list"></i> القائمة</a>
     <a href="promo_offer.html"><i class="fas fa-fire"></i> العرض</a>
     <a href="https://wa.me/972569788731" target="_blank"><i class="fab fa-whatsapp"></i> واتساب</a>
     <a href="https://www.facebook.com/61574045938687" target="_blank"><i class="fab fa-facebook"></i> فيسبوك</a>
-    <a href="https://www.instagram.com/yourpage" target="_blank"><i class="fab fa-instagram"></i> إنستاجرام</a>
   </header>
 
   <h1>📦 عروضنا الحصرية + منتجاتك المفضلة</h1>
 
-  <!-- SECTION: العروض الحصرية -->
   <section>
     <h2>🔥 العروض الحصرية</h2>
     <div class="poster-grid">
-
       <div class="poster-card">
         <h3>🧀 عرض بيتزا دجاج XL</h3>
         <p>مع بطاطا وكولا</p>
-        <p><span class="old-price">79₪</span> ⟶ <span class="new-price">70₪</span></p>
-        <table>
-          <tr><th>الحجم</th><th>السعر</th><th></th></tr>
-          <tr>
-            <td>XL (عرض)</td>
-            <td><strong>70₪</strong></td>
-            <td><button class="btn" onclick="addToCart('عرض بيتزا دجاج XL',70)">أضف</button></td>
-          </tr>
-        </table>
+        <p><del>79₪</del> ⟶ <strong>70₪</strong></p>
+        <button onclick="addToCart('عرض بيتزا دجاج XL', 70)">🛒 أضف</button>
       </div>
-
       <div class="poster-card">
         <h3>🍕 العرض العائلي – XL + بطاطا + كولا</h3>
-        <p><span class="old-price">79₪</span> ⟶ <span class="new-price">60₪</span></p>
-        <table>
-          <tr><th>الحجم</th><th>السعر</th><th></th></tr>
-          <tr>
-            <td>XL (عرض)</td>
-            <td><strong>60₪</strong></td>
-            <td><button class="btn" onclick="addToCart('العرض العائلي XL',60)">أضف</button></td>
-          </tr>
-        </table>
+        <p><del>79₪</del> ⟶ <strong>60₪</strong></p>
+        <button onclick="addToCart('العرض العائلي XL', 60)">🛒 أضف</button>
       </div>
-
       <div class="poster-card">
         <h3>🍗 عرض أجنحة الدجاج</h3>
         <p>6 أجنحة + بطاطا كبيرة</p>
-        <p><span class="old-price">22₪</span> ⟶ <span class="new-price">15₪</span></p>
-        <table>
-          <tr><th>المنتج</th><th>السعر</th><th></th></tr>
-          <tr>
-            <td>وجبة أجنحة (عرض)</td>
-            <td><strong>15₪</strong></td>
-            <td><button class="btn" onclick="addToCart('عرض أجنحة الدجاج',15)">أضف</button></td>
-          </tr>
-        </table>
+        <p><del>22₪</del> ⟶ <strong>15₪</strong></p>
+        <button onclick="addToCart('عرض أجنحة الدجاج', 15)">🛒 أضف</button>
       </div>
-
     </div>
   </section>
 
-  <!-- SECTION: المنتجات الفردية -->
   <section>
-    <h2>🧀 المنتجات الفردية (خارج العرض)</h2>
+    <h2>🧀 منتجات فردية</h2>
     <div class="poster-grid">
       <div class="poster-card">
         <h3>🍕 بيتزا دجاج M</h3>
         <p>الحجم المتوسط</p>
         <p><strong>33₪</strong></p>
-        <button class="btn" onclick="addToCart('بيتزا دجاج M',33)">أضف إلى السلة</button>
+        <button onclick="addToCart('بيتزا دجاج M', 33)">🛒 أضف</button>
       </div>
+
       <div class="poster-card">
-        <h3>🍕 بيتزا دجاج S</h3>
-        <p>الحجم الصغير</p>
-        <p><strong>17₪</strong></p>
-        <button class="btn" onclick="addToCart('بيتزا دجاج S',17)">أضف إلى السلة</button>
-      </div>
-      <div class="poster-card">
-        <h3>🐟 بيتزا تونة L</h3>
-        <p>حجم كبير</p>
-        <p><strong>45₪</strong></p>
-        <button class="btn" onclick="addToCart('بيتزا تونة L',45)">أضف إلى السلة</button>
-      </div>
-      <div class="poster-card">
-        <h3>🌶️ زنجر كبير</h3>
-        <p>دجاج مقلي حار</p>
-        <p><strong>25₪</strong></p>
-        <button class="btn" onclick="addToCart('زنجر كبير',25)">أضف إلى السلة</button>
-      </div>
-      <div class="poster-card">
-        <h3>🍟 بطاطا كبيرة</h3>
-        <p>مقرمشة ومبهّرة</p>
-        <p><strong>10₪</strong></p>
-        <button class="btn" onclick="addToCart('بطاطا كبيرة',10)">أضف إلى السلة</button>
-      </div>
-      <div class="poster-card">
-        <h3>🥤 كولا 1.25 لتر</h3>
+        <h3>🥤 كولا 1.25L</h3>
         <p>باردة ومنعشة</p>
         <p><strong>4₪</strong></p>
-        <button class="btn" onclick="addToCart('كولا 1.25L',4)">أضف إلى السلة</button>
+        <button onclick="addToCart('كولا 1.25L', 4)">🛒 أضف</button>
       </div>
     </div>
   </section>
 
-  <!-- CART -->
+  <!-- 🛒 السلة الموحدة -->
   <div id="cart">
-    <strong>🧺 السلة:</strong>
+    <strong>🧺 سلتك:</strong>
     <ul id="cart-items"></ul>
-    <div><strong>الإجمالي:</strong> <span id="cart-total">0₪</span></div>
-    <a id="whatsapp-link" class="btn whatsapp" href="#" target="_blank">
-      <i class="fab fa-whatsapp"></i> أرسل عبر واتساب
-    </a><br/>
-    <a class="btn" href="https://your-payment-gateway.com/pay?cart={{items}}" target="_blank">
-      <i class="fas fa-credit-card"></i> ادفع بالبطاقة
-    </a>
-  </div>
-
-  <!-- JavaScript لتحديث السلة -->
-  <script>
-    const cart = [];
-    function addToCart(item, price) {
-      cart.push({ item, price });
-      updateCart();
-    }
-    function updateCart() {
-      const list    = document.getElementById('cart-items'),
-            totalEl = document.getElementById('cart-total'),
-            waLink  = document.getElementById('whatsapp-link');
-      list.innerHTML = '';
-      let total = 0,
-          itemsText = 'مرحبًا، أرغب في الطلب التالي:%0A';
-
-      cart.forEach(({ item, price }) => {
-        const li = document.createElement('li');
-        li.textContent = `${item} – ${price}₪`;
-        list.appendChild(li);
-        total += price;
-        itemsText += `• ${item} – ${price}₪%0A`;
-      });
-
-      totalEl.textContent = total + '₪';
-      itemsText += `------------------%0Aالإجمالي: ${total}₪`;
-
-      // ترميز المسافات والرموز في الرسالة كاملة
-      waLink.href = 'https://wa.me/972569788731?text=' + encodeURIComponent(itemsText);
-    }
-  </script>
-
-  <!-- FOOTER -->
-  <footer>
-    © 2025 PIZZA HOT – جميع الحقوق محفوظة.
-  </footer>
-</body>
-</html>
+    <div><strong>📦 الإجمالي:</strong> <span id="cart-total">0₪</span></div>
+    <textarea id="cart-note" rows="2" placeholder="📝 ملاحظات إضافية (اختياري)"></textarea>
+    <a id

@@ -51,7 +51,31 @@
       text-align: center;
       font-size: clamp(2rem, 5.5vw, 2.8rem);
       color: #ffd700;
-      margin: 35px 0 20px;
+      margin: 35px 0 10px;
+    }
+
+    .cta-ribbon {
+      text-align: center;
+      margin: 0 auto 36px;
+    }
+
+    .cta-ribbon a {
+      display: inline-block;
+      background: linear-gradient(90deg, #00e676, #00c853);
+      color: #111;
+      font-weight: bold;
+      padding: 12px 30px;
+      border-radius: 50px;
+      font-size: 1.15rem;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+      transition: transform 0.3s, background 0.3s;
+    }
+
+    .cta-ribbon a:hover {
+      background: linear-gradient(90deg, #00c853, #00e676);
+      color: #fff;
+      transform: scale(1.05);
     }
 
     .main-links {
@@ -73,13 +97,14 @@
       width: 92%;
       max-width: 400px;
       text-align: center;
-      transition: background 0.3s;
+      transition: background 0.3s, transform 0.2s;
     }
 
     .main-links a:hover {
       background-color: #ffd700;
       color: #000;
       font-weight: bold;
+      transform: scale(1.03);
     }
 
     .footer {
@@ -87,8 +112,31 @@
       font-size: 0.95rem;
       color: #ccc;
       margin-top: 50px;
-      padding-bottom: 30px;
+      padding-bottom: 100px;
       line-height: 1.6em;
+    }
+
+    #cart {
+      position: fixed;
+      bottom: 12px;
+      left: 12px;
+      background: #222;
+      padding: 12px;
+      border: 1px solid #555;
+      border-radius: 10px;
+      max-width: 320px;
+      color: #fff;
+      z-index: 9999;
+      font-size: 0.9rem;
+      width: calc(100vw - 24px);
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    @media (min-width: 481px) {
+      #cart {
+        width: 320px;
+      }
     }
 
     @media (max-width: 480px) {
@@ -121,14 +169,20 @@
   <div class="overlay">
     <h1>مرحبًا بكم في PIZZA HOT</h1>
 
+    <div class="cta-ribbon">
+      <a href="https://solvanix.github.io/pizza_hot/" target="_blank">
+        🌐 تصفّح موقع PizzaHot الرسمي – تجربة حيّة
+      </a>
+    </div>
+
     <div class="main-links">
       <a href="promo_offer.html">🔥 عرض العائلة من PIZZA HOT</a>
       <a href="store.html">📋 كتالوج البيتزا والأطباق الجانبية</a>
       <a href="https://wa.me/972569788731" target="_blank">💬 اطلب عبر واتساب مباشرةً</a>
       <a href="poster_gallery.html">📸 استعرض البوسترات والعروض المصوّرة</a>
-  <a href="poster_view_chicken.html">🍕 عرض بيتزا دجاج XL</a>
-  <a href="poster_view_wings.html">🍗 عرض أجنحة الدجاج</a>
-</div>
+      <a href="poster_view_chicken.html">🍕 عرض بيتزا دجاج XL</a>
+      <a href="poster_view_wings.html">🍗 عرض أجنحة الدجاج</a>
+    </div>
 
     <div class="footer">
       بلعين – شارع صفا – رام الله<br>
@@ -136,18 +190,16 @@
     </div>
   </div>
 
-
-<!-- 🛒 عنصر السلة الموحدة -->
-<div id="cart" style="position:fixed;bottom:10px;left:10px;background:#222;padding:12px;border:1px solid #555;border-radius:10px;max-width:320px;color:#fff;z-index:9999;font-size:0.9rem;">
-  <strong>🧺 سلتك:</strong>
-  <ul id="cart-items"></ul>
-  <div><strong>📦 الإجمالي:</strong> <span id="cart-total">0₪</span></div>
-  <textarea id="cart-note" rows="2" placeholder="📝 ملاحظات إضافية (اختياري)" style="width:100%;margin:6px 0;"></textarea>
-  <a id="whatsapp-link" class="btn whatsapp" href="#" target="_blank"
-     style="display:inline-block;margin-top:8px;padding:8px 10px;background:#25d366;color:#fff;border-radius:6px;text-decoration:none;">
-    <i class="fab fa-whatsapp"></i> إرسال عبر واتساب
-  </a>
-</div>
+  <div id="cart">
+    <strong>🧺 سلتك:</strong>
+    <ul id="cart-items"></ul>
+    <div><strong>📦 الإجمالي:</strong> <span id="cart-total">0₪</span></div>
+    <textarea id="cart-note" rows="2" placeholder="📝 ملاحظات إضافية (اختياري)" style="width:100%;margin:6px 0;"></textarea>
+    <a id="whatsapp-link" class="btn whatsapp" href="#" target="_blank"
+       style="display:inline-block;margin-top:8px;padding:8px 10px;background:#25d366;color:#fff;border-radius:6px;text-decoration:none;">
+      <i class="fab fa-whatsapp"></i> إرسال عبر واتساب
+    </a>
+  </div>
 
 </body>
 </html>

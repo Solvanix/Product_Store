@@ -1,4 +1,3 @@
-cart_v2 = '''
 let userName = localStorage.getItem("userName") || "";
 let userAddr = localStorage.getItem("userAddr") || "";
 let key = "orders_" + (userName || "guest");
@@ -24,29 +23,34 @@ function renderCart() {
   let promoTotal = 0;
   let regularTotal = 0;
 
-  let msg = `مرحبًا ${userName || "ضيف"}%0A`;
-  if (userAddr) msg += `📍 ${userAddr}%0A`;
-  msg += "طلبك:%0A";
+  let msg = `🍕 Pizza Hot – طلب جديد\n------------------\n`;
+  msg += `👤 ${userName || "ضيف"}\n`;
+  if (userAddr) msg += `📍 ${userAddr}\n`;
+  msg += `\n📦 الطلب:\n`;
 
   cartData.forEach(({ item, price }) => {
     const li = document.createElement("li");
     li.textContent = `${item} – ${price}₪`;
     list.appendChild(li);
     total += price;
+
     if (item.includes("عرض")) {
       promoTotal += price;
     } else {
       regularTotal += price;
     }
-    msg += `• ${item} – ${price}₪%0A`;
+
+    msg += `• ${item} – ${price}₪\n`;
   });
 
   const userNote = noteInput ? noteInput.value.trim() : "";
-  if (userNote) msg += `%0A📝 ملاحظات: ${userNote}%0A`;
+  if (userNote) {
+    msg += `\n📝 ملاحظات: ${userNote}\n`;
+  }
 
-  msg += `------------------%0A`;
-  msg += `إجمالي العروض: ${promoTotal}₪%0A`;
-  msg += `إجمالي العادي: ${regularTotal}₪%0A`;
+  msg += `\n------------------\n`;
+  if (promoTotal > 0) msg += `🎯 إجمالي العروض: ${promoTotal}₪\n`;
+  if (regularTotal > 0) msg += `🧾 إجمالي العادي: ${regularTotal}₪\n`;
   msg += `📦 الإجمالي الكلي: ${total}₪`;
 
   totalEl.textContent = total + "₪";
@@ -54,9 +58,3 @@ function renderCart() {
 }
 
 window.onload = renderCart;
-'''
-
-path = "/home/ali/0_gh_repos/Product_Store/Pizza_Hot/cart.js"
-with open(path, "w", encoding="utf-8") as f:
-    f.write(cart_v2.strip())
-    print("✅ تم تحديث cart.js لدعم الملاحظات والعروض.")
