@@ -120,13 +120,12 @@
 </header>
 <div class="overlay">
   <h1>📋 متجر PIZZA HOT</h1>
+<!-- 🍕 قائمة البيتزا -->
 <div class="section">
   <h2>🍕 قائمة البيتزا</h2>
   <div class="table-wrapper">
     <table id="pizza-menu">
-      <thead>
-        <tr><th>النوع</th><th>الحجم</th><th>السعر</th><th>الكمية</th><th>أضف</th></tr>
-      </thead>
+      <thead><tr><th>النوع</th><th>الحجم</th><th>السعر</th><th>الكمية</th><th>أضف</th></tr></thead>
       <tbody>
         <tr data-item="بيتزا دجاج"><td>بيتزا دجاج</td>
           <td><select class="size">
@@ -139,7 +138,116 @@
           <td><input class="qty" type="number" min="1" value="1"></td>
           <td><button class="add-btn">أضف</button></td>
         </tr>
-        <!-- باقي أنواع البيتزا بنفس التنسيق -->
+        <tr data-item="بيتزا خضار"><td>بيتزا خضار</td>
+          <td><select class="size">
+            <option value="50">XL – 50₪</option>
+            <option value="38">L – 38₪</option>
+            <option value="20">M – 20₪</option>
+            <option value="14">S – 14₪</option>
+          </select></td>
+          <td><span class="price">50₪</span></td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="بيتزا سلامي"><td>بيتزا سلامي</td>
+          <td><select class="size">
+            <option value="55">XL – 55₪</option>
+            <option value="40">L – 40₪</option>
+            <option value="23">M – 23₪</option>
+            <option value="15">S – 15₪</option>
+          </select></td>
+          <td><span class="price">55₪</span></td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="بيتزا نقانق"><td>بيتزا نقانق</td>
+          <td><select class="size">
+            <option value="55">XL – 55₪</option>
+            <option value="40">L – 40₪</option>
+            <option value="23">M – 23₪</option>
+            <option value="15">S – 15₪</option>
+          </select></td>
+          <td><span class="price">55₪</span></td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="بيتزا تونة"><td>بيتزا تونة</td>
+          <td><select class="size">
+            <option value="55">XL – 55₪</option>
+            <option value="40">L – 40₪</option>
+            <option value="23">M – 23₪</option>
+            <option value="15">S – 15₪</option>
+          </select></td>
+          <td><span class="price">55₪</span></td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="بيتزا مارجريتا"><td>بيتزا مارجريتا</td>
+          <td><select class="size">
+            <option value="50">XL – 50₪</option>
+            <option value="38">L – 38₪</option>
+            <option value="20">M – 20₪</option>
+            <option value="14">S – 14₪</option>
+          </select></td>
+          <td><span class="price">50₪</span></td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="كلزوني"><td>كلزوني</td>
+          <td><select class="size">
+            <option value="60">XL – 60₪</option>
+            <option value="40">L – 40₪</option>
+            <option value="32">M – 32₪</option>
+            <option value="16">S – 16₪</option>
+          </select></td>
+          <td><span class="price">60₪</span></td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="section">
+  <h2>🍟 أطباق جانبية</h2>
+  <div class="table-wrapper">
+    <table id="sides-menu">
+      <thead><tr><th>الصنف</th><th>السعر</th><th>الكمية</th><th>أضف</th></tr></thead>
+      <tbody>
+        <tr data-item="بطاطا صغير" data-price="5"><td>بطاطا صغير</td><td>5₪</td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="بطاطا كبير" data-price="10"><td>بطاطا كبير</td><td>10₪</td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="زنجر صغير" data-price="12"><td>زنجر صغير</td><td>12₪</td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="زنجر كبير" data-price="25"><td>زنجر كبير</td><td>25₪</td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="section">
+  <h2>🥤 مشروبات</h2>
+  <div class="table-wrapper">
+    <table id="drinks-menu">
+      <thead><tr><th>المشروب</th><th>السعر</th><th>الكمية</th><th>أضف</th></tr></thead>
+      <tbody>
+        <tr data-item="كولا 1.25 لتر" data-price="4"><td>كولا 1.25 لتر</td><td>4₪</td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="كولا 2 لتر" data-price="6"><td>كولا 2 لتر</td><td>6₪</td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -149,28 +257,28 @@
   <input id="user-address" placeholder="العنوان/هاتف (اختياري)" style="width:100%;margin-bottom:6px" />
   <input id="user-coupon" placeholder="🎟️ رمز الخصم (إن وجد)" style="width:100%;margin-bottom:6px" />
   <button id="start-btn" style="width:100%;margin-bottom:10px">☑ بدء الطلب</button>
+  <button id="send-wa" style="width:100%;background:#4caf50;color:#fff;border:none;padding:6px;border-radius:4px">📤 إرسال الطلب</button>
   <div id="cart-preview" style="margin-top:12px;font-size:0.95rem;color:#333"></div>
 </div>
+
 <script src="cartCore.js"></script>
 <script src="discountEngine.js"></script>
 <script src="discountRules.js"></script>
 <script src="messageBuilder.js"></script>
 <script src="floatingCart.js"></script>
+
 <script>
 CartCore.init(localStorage.getItem("userName"));
 
-// إدخال رمز الخصم
 document.getElementById("user-coupon").oninput = (e) => {
   localStorage.setItem("userCoupon", e.target.value.trim());
 };
 
-// إضافة صنف إلى السلة
 function addToCart(item, price, qty){
   CartCore.add(item, price, qty);
   renderCart();
 }
 
-// تفعيل أزرار "أضف"
 document.querySelectorAll('#pizza-menu, #sides-menu, #drinks-menu').forEach(tbl => {
   tbl.addEventListener('change', e => {
     if(e.target.classList.contains('size')){
@@ -189,7 +297,6 @@ document.querySelectorAll('#pizza-menu, #sides-menu, #drinks-menu').forEach(tbl 
   });
 });
 
-// توليد الرسالة وتطبيق الخصومات
 function renderCart(){
   const cartData = CartCore.getCurrentCart();
   const rawTotal = CartCore.total();
@@ -205,7 +312,22 @@ function renderCart(){
 
   document.getElementById("cart-preview").textContent = msg;
 }
+
+document.getElementById("start-btn").onclick = () => {
+  renderCart();
+};
+
+document.getElementById("send-wa").onclick = () => {
+  const cartData = CartCore.getCurrentCart();
+  const rawTotal = CartCore.total();
+  const userName = document.getElementById("user-name").value.trim() || "ضيف";
+  const userAddr = document.getElementById("user-address").value.trim();
+  const { total, applied } = DiscountEngine.apply(rawTotal, cartData, userName);
+  const msg = MessageBuilder.build(cartData, userName, userAddr, total, applied);
+  window.open("https://wa.me/972569788731?text=" + encodeURIComponent(msg), "_blank");
+};
 </script>
+
 <div class="footer">
   بلعين – شارع صفا – رام الله<br>
   © 2025 PIZZA HOT — جميع الحقوق محفوظة.
