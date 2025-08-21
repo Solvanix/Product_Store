@@ -44,8 +44,30 @@
 <div class="overlay">
   <h1>📋 متجر PIZZA HOT</h1>
 
-  <!-- 🍕 قائمة البيتزا -->
-  <!-- ... جداول المنتجات كما هي بدون تغيير ... -->
+  <div class="section">
+    <h2>🍕 بيتزا</h2>
+    <div class="table-wrapper">
+      <table id="pizza-menu">
+        <thead><tr><th>الصنف</th><th>الحجم</th><th>الكمية</th><th>السعر</th><th>إضافة</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>مارغريتا</td>
+            <td>
+              <select class="size">
+                <option value="صغير" data-price="18">صغير</option>
+                <option value="وسط" data-price="25">وسط</option>
+                <option value="كبير" data-price="32">كبير</option>
+              </select>
+            </td>
+            <td><input type="number" class="qty" value="1" min="1"></td>
+            <td class="price-cell">18</td>
+            <td><button class="add-btn">➕</button></td>
+          </tr>
+          <!-- أضف المزيد من الأصناف حسب الحاجة -->
+        </tbody>
+      </table>
+    </div>
+  </div>
 
   <!-- 🛒 السلة الجانبية -->
   <div id="cart-manager" style="position:fixed;bottom:10px;left:10px;width:320px;background:#fff;padding:12px;border:1px solid #ccc;border-radius:6px;z-index:20">
@@ -61,8 +83,6 @@
       <div id="cart-tabs"></div>
     </div>
   </div>
-</div>
-
 <script>
   let userName = '', userAddr = '', key = '', carts = {}, cur = null;
   const nameIn = document.getElementById('user-name'),
@@ -146,7 +166,7 @@
       };
       msg += `• ${it.item} (${it.qty}) – ${lt}₪%0A`;
     });
-        ttl.textContent = sum + '₪';
+    ttl.textContent = sum + '₪';
     const encodedMsg = encodeURIComponent(msg);
     wa.href = `https://wa.me/?text=${encodedMsg}`;
     cd.href = `https://example.com/payment?name=${encodeURIComponent(userName)}&total=${sum}&cart=${encodeURIComponent(JSON.stringify(carts[name]))}`;
@@ -185,6 +205,23 @@
       buildTabs();
     }
   };
+
+  // ربط أزرار الإضافة إلى السلة
+  document.querySelectorAll('.add-btn').forEach(btn => {
+    btn.onclick = () => {
+      const row = btn.closest('tr');
+      const itemName = row.cells[0].textContent.trim();
+      const sizeSel = row.querySelector('.size');
+      const size = sizeSel ? sizeSel.value : '';
+      const price = sizeSel ? parseFloat(sizeSel.selectedOptions[0].dataset.price) : parseFloat(row.querySelector('.price-cell').textContent);
+      const qty = parseInt(row.querySelector('.qty').value) || 1;
+      const fullName = size ? `${itemName} - ${size}` : itemName;
+
+      carts[cur].push({ item: fullName, price, qty });
+      saveData();
+      renderCart(cur);
+    };
+  });
 
   // تحميل البيانات عند التشغيل
   loadData();
