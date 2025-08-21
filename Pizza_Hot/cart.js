@@ -1,70 +1,99 @@
-let userName = localStorage.getItem("userName") || "";
-let userAddr = localStorage.getItem("userAddr") || "";
-let key = "orders_" + (userName || "guest");
-let cartData = JSON.parse(localStorage.getItem(key) || "[]");
-
-function addToCart(item, price, qty = 1) {
-  for (let i = 0; i < qty; i++) {
-    cartData.push({ item, price, note: "" }); // إضافة حقل الملاحظة
-  }
-  localStorage.setItem(key, JSON.stringify(cartData));
-  renderCart();
-}
-
-function renderCart() {
-  const list = document.getElementById("cart-items");
-  const totalEl = document.getElementById("cart-total");
-  const waLink = document.getElementById("whatsapp-link");
-  if (!list || !totalEl || !waLink) return;
-
-  list.innerHTML = "";
-  let total = 0;
-  let promoTotal = 0;
-  let regularTotal = 0;
-
-  let msg = `🍕 Pizza Hot – طلب جديد\n------------------\n`;
-  msg += `👤 ${userName || "ضيف"}\n`;
-  if (userAddr) msg += `📍 ${userAddr}\n`;
-  msg += `\n📦 الطلب:\n`;
-
-  cartData.forEach(({ item, price, note }, index) => {
-    const li = document.createElement("li");
-
-    const nameSpan = document.createElement("span");
-    nameSpan.textContent = `${item} – ${price}₪`;
-
-    const noteInput = document.createElement("input");
-    noteInput.type = "text";
-    noteInput.placeholder = "ملاحظات؟";
-    noteInput.value = note || "";
-    noteInput.oninput = (e) => {
-      cartData[index].note = e.target.value;
-      localStorage.setItem(key, JSON.stringify(cartData));
-    };
-
-    li.appendChild(nameSpan);
-    li.appendChild(noteInput);
-    list.appendChild(li);
-
-    total += price;
-    if (item.includes("عرض")) {
-      promoTotal += price;
-    } else {
-      regularTotal += price;
-    }
-
-    msg += `• ${item} – ${price}₪`;
-    if (note) msg += ` [ملاحظة: ${note}]`;
-    msg += `\n`;
+(function () {
+  const cartBtn = document.createElement("button");
+  cartBtn.textContent = "🛒 السلة";
+  Object.assign(cartBtn.style, {
+    position: "fixed",
+    bottom: "20px",
+    right: "20px",
+    zIndex: "9999",
+    padding: "10px 15px",
+    background: "#e91e63",
+    color: "#fff",
+    border: "none",
+    borderRadius: "8px",
+    cursor: "pointer",
   });
+  document.body.appendChild(cartBtn);
 
-  msg += `\n------------------\n`;
-  if (promoTotal > 0) msg += `🎯 إجمالي العروض: ${promoTotal}₪\n`;
-  if (regularTotal > 0) msg += `🧾 إجمالي العادي: ${regularTotal}₪\n`;
-  msg += `📦 الإجمالي الكلي: ${total}₪`;
+  const cartPopup = document.createElement("div");
+  Object.assign(cartPopup.style, {
+    position: "fixed",
+    bottom: "70px",
+    right: "20px",
+    width: "320px",
+    maxHeight: "400px",
+    overflowY: "auto",
+    background: "#fff",
+    border: "1px solid #ccc",
+    borderRadius: "8px",
+    padding: "10px",
+    boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
+    display: "none",
+    zIndex: "9999",
+  });
+  document.body.appendChild(cartPopup);
 
-  totalEl.textContent = total + "₪";
-  waLink.href = "https://wa.me/972569788731?text=" + encodeURIComponent(msg);
-}
+  cartBtn.onclick = () => {
+    cartPopup.style.display = cartPopup.style.display === "none" ? "block" : "none";
+    renderFloatingCart();
+  };
 
-window.onload = renderCart;
+  function renderFloatingCart() {
+    const userName = localStorage.getItem("userName") || "";
+    const key = "orders_" + (userName || "guest");
+    const cartData = JSON.parse(localStorage.getItem(key) || "[]");
+
+    cartPopup.innerHTML = "<h4>🛍️ محتوى السلة</h4>";
+    let total = 0;
+
+    cartData.forEach(({ item, price, note }, index) => {
+      const itemDiv = document.createElement("div");
+      itemDiv.style.marginBottom = "10px";
+      itemDiv.style.borderBottom = "1px solid #eee";
+      itemDiv.style.paddingBottom = "6px";
+
+      const name = document.createElement("div");
+      name.textContent = `${item} – ${price}₪`;
+      name.style.fontWeight = "bold";
+
+      const noteInput = document.createElement("input");
+      noteInput.type = "text";
+      noteInput.placeholder = "ملاحظة؟";
+      noteInput.value = note || "";
+      noteInput.style.width = "100%";
+      noteInput.style.marginTop = "4px";
+      noteInput.oninput = (e) => {
+        cartData[index].note = e.target.value;
+        localStorage.setItem(key, JSON.stringify(cartData));
+      };
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "🗑️ حذف";
+      deleteBtn.style.marginTop = "6px";
+      deleteBtn.style.background = "#f44336";
+      deleteBtn.style.color = "#fff";
+      deleteBtn.style.border = "none";
+      deleteBtn.style.padding = "4px 8px";
+      deleteBtn.style.borderRadius = "4px";
+      deleteBtn.style.cursor = "pointer";
+      deleteBtn.onclick = () => {
+        cartData.splice(index, 1);
+        localStorage.setItem(key, JSON.stringify(cartData));
+        renderFloatingCart();
+      };
+
+      itemDiv.appendChild(name);
+      itemDiv.appendChild(noteInput);
+      itemDiv.appendChild(deleteBtn);
+      cartPopup.appendChild(itemDiv);
+
+      total += price;
+    });
+
+    const totalDiv = document.createElement("div");
+    totalDiv.textContent = `📦 الإجمالي: ${total}₪`;
+    totalDiv.style.marginTop = "10px";
+    totalDiv.style.fontWeight = "bold";
+    cartPopup.appendChild(totalDiv);
+  }
+})();
