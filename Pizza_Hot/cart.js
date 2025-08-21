@@ -1,99 +1,92 @@
-(function () {
-  const cartBtn = document.createElement("button");
-  cartBtn.textContent = "🛒 السلة";
-  Object.assign(cartBtn.style, {
-    position: "fixed",
-    bottom: "20px",
-    right: "20px",
-    zIndex: "9999",
-    padding: "10px 15px",
-    background: "#e91e63",
-    color: "#fff",
-    border: "none",
-    borderRadius: "8px",
-    cursor: "pointer",
-  });
-  document.body.appendChild(cartBtn);
+// cartCore.js – وحدة إدارة السلة المركزية
+const CartCore = (() => {
+  let key = '', user = 'guest', carts = {}, cur = '1';
 
-  const cartPopup = document.createElement("div");
-  Object.assign(cartPopup.style, {
-    position: "fixed",
-    bottom: "70px",
-    right: "20px",
-    width: "320px",
-    maxHeight: "400px",
-    overflowY: "auto",
-    background: "#fff",
-    border: "1px solid #ccc",
-    borderRadius: "8px",
-    padding: "10px",
-    boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
-    display: "none",
-    zIndex: "9999",
-  });
-  document.body.appendChild(cartPopup);
-
-  cartBtn.onclick = () => {
-    cartPopup.style.display = cartPopup.style.display === "none" ? "block" : "none";
-    renderFloatingCart();
-  };
-
-  function renderFloatingCart() {
-    const userName = localStorage.getItem("userName") || "";
-    const key = "orders_" + (userName || "guest");
-    const cartData = JSON.parse(localStorage.getItem(key) || "[]");
-
-    cartPopup.innerHTML = "<h4>🛍️ محتوى السلة</h4>";
-    let total = 0;
-
-    cartData.forEach(({ item, price, note }, index) => {
-      const itemDiv = document.createElement("div");
-      itemDiv.style.marginBottom = "10px";
-      itemDiv.style.borderBottom = "1px solid #eee";
-      itemDiv.style.paddingBottom = "6px";
-
-      const name = document.createElement("div");
-      name.textContent = `${item} – ${price}₪`;
-      name.style.fontWeight = "bold";
-
-      const noteInput = document.createElement("input");
-      noteInput.type = "text";
-      noteInput.placeholder = "ملاحظة؟";
-      noteInput.value = note || "";
-      noteInput.style.width = "100%";
-      noteInput.style.marginTop = "4px";
-      noteInput.oninput = (e) => {
-        cartData[index].note = e.target.value;
-        localStorage.setItem(key, JSON.stringify(cartData));
-      };
-
-      const deleteBtn = document.createElement("button");
-      deleteBtn.textContent = "🗑️ حذف";
-      deleteBtn.style.marginTop = "6px";
-      deleteBtn.style.background = "#f44336";
-      deleteBtn.style.color = "#fff";
-      deleteBtn.style.border = "none";
-      deleteBtn.style.padding = "4px 8px";
-      deleteBtn.style.borderRadius = "4px";
-      deleteBtn.style.cursor = "pointer";
-      deleteBtn.onclick = () => {
-        cartData.splice(index, 1);
-        localStorage.setItem(key, JSON.stringify(cartData));
-        renderFloatingCart();
-      };
-
-      itemDiv.appendChild(name);
-      itemDiv.appendChild(noteInput);
-      itemDiv.appendChild(deleteBtn);
-      cartPopup.appendChild(itemDiv);
-
-      total += price;
-    });
-
-    const totalDiv = document.createElement("div");
-    totalDiv.textContent = `📦 الإجمالي: ${total}₪`;
-    totalDiv.style.marginTop = "10px";
-    totalDiv.style.fontWeight = "bold";
-    cartPopup.appendChild(totalDiv);
+  // تهيئة السلة حسب اسم المستخدم
+  function init(name){
+    user = name || 'guest';
+    key = 'orders_' + user;
+    const d = JSON.parse(localStorage.getItem(key)||'{}');
+    carts = d.carts || {'1':[]};
+    cur = d.cur || '1';
   }
+
+  // حفظ السلة في التخزين المحلي
+  function save(){
+    localStorage.setItem(key, JSON.stringify({ carts, cur }));
+  }
+
+  // استرجاع السلة الحالية
+  function getCurrentCart(){
+    return carts[cur] || [];
+  }
+
+  // إضافة صنف إلى السلة
+  function add(item, price, qty, note){
+    carts[cur] = carts[cur] || [];
+    carts[cur].push({ item, price, qty, note });
+    save();
+  }
+
+  // حذف صنف حسب الفهرس
+  function remove(index){
+    if (carts[cur]) {
+      carts[cur].splice(index, 1);
+      save();
+    }
+  }
+
+  // تفريغ السلة الحالية
+  function clear(){
+    carts[cur] = [];
+    save();
+  }
+
+  // حساب الإجمالي
+  function total(){
+    return getCurrentCart().reduce((sum, it) => sum + it.price * it.qty, 0);
+  }
+
+  // استرجاع كل السلال
+  function getAll(){
+    return { carts, cur };
+  }
+
+  // تغيير السلة الحالية
+  function switchCart(name){
+    if (carts[name]) {
+      cur = name;
+      save();
+    }
+  }
+
+  // إنشاء سلة جديدة
+  function createCart(name){
+    if (!carts[name]) {
+      carts[name] = [];
+      cur = name;
+      save();
+    }
+  }
+
+  // حذف سلة بالكامل
+  function deleteCart(name){
+    delete carts[name];
+    if (cur === name) cur = Object.keys(carts)[0] || '1';
+    save();
+  }
+
+  return {
+    init,
+    save,
+    add,
+    remove,
+    clear,
+    total,
+    getCurrentCart,
+    getAll,
+    switchCart,
+    createCart,
+    deleteCart
+  };
 })();
