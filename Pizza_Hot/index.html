@@ -1,205 +1,164 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <title>PIZZA HOT – الصفحة الرئيسية</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>🍕 PIZZA HOT | الصفحة الرئيسية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       font-family: 'Tajawal', sans-serif;
-      background: url('assets/images/wood_leaf_bg.jpg') no-repeat center center fixed;
-      background-size: cover;
+      background: #111;
       color: #fff;
-      scroll-behavior: smooth;
-      line-height: 1.8em;
-      font-size: clamp(1.1rem, 2.4vw, 1.3rem);
+      text-align: center;
+      padding-bottom: 100px;
     }
 
     header {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background: rgba(0,0,0,0.85);
-      display: flex;
-      justify-content: center;
-      padding: 14px 0;
-      border-bottom: 1px solid #444;
-      z-index: 1000;
-    }
-
-    header a {
-      color: #ffd700;
-      text-decoration: none;
-      font-size: 1.2rem;
-      font-weight: bold;
-      margin: 0 14px;
-    }
-
-    header a:hover {
-      color: #fff;
-    }
-
-    .overlay {
-      padding-top: 90px;
-      background-color: rgba(0,0,0,0.75);
-      min-height: 100vh;
-    }
-
-    h1 {
-      text-align: center;
-      font-size: clamp(2rem, 5.5vw, 2.8rem);
-      color: #ffd700;
-      margin: 35px 0 10px;
-    }
-
-    .cta-ribbon {
-      text-align: center;
-      margin: 0 auto 36px;
-    }
-
-    .cta-ribbon a {
-      display: inline-block;
-      background: linear-gradient(90deg, #00e676, #00c853);
-      color: #111;
-      font-weight: bold;
-      padding: 12px 30px;
-      border-radius: 50px;
-      font-size: 1.15rem;
-      text-decoration: none;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
-      transition: transform 0.3s, background 0.3s;
-    }
-
-    .cta-ribbon a:hover {
-      background: linear-gradient(90deg, #00c853, #00e676);
-      color: #fff;
-      transform: scale(1.05);
-    }
-
-    .main-links {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 24px;
-      gap: 20px;
-    }
-
-    .main-links a {
-      background-color: rgba(255, 255, 255, 0.08);
-      border: 1px solid #ffd700;
-      border-radius: 10px;
-      color: #fff;
-      padding: 14px 26px;
-      font-size: 1.1rem;
-      text-decoration: none;
-      width: 92%;
-      max-width: 400px;
-      text-align: center;
-      transition: background 0.3s, transform 0.2s;
-    }
-
-    .main-links a:hover {
-      background-color: #ffd700;
-      color: #000;
-      font-weight: bold;
-      transform: scale(1.03);
-    }
-
-    .footer {
-      text-align: center;
-      font-size: 0.95rem;
-      color: #ccc;
-      margin-top: 50px;
-      padding-bottom: 100px;
-      line-height: 1.6em;
-    }
-
-    #cart {
-      position: fixed;
-      bottom: 12px;
-      left: 12px;
       background: #222;
-      padding: 12px;
-      border: 1px solid #555;
+      padding: 20px;
+      font-size: 1.5rem;
+      color: #ffd700;
+    }
+
+    .nav-links a {
+      margin: 0 12px;
+      color: #ffcc66;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .cover {
+      padding: 40px 20px;
+    }
+
+    .cover h1 {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    .cover p {
+      font-size: 1.2rem;
+      color: #ccc;
+    }
+
+    .cover a {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: #ffd700;
+      color: #111;
+      text-decoration: none;
       border-radius: 10px;
-      max-width: 320px;
-      color: #fff;
-      z-index: 9999;
-      font-size: 0.9rem;
-      width: calc(100vw - 24px);
-      max-height: 85vh;
+      font-weight: bold;
+    }
+
+    #cart-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #ffd700;
+      color: #111;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 20px;
+      font-weight: bold;
+      z-index: 1000;
+      box-shadow: 0 0 8px rgba(0,0,0,0.3);
+    }
+
+    #cart-manager {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      max-height: 80vh;
       overflow-y: auto;
+      background: #fff;
+      color: #000;
+      padding: 16px;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.3);
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      z-index: 999;
+      display: none;
     }
 
-    @media (min-width: 481px) {
-      #cart {
-        width: 320px;
-      }
+    #cart-manager .close-btn {
+      text-align: right;
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      cursor: pointer;
+      color: #ff4444;
     }
 
-    @media (max-width: 480px) {
-      header a {
-        font-size: 1rem;
-        margin: 0 6px;
-      }
+    #cart-manager input,
+    #cart-manager select,
+    #cart-manager button {
+      width: 100%;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
 
-      .main-links a {
-        font-size: 1rem;
-        padding: 12px 18px;
-      }
-
-      h1 {
-        font-size: 2rem;
-      }
+    footer {
+      background: #222;
+      color: #aaa;
+      padding: 20px;
+      font-size: 0.9rem;
     }
   </style>
-  <script src="cart.js"></script>
 </head>
 <body>
 
   <header>
-    <a href="index.html">🏠</a>
-    <a href="store.html">🛒 القائمة</a>
-    <a href="promo_offer.html">🔥 العرض</a>
-    <a href="https://www.facebook.com/profile.php?id=61574045938687" target="_blank">📘</a>
+    🍕 PIZZA HOT
+    <div class="nav-links">
+      <a href="store.html">المتجر</a>
+      <a href="promo_offer.html">العروض</a>
+      <a href="poster_gallery.html">البوسترات</a>
+      <a href="account.html">حسابي</a>
+    </div>
   </header>
 
-  <div class="overlay">
-    <h1>مرحبًا بكم في PIZZA HOT</h1>
-
-    <div class="cta-ribbon">
-      <a href="https://solvanix.github.io/pizza_hot/" target="_blank">
-        🌐 تصفّح موقع PizzaHot الرسمي – تجربة حيّة
-      </a>
-    </div>
-
-    <div class="main-links">
-      <a href="promo_offer.html">🔥 عرض العائلة من PIZZA HOT</a>
-      <a href="store.html">📋 كتالوج البيتزا والأطباق الجانبية</a>
-      <a href="https://wa.me/972569788731" target="_blank">💬 اطلب عبر واتساب مباشرةً</a>
-      <a href="poster_gallery.html">📸 استعرض البوسترات والعروض المصوّرة</a>
-      <a href="poster_view_chicken.html">🍕 عرض بيتزا دجاج XL</a>
-      <a href="poster_view_wings.html">🍗 عرض أجنحة الدجاج</a>
-    </div>
-
-    <div class="footer">
-      بلعين – شارع صفا – رام الله<br>
-      &copy; 2025 PIZZA HOT
-    </div>
+  <div class="cover">
+    <h1>مرحبًا بك في PIZZA HOT</h1>
+    <p>نكهاتنا تنمو من الطبيعة، وتصل إليك بحرارة الفرن</p>
+    <a href="store.html">ابدأ الطلب الآن</a>
   </div>
 
-  <div id="cart">
-    <strong>🧺 سلتك:</strong>
-    <ul id="cart-items"></ul>
-    <div><strong>📦 الإجمالي:</strong> <span id="cart-total">0₪</span></div>
-    <textarea id="cart-note" rows="2" placeholder="📝 ملاحظات إضافية (اختياري)" style="width:100%;margin:6px 0;"></textarea>
-    <a id="whatsapp-link" class="btn whatsapp" href="#" target="_blank"
-       style="display:inline-block;margin-top:8px;padding:8px 10px;background:#25d366;color:#fff;border-radius:6px;text-decoration:none;">
-      <i class="fab fa-whatsapp"></i> إرسال عبر واتساب
-    </a>
+  <!-- زر السلة العائم -->
+  <button id="cart-toggle">🛒 سلتك</button>
+
+  <!-- نافذة السلة المنبثقة -->
+  <div id="cart-manager">
+    <div class="close-btn">❌ إغلاق</div>
+    <h2>🛒 سلة الطلبات</h2>
+    <p>لا توجد عناصر بعد.</p>
+    <!-- يمكن لاحقًا توليد العناصر ديناميكيًا -->
+    <button>✅ تأكيد الطلب</button>
   </div>
+
+  <footer>
+    بلعين – شارع صفا – رام الله<br>
+    © 2025 PIZZA HOT – جميع الحقوق محفوظة
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cartToggle = document.getElementById('cart-toggle');
+      const cartManager = document.getElementById('cart-manager');
+      const closeBtn = cartManager.querySelector('.close-btn');
+
+      cartToggle.onclick = () => {
+        cartManager.style.display = 'block';
+      };
+
+      closeBtn.onclick = () => {
+        cartManager.style.display = 'none';
+      };
+    });
+  </script>
 
 </body>
 </html>
