@@ -120,49 +120,92 @@
 </header>
 <div class="overlay">
   <h1>📋 متجر PIZZA HOT</h1>
-<!-- 🍕 قائمة البيتزا -->
-<div class="section">... جدول البيتزا ...</div>
-
-<!-- 🍟 أطباق جانبية -->
-<div class="section">... جدول الجوانب ...</div>
-
-<!-- 🥤 مشروبات -->
-<div class="section">... جدول المشروبات ...</div>
-
-<!-- 🛒 السلة الجانبية -->
-<div id="cart-manager" style="...">
-  <input id="user-name" placeholder="اسمك (اختياري)" />
-  <input id="user-address" placeholder="العنوان/هاتف (اختياري)" />
-  <input id="user-coupon" placeholder="🎟️ رمز الخصم (إن وجد)" />
-  <button id="start-btn">☑ بدء الطلب</button>
-  <div id="cart-controls" style="display:none">... أزرار السلة ...</div>
-  <div id="cart-preview" style="..."></div>
+<div class="section">
+  <h2>🍕 قائمة البيتزا</h2>
+  <div class="table-wrapper">
+    <table id="pizza-menu">
+      <thead>
+        <tr><th>النوع</th><th>الحجم</th><th>السعر</th><th>الكمية</th><th>أضف</th></tr>
+      </thead>
+      <tbody>
+        <tr data-item="بيتزا دجاج"><td>بيتزا دجاج</td>
+          <td><select class="size">
+            <option value="65">XL – 65₪</option>
+            <option value="45">L – 45₪</option>
+            <option value="33">M – 33₪</option>
+            <option value="17">S – 17₪</option>
+          </select></td>
+          <td><span class="price">65₪</span></td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <!-- باقي أنواع البيتزا بنفس التنسيق -->
+      </tbody>
+    </table>
+  </div>
+</div>
+<div id="cart-manager" style="position:fixed;bottom:10px;left:10px;width:340px;background:#fff;padding:12px;border:1px solid #ccc;border-radius:6px;z-index:20;box-shadow:0 0 10px rgba(0,0,0,0.1)">
+  <input id="user-name" placeholder="اسمك (اختياري)" style="width:100%;margin-bottom:6px" />
+  <input id="user-address" placeholder="العنوان/هاتف (اختياري)" style="width:100%;margin-bottom:6px" />
+  <input id="user-coupon" placeholder="🎟️ رمز الخصم (إن وجد)" style="width:100%;margin-bottom:6px" />
+  <button id="start-btn" style="width:100%;margin-bottom:10px">☑ بدء الطلب</button>
+  <div id="cart-preview" style="margin-top:12px;font-size:0.95rem;color:#333"></div>
 </div>
 <script src="cartCore.js"></script>
 <script src="discountEngine.js"></script>
 <script src="discountRules.js"></script>
 <script src="messageBuilder.js"></script>
 <script src="floatingCart.js"></script>
-
 <script>
-// تهيئة المستخدم والسلة
 CartCore.init(localStorage.getItem("userName"));
 
-// تعديل renderCart لتطبيق الخصومات والرسالة
-function renderCart(name){
+// إدخال رمز الخصم
+document.getElementById("user-coupon").oninput = (e) => {
+  localStorage.setItem("userCoupon", e.target.value.trim());
+};
+
+// إضافة صنف إلى السلة
+function addToCart(item, price, qty){
+  CartCore.add(item, price, qty);
+  renderCart();
+}
+
+// تفعيل أزرار "أضف"
+document.querySelectorAll('#pizza-menu, #sides-menu, #drinks-menu').forEach(tbl => {
+  tbl.addEventListener('change', e => {
+    if(e.target.classList.contains('size')){
+      const r = e.target.closest('tr');
+      r.querySelector('.price').textContent = e.target.value + '₪';
+    }
+  });
+  tbl.addEventListener('click', e => {
+    if(!e.target.classList.contains('add-btn')) return;
+    const row = e.target.closest('tr'),
+          qty = +row.querySelector('.qty').value,
+          sel = row.querySelector('.size'),
+          price = sel ? +sel.value : +row.dataset.price,
+          item = sel ? `${row.dataset.item} (${sel.selectedOptions[0].text})` : row.dataset.item;
+    addToCart(item, price, qty);
+  });
+});
+
+// توليد الرسالة وتطبيق الخصومات
+function renderCart(){
   const cartData = CartCore.getCurrentCart();
   const rawTotal = CartCore.total();
-  const userName = localStorage.getItem("userName") || "ضيف";
-  const userAddr = localStorage.getItem("userAddr") || "";
+  const userName = document.getElementById("user-name").value.trim() || "ضيف";
+  const userAddr = document.getElementById("user-address").value.trim();
+  localStorage.setItem("userName", userName);
+  localStorage.setItem("userAddr", userAddr);
+
   const { total, applied } = DiscountEngine.apply(rawTotal, cartData, userName);
   const msg = MessageBuilder.build(cartData, userName, userAddr, total, applied);
   const prev = parseInt(localStorage.getItem("monthlySpent") || "0");
   localStorage.setItem("monthlySpent", prev + rawTotal);
+
   document.getElementById("cart-preview").textContent = msg;
-  document.getElementById("wa-" + name).href = "https://wa.me/972569788731?text=" + encodeURIComponent(msg);
 }
 </script>
-
 <div class="footer">
   بلعين – شارع صفا – رام الله<br>
   © 2025 PIZZA HOT — جميع الحقوق محفوظة.
