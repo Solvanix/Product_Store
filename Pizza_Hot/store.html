@@ -10,36 +10,39 @@
     body {
       margin: 0;
       font-family: 'Tajawal', sans-serif;
-      background: #f9f9f9;
-      color: #333;
+      background: #f4f1ee;
+      color: #2c2c2c;
       line-height: 1.6;
     }
     header {
       position: fixed;
       top: 0;
       width: 100%;
-      background: #0008;
-      color: #ffd700;
+      background: #1a1a1a;
+      color: #f2c785;
       text-align: center;
-      padding: 10px;
+      padding: 12px;
       z-index: 10;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
     header a {
-      margin: 0 8px;
+      margin: 0 10px;
       color: inherit;
       text-decoration: none;
       font-weight: 700;
+      font-size: 1.1rem;
     }
     .overlay {
-      padding: 80px 10px 160px;
+      padding: 90px 10px 160px;
       background: #fff;
       min-height: 100vh;
     }
     h1 {
       text-align: center;
-      color: #d25f00;
+      color: #b22222;
       margin: 20px 0;
       font-size: clamp(1.8rem, 5vw, 2.5rem);
+      font-weight: 900;
     }
     .section {
       max-width: 900px;
@@ -48,15 +51,17 @@
     }
     h2 {
       text-align: center;
-      color: #b14c00;
+      color: #8b4513;
       margin-bottom: 12px;
+      font-size: 1.4rem;
     }
     .table-wrapper {
       overflow-x: auto;
-      border: 1px solid #ddd;
+      border: 1px solid #ccc;
       border-radius: 6px;
       background: #fff;
       margin-bottom: 20px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.05);
     }
     table {
       width: 100%;
@@ -66,41 +71,44 @@
     th, td {
       text-align: center;
       border: 1px solid #ddd;
-      padding: 8px;
+      padding: 10px;
     }
     th {
-      background: #ff914d;
+      background: #b22222;
       color: #fff;
     }
     tr:nth-child(even) td {
-      background: #f9ddb6;
+      background: #fdf5e6;
     }
     select.size, input.qty {
       padding: 6px;
       border: 1px solid #ccc;
       border-radius: 4px;
       text-align: center;
+      font-size: 0.95rem;
     }
     input.qty {
       width: 60px;
     }
     button.add-btn {
-      background: #ffd700;
+      background: #f2c785;
       border: none;
       padding: 6px 12px;
       border-radius: 6px;
       font-weight: 700;
       cursor: pointer;
+      color: #1a1a1a;
     }
     button.add-btn:hover {
-      background: #ffc107;
+      background: #e0b96a;
     }
     .footer {
       text-align: center;
       color: #666;
       padding: 20px;
-      margin-top: 20px;
+      margin-top: 40px;
       border-top: 1px dashed #ccc;
+      background: #f9f9f9;
     }
     .cart-tab ul {
       padding: 0;
@@ -126,7 +134,7 @@
     .cart-tab .remove-item {
       background: none;
       border: none;
-      color: #f44336;
+      color: #b22222;
       cursor: pointer;
       font-size: 1rem;
     }
@@ -135,7 +143,7 @@
       margin-bottom: 6px;
     }
     .active {
-      background: #ffd700;
+      background: #f2c785;
       color: #000 !important;
     }
   </style>
@@ -397,22 +405,42 @@
     ul.innerHTML = carts[name].length === 0
       ? '<li style="text-align:center;color:#999">🧺 السلة فارغة حاليًا</li>'
       : '';
-    let sum=0,
-    msg = `مرحبًا ${userName||'ضيف'}%0A`; if(userAddr) msg += `📍 ${userAddr}%0A`;
-    msg += `طلب:%0A`;
-    carts[name].forEach((it,i)=>{
-      const lt = it.price*it.qty; sum+=lt;
+
+    let sum = 0;
+    let msg = `مرحبًا ${userName||'ضيف'}%0A`;
+    if(userAddr) msg += `📍 ${userAddr}%0A`;
+    msg += `🧺 الطلب:%0A`;
+
+    const sections = { pizza: [], sides: [], drinks: [], other: [] };
+
+    carts[name].forEach((it, i) => {
+      const lt = it.price * it.qty;
+      sum += lt;
+
       const li = document.createElement('li');
       li.innerHTML = `${it.item} (${it.qty}) – ${lt}₪ <button class="remove-item" data-i="${i}">❌</button>`;
       ul.appendChild(li);
-      li.querySelector('.remove-item').onclick = ()=>{
-        carts[name].splice(i,1); saveData(); renderCart(name);
+      li.querySelector('.remove-item').onclick = () => {
+        carts[name].splice(i, 1); saveData(); renderCart(name);
       };
-      msg += `• ${it.item} (${it.qty}) – ${lt}₪%0A`;
+
+      const label = it.item.toLowerCase();
+      if(label.includes('بيتزا')) sections.pizza.push(`🍕 ${it.item} ×${it.qty} – ${lt}₪`);
+      else if(label.includes('بطاطا') || label.includes('زنجر')) sections.sides.push(`🍟 ${it.item} ×${it.qty} – ${lt}₪`);
+      else if(label.includes('كولا') || label.includes('عصير')) sections.drinks.push(`🥤 ${it.item} ×${it.qty} – ${lt}₪`);
+      else sections.other.push(`• ${it.item} ×${it.qty} – ${lt}₪`);
     });
-    ttl.textContent = sum+'₪';
-    wa.href = 'https://wa.me/972569788731?text='+encodeURIComponent(msg);
-    cd.href = 'https://your-gateway.com/pay?cart='+encodeURIComponent(msg);
+
+    if(sections.pizza.length) msg += sections.pizza.join('%0A') + '%0A';
+    if(sections.sides.length) msg += sections.sides.join('%0A') + '%0A';
+    if(sections.drinks.length) msg += sections.drinks.join('%0A') + '%0A';
+    if(sections.other.length) msg += sections.other.join('%0A') + '%0A';
+
+    msg += `📦 الإجمالي: ${sum}₪`;
+
+    ttl.textContent = sum + '₪';
+    wa.href = 'https://wa.me/972569788731?text=' + encodeURIComponent(msg);
+    cd.href = 'https://your-gateway.com/pay?cart=' + encodeURIComponent(msg);
     loadSel.value = name;
   }
 
@@ -459,19 +487,6 @@
     });
 
   loadData();
-
-  (function filterByQuery(){
-    const urlParams = new URLSearchParams(window.location.search);
-    const query = urlParams.get('q');
-    if(!query) return;
-    const lowerQ = query.trim().toLowerCase();
-    document.querySelectorAll('tbody tr').forEach(row=>{
-      const name = row.dataset.item?.toLowerCase() || '';
-      row.style.display = name.includes(lowerQ) ? '' : 'none';
-    });
-    const qInput = document.getElementById('q-search');
-    if(qInput) qInput.value = query;
-  })();
 
   startBtn.onclick = ()=>{
     userName = nameIn.value.trim();
