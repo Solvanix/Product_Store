@@ -7,11 +7,12 @@
     right: "20px",
     zIndex: "9999",
     padding: "10px 15px",
-    background: "#e91e63",
+    background: "#b22222",
     color: "#fff",
     border: "none",
     borderRadius: "8px",
     cursor: "pointer",
+    fontWeight: "bold",
   });
   document.body.appendChild(cartBtn);
 
@@ -20,16 +21,17 @@
     position: "fixed",
     bottom: "70px",
     right: "20px",
-    width: "320px",
-    maxHeight: "400px",
+    width: "340px",
+    maxHeight: "420px",
     overflowY: "auto",
     background: "#fff",
     border: "1px solid #ccc",
     borderRadius: "8px",
-    padding: "10px",
+    padding: "12px",
     boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
     display: "none",
     zIndex: "9999",
+    fontFamily: "Tajawal, sans-serif",
   });
   document.body.appendChild(cartPopup);
 
@@ -39,22 +41,24 @@
   };
 
   function renderFloatingCart() {
-    const userName = localStorage.getItem("userName") || "";
+    const userName = localStorage.getItem("userName") || "ضيف";
     const userAddr = localStorage.getItem("userAddr") || "";
-    const key = "orders_" + (userName || "guest");
-    const cartData = JSON.parse(localStorage.getItem(key) || "[]");
+    CartCore.init(userName);
+    const cartData = CartCore.getCurrentCart();
+    const rawTotal = CartCore.total();
+    const { total, applied } = DiscountEngine.apply(rawTotal, cartData, userName);
 
-    cartPopup.innerHTML = "<h4>🛍️ محتوى السلة</h4>";
-    let total = 0;
+    cartPopup.innerHTML = `<h4 style="margin-bottom:10px">🛍️ محتوى السلة</h4>`;
+    let list = document.createElement("div");
 
-    cartData.forEach(({ item, price, note }, index) => {
+    cartData.forEach(({ item, price, qty, note }, index) => {
       const itemDiv = document.createElement("div");
       itemDiv.style.marginBottom = "10px";
       itemDiv.style.borderBottom = "1px solid #eee";
       itemDiv.style.paddingBottom = "6px";
 
       const name = document.createElement("div");
-      name.textContent = `${item} – ${price}₪`;
+      name.textContent = `${item} ×${qty} – ${price * qty}₪`;
       name.style.fontWeight = "bold";
 
       const noteInput = document.createElement("input");
@@ -65,7 +69,8 @@
       noteInput.style.marginTop = "4px";
       noteInput.oninput = (e) => {
         cartData[index].note = e.target.value;
-        localStorage.setItem(key, JSON.stringify(cartData));
+        CartCore.save();
+        renderFloatingCart();
       };
 
       const deleteBtn = document.createElement("button");
@@ -80,50 +85,47 @@
         cursor: "pointer",
       });
       deleteBtn.onclick = () => {
-        cartData.splice(index, 1);
-        localStorage.setItem(key, JSON.stringify(cartData));
+        CartCore.remove(index);
         renderFloatingCart();
       };
 
       itemDiv.appendChild(name);
       itemDiv.appendChild(noteInput);
       itemDiv.appendChild(deleteBtn);
-      cartPopup.appendChild(itemDiv);
-
-      total += price;
+      list.appendChild(itemDiv);
     });
 
+    cartPopup.appendChild(list);
+
     const totalDiv = document.createElement("div");
-    totalDiv.textContent = `📦 الإجمالي: ${total}₪`;
+    totalDiv.textContent = `📦 الإجمالي بعد الخصم: ${total}₪`;
     totalDiv.style.marginTop = "10px";
     totalDiv.style.fontWeight = "bold";
     cartPopup.appendChild(totalDiv);
 
+    if (applied.length) {
+      const discountNote = document.createElement("div");
+      discountNote.textContent = `💸 خصومات مفعّلة: ${applied.join(", ")}`;
+      discountNote.style.color = "#4caf50";
+      discountNote.style.marginTop = "6px";
+      cartPopup.appendChild(discountNote);
+    }
+
     const sendBtn = document.createElement("button");
     sendBtn.textContent = "📤 إرسال الطلب";
     Object.assign(sendBtn.style, {
-      marginTop: "10px",
+      marginTop: "12px",
       background: "#4caf50",
       color: "#fff",
       border: "none",
       padding: "6px 12px",
       borderRadius: "4px",
       cursor: "pointer",
+      fontWeight: "bold",
     });
 
     sendBtn.onclick = () => {
-      let msg = `🍕 Pizza Hot – طلب جديد\n------------------\n`;
-      msg += `👤 ${userName || "ضيف"}\n`;
-      if (userAddr) msg += `📍 ${userAddr}\n`;
-      msg += `\n📦 الطلب:\n`;
-
-      cartData.forEach(({ item, price, note }) => {
-        msg += `• ${item} – ${price}₪`;
-        if (note) msg += ` [ملاحظة: ${note}]`;
-        msg += `\n`;
-      });
-
-      msg += `\n------------------\n📦 الإجمالي الكلي: ${total}₪`;
+      const msg = MessageBuilder.build(cartData, userName, userAddr, total, applied);
       const waLink = "https://wa.me/972569788731?text=" + encodeURIComponent(msg);
       window.open(waLink, "_blank");
     };
