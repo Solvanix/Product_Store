@@ -264,6 +264,52 @@
 <script src="https://solvanix.github.io/Product_Store/Pizza_Hot/discountRules.js"></script>
 <script src="https://solvanix.github.io/Product_Store/Pizza_Hot/messageBuilder.js"></script>
 <script src="https://solvanix.github.io/Product_Store/Pizza_Hot/floatingCart.js"></script>
+  <script>
+window.onload = function(){
+  CartCore.init(localStorage.getItem("userName") || "ضيف");
+  CartCore.setCurrentCart("1");
+
+  document.querySelectorAll('.size').forEach(sel => {
+    sel.addEventListener('change', e => {
+      const r = e.target.closest('tr');
+      r.querySelector('.price').textContent = e.target.value + '₪';
+    });
+  });
+
+  document.querySelectorAll('.add-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const row = e.target.closest('tr'),
+            qty = +row.querySelector('.qty').value,
+            sel = row.querySelector('.size'),
+            price = sel ? +sel.value : +row.dataset.price,
+            item = sel ? `${row.dataset.item} (${sel.selectedOptions[0].text})` : row.dataset.item;
+      CartCore.add(item, price, qty);
+      renderCart();
+    });
+  });
+
+  document.getElementById("start-btn").onclick = () => {
+    renderCart();
+  };
+
+  document.getElementById("send-wa").onclick = () => {
+    const cartData = CartCore.getCurrentCart();
+    const rawTotal = CartCore.total();
+    const userName = document.getElementById("user-name").value.trim() || "ضيف";
+    const userAddr = document.getElementById("user-address").value.trim();
+    const coupon = document.getElementById("user-coupon").value.trim();
+    localStorage.setItem("userCoupon", coupon);
+    const { total, applied } = DiscountEngine.apply(rawTotal, cartData, userName, coupon);
+    let msg = MessageBuilder.build(cartData, userName, userAddr, total, applied);
+    msg += `\n📦 قبل الخصم: ${rawTotal}₪`;
+    msg += `\n📦 بعد الخصم: ${total}₪`;
+    if (applied.length) msg += `\n💸 خصومات: ${applied.join(", ")}`;
+    document.getElementById("cart-preview").textContent = msg;
+    window.open("https://wa.me/972569788731?text=" + encodeURIComponent(msg), "_blank");
+  };
+};
+</script>
+
 <div class="footer">
   بلعين – شارع صفا – رام الله<br>
   © 2025 PIZZA HOT — جميع الحقوق محفوظة.
