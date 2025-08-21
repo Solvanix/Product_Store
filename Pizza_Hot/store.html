@@ -137,7 +137,6 @@
           <td><input class="qty" type="number" min="1" value="1"></td>
           <td><button class="add-btn">أضف</button></td>
         </tr>
-        <!-- باقي الأنواع بنفس التنسيق -->
         <tr data-item="بيتزا خضار"><td>بيتزا خضار</td>
           <td><select class="size">
             <option value="50">XL – 50₪</option>
@@ -260,11 +259,11 @@
   <button id="send-wa" style="width:100%;background:#4caf50;color:#fff;border:none;padding:6px;border-radius:4px">📤 إرسال الطلب</button>
   <div id="cart-preview" style="margin-top:12px;font-size:0.95rem;color:#333;white-space:pre-line"></div>
 </div>
-<script src="cartCore.js"></script>
-<script src="discountEngine.js"></script>
-<script src="discountRules.js"></script>
-<script src="messageBuilder.js"></script>
-<script src="floatingCart.js"></script>
+<script src="https://raw.githubusercontent.com/Solvanix/Product_Store/main/Pizza_Hot/cart.js"></script>
+<script src="https://raw.githubusercontent.com/Solvanix/Product_Store/main/Pizza_Hot/discountEngine.js"></script>
+<script src="https://raw.githubusercontent.com/Solvanix/Product_Store/main/Pizza_Hot/discountRules.js"></script>
+<script src="https://raw.githubusercontent.com/Solvanix/Product_Store/main/Pizza_Hot/messageBuilder.js"></script>
+<script src="https://raw.githubusercontent.com/Solvanix/Product_Store/main/Pizza_Hot/floatingCart.js"></script>
 <script>
 window.onload = function(){
   CartCore.init(localStorage.getItem("userName") || "ضيف");
