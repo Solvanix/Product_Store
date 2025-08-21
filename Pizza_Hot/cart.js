@@ -5,7 +5,7 @@ let cartData = JSON.parse(localStorage.getItem(key) || "[]");
 
 function addToCart(item, price, qty = 1) {
   for (let i = 0; i < qty; i++) {
-    cartData.push({ item, price });
+    cartData.push({ item, price, note: "" }); // إضافة حقل الملاحظة
   }
   localStorage.setItem(key, JSON.stringify(cartData));
   renderCart();
@@ -15,7 +15,6 @@ function renderCart() {
   const list = document.getElementById("cart-items");
   const totalEl = document.getElementById("cart-total");
   const waLink = document.getElementById("whatsapp-link");
-  const noteInput = document.getElementById("cart-note");
   if (!list || !totalEl || !waLink) return;
 
   list.innerHTML = "";
@@ -28,25 +27,36 @@ function renderCart() {
   if (userAddr) msg += `📍 ${userAddr}\n`;
   msg += `\n📦 الطلب:\n`;
 
-  cartData.forEach(({ item, price }) => {
+  cartData.forEach(({ item, price, note }, index) => {
     const li = document.createElement("li");
-    li.textContent = `${item} – ${price}₪`;
-    list.appendChild(li);
-    total += price;
 
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = `${item} – ${price}₪`;
+
+    const noteInput = document.createElement("input");
+    noteInput.type = "text";
+    noteInput.placeholder = "ملاحظات؟";
+    noteInput.value = note || "";
+    noteInput.oninput = (e) => {
+      cartData[index].note = e.target.value;
+      localStorage.setItem(key, JSON.stringify(cartData));
+    };
+
+    li.appendChild(nameSpan);
+    li.appendChild(noteInput);
+    list.appendChild(li);
+
+    total += price;
     if (item.includes("عرض")) {
       promoTotal += price;
     } else {
       regularTotal += price;
     }
 
-    msg += `• ${item} – ${price}₪\n`;
+    msg += `• ${item} – ${price}₪`;
+    if (note) msg += ` [ملاحظة: ${note}]`;
+    msg += `\n`;
   });
-
-  const userNote = noteInput ? noteInput.value.trim() : "";
-  if (userNote) {
-    msg += `\n📝 ملاحظات: ${userNote}\n`;
-  }
 
   msg += `\n------------------\n`;
   if (promoTotal > 0) msg += `🎯 إجمالي العروض: ${promoTotal}₪\n`;
