@@ -110,42 +110,6 @@
       border-top: 1px dashed #ccc;
       background: #f9f9f9;
     }
-    .cart-tab ul {
-      padding: 0;
-      list-style: none;
-      margin: 10px 0;
-    }
-    .cart-tab li {
-      margin-bottom: 6px;
-      font-size: 0.95rem;
-    }
-    .cart-tab .btn {
-      display: inline-block;
-      margin: 6px 4px;
-      padding: 6px 10px;
-      background: #25d366;
-      color: #fff;
-      border-radius: 6px;
-      text-decoration: none;
-    }
-    .cart-tab .btn.card {
-      background: #007bff;
-    }
-    .cart-tab .remove-item {
-      background: none;
-      border: none;
-      color: #b22222;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-    .cart-tab strong {
-      display: block;
-      margin-bottom: 6px;
-    }
-    .active {
-      background: #f2c785;
-      color: #000 !important;
-    }
   </style>
 </head>
 <body>
@@ -163,7 +127,15 @@
     <h2>🍕 قائمة البيتزا</h2>
     <div class="table-wrapper">
       <table id="pizza-menu">
-        <thead><tr><th>النوع</th><th>الحجم</th><th>السعر</th><th>كمية</th><th>أضف</th></tr></thead>
+        <thead>
+          <tr>
+            <th>النوع</th>
+            <th>الحجم</th>
+            <th>السعر</th>
+            <th>الكمية</th>
+            <th>أضف</th>
+          </tr>
+        </thead>
         <tbody>
           <tr data-item="بيتزا دجاج">
             <td>بيتزا دجاج</td>
@@ -321,19 +293,21 @@
     </div>
   </div>
 
-  <!-- 🛒 السلة الجانبية -->
-  <div id="cart-manager" style="position:fixed;bottom:10px;left:10px;width:320px;background:#fff;padding:12px;border:1px solid #ccc;border-radius:6px;z-index:20">
-    <input id="user-name" placeholder="اسمك (اختياري)" />
-    <input id="user-address" placeholder="العنوان/هاتف (اختياري)" />
-    <button id="start-btn">☑ بدء الطلب</button>
+  <!-- 🛒 السلة الجانبية + معاينة دائمة -->
+  <div id="cart-manager" style="position:fixed;bottom:10px;left:10px;width:340px;background:#fff;padding:12px;border:1px solid #ccc;border-radius:6px;z-index:20;box-shadow:0 0 10px rgba(0,0,0,0.1)">
+    <input id="user-name" placeholder="اسمك (اختياري)" style="width:100%;margin-bottom:6px" />
+    <input id="user-address" placeholder="العنوان/هاتف (اختياري)" style="width:100%;margin-bottom:6px" />
+    <button id="start-btn" style="width:100%;margin-bottom:10px">☑ بدء الطلب</button>
     <div id="cart-controls" style="display:none">
       <button id="add-cart">➕ سلة جديدة</button>
       <input id="cart-name" placeholder="اسم السلة" />
       <button id="save-cart">💾 حفظ</button>
       <select id="load-cart"></select>
       <button id="delete-cart">🗑️ حذف</button>
-      <div id="cart-tabs"></div>
+      <div id="cart-tabs" style="margin-top:10px"></div>
     </div>
+    <!-- معاينة دائمة للسلة -->
+    <div id="cart-preview" style="margin-top:12px;font-size:0.95rem;color:#333"></div>
   </div>
 <script>
   let userName = '', userAddr = '', key = '', carts = {}, cur = null;
@@ -347,7 +321,8 @@
         loadSel = document.getElementById('load-cart'),
         delBtn = document.getElementById('delete-cart'),
         tabsDiv = document.getElementById('cart-tabs'),
-        mgr = document.getElementById('cart-manager');
+        mgr = document.getElementById('cart-manager'),
+        preview = document.getElementById('cart-preview');
 
   function loadData(){
     userName = localStorage.getItem('userName')||'';
@@ -407,9 +382,9 @@
       : '';
 
     let sum = 0;
-    let msg = `مرحبًا ${userName||'ضيف'}%0A`;
-    if(userAddr) msg += `📍 ${userAddr}%0A`;
-    msg += `🧺 الطلب:%0A`;
+    let msg = `مرحبًا ${userName || 'ضيف'}\n`;
+    if (userAddr) msg += `📍 ${userAddr}\n`;
+    msg += `🧺 الطلب:\n`;
 
     const sections = { pizza: [], sides: [], drinks: [], other: [] };
 
@@ -431,10 +406,10 @@
       else sections.other.push(`• ${it.item} ×${it.qty} – ${lt}₪`);
     });
 
-    if(sections.pizza.length) msg += sections.pizza.join('%0A') + '%0A';
-    if(sections.sides.length) msg += sections.sides.join('%0A') + '%0A';
-    if(sections.drinks.length) msg += sections.drinks.join('%0A') + '%0A';
-    if(sections.other.length) msg += sections.other.join('%0A') + '%0A';
+    if(sections.pizza.length) msg += sections.pizza.join('\n') + '\n';
+    if(sections.sides.length) msg += sections.sides.join('\n') + '\n';
+    if(sections.drinks.length) msg += sections.drinks.join('\n') + '\n';
+    if(sections.other.length) msg += sections.other.join('\n') + '\n';
 
     msg += `📦 الإجمالي: ${sum}₪`;
 
@@ -442,6 +417,8 @@
     wa.href = 'https://wa.me/972569788731?text=' + encodeURIComponent(msg);
     cd.href = 'https://your-gateway.com/pay?cart=' + encodeURIComponent(msg);
     loadSel.value = name;
+
+    preview.textContent = msg;
   }
 
   addBtn.onclick = ()=>{
