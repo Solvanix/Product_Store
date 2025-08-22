@@ -352,11 +352,17 @@
     </table>
   </div>
 </div>
+<div class="section">
+  <h2>🎁 كود خصم اليوم</h2>
+  <div id="daily-coupon-box" style="font-family:monospace;font-size:1.2rem;color:#b22222;text-align:center">—</div>
+</div>
+
 <div id="cart-manager" style="position:fixed;bottom:10px;left:10px;width:340px;background:#fff;padding:12px;border:1px solid #ccc;border-radius:6px;z-index:20;box-shadow:0 0 10px rgba(0,0,0,0.1)">
   <input id="user-name" placeholder="اسمك (اختياري)" style="width:100%;margin-bottom:6px" />
   <input id="user-address" placeholder="العنوان/هاتف (اختياري)" style="width:100%;margin-bottom:6px" />
-  <input id="user-coupon" placeholder="🎟️ رمز الخصم (FB10)" style="width:100%;margin-bottom:6px" />
-  <button id="start-btn" style="width:100%;margin-bottom:10px">☑ بدء الطلب</button>
+  <input id="user-coupon" placeholder="🎟️ رمز الخصم (FB10 أو الكود اليومي)" style="width:100%;margin-bottom:6px" />
+  <button id="start-btn" style="width:100%;margin-bottom:10px">☑ معاينة الطلب</button>
+  <button id="clear-cart" style="width:100%;margin-bottom:10px;background:#f44336;color:#fff;border:none;padding:6px;border-radius:4px">🗑️ تفريغ السلة</button>
   <button id="send-wa" style="width:100%;background:#4caf50;color:#fff;border:none;padding:6px;border-radius:4px">📤 إرسال الطلب</button>
   <div id="cart-preview" style="margin-top:12px;font-size:0.95rem;color:#333;white-space:pre-line"></div>
 </div>
@@ -364,11 +370,11 @@
 <script src="discountEngine.js"></script>
 <script src="discountRules.js"></script>
 <script src="messageBuilder.js"></script>
-<script src="floatingCart.js"></script>
+<script src="dailyCoupon.js"></script>
+
 <script>
 window.onload = function(){
   CartCore.init(localStorage.getItem("userName") || "ضيف");
-  CartCore.setCurrentCart("1");
 
   document.querySelectorAll('.size').forEach(sel => {
     sel.addEventListener('change', updateTotal);
@@ -383,7 +389,7 @@ window.onload = function(){
     const sel = r.querySelector('.size');
     const qty = +r.querySelector('.qty').value;
     const price = sel ? +sel.value : +r.dataset.price;
-    r.querySelector('.price').textContent = price + '₪';
+    r.querySelector('.price')?.textContent = price + '₪';
     r.querySelector('.total-cell').textContent = (price * qty) + '₪';
   }
 
@@ -395,11 +401,15 @@ window.onload = function(){
             price = sel ? +sel.value : +row.dataset.price,
             item = sel ? `${row.dataset.item} (${sel.selectedOptions[0].text})` : row.dataset.item;
       CartCore.add(item, price, qty);
+      CartCore.save();
       renderCart();
     });
   });
 
-  document.getElementById("start-btn").onclick = () => {
+  document.getElementById("start-btn").onclick = renderCart;
+
+  document.getElementById("clear-cart").onclick = () => {
+    CartCore.clear();
     renderCart();
   };
 
@@ -410,7 +420,7 @@ window.onload = function(){
     const userAddr = document.getElementById("user-address").value.trim();
     const coupon = document.getElementById("user-coupon").value.trim();
     localStorage.setItem("userCoupon", coupon);
-    const { total, applied } = DiscountEngine.apply(rawTotal, cartData, userName, coupon);
+    const { total, applied } = DiscountEngine.apply(rawTotal, cartData, userName);
     let msg = MessageBuilder.build(cartData, userName, userAddr, total, applied);
     msg += `\n📦 قبل الخصم: ${rawTotal}₪`;
     msg += `\n📦 بعد الخصم: ${total}₪`;
