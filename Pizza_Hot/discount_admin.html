@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>🎛️ إدارة الخصومات – PIZZA HOT</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box }
+    body {
+      margin: 0;
+      font-family: 'Tajawal', sans-serif;
+      background: #f4f6f7;
+      color: #2c3e50;
+      line-height: 1.6;
+    }
+    header {
+      background: #2c3e50;
+      color: #fff;
+      text-align: center;
+      padding: 14px;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    h2 {
+      text-align: center;
+      color: #34495e;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin: 10px 0 4px;
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    button {
+      background: #2c3e50;
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:hover {
+      background: #34495e;
+    }
+    .hidden {
+      display: none;
+    }
+    .alert {
+      background: #fef9e7;
+      border: 1px solid #f9e79f;
+      padding: 10px;
+      border-radius: 6px;
+      color: #7d6608;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<header>🎛️ إدارة الخصومات – PIZZA HOT</header>
+<div class="container">
+  <div id="auth-box">
+    <h2>🔐 الدخول للوحة التحكم</h2>
+    <label for="admin-code">الرمز السري:</label>
+    <input type="password" id="admin-code" placeholder="••••••••">
+    <button onclick="verifyCode()">دخول</button>
+    <div id="auth-alert" class="alert hidden">❌ الرمز غير صحيح</div>
+  </div>
+
+  <div id="discount-panel" class="hidden">
+    <h2>➕ إضافة قاعدة خصم جديدة</h2>
+    <label for="rule-name">اسم القاعدة:</label>
+    <input id="rule-name" placeholder="مثال: خصم الجمعة">
+
+    <label for="rule-type">نوع الخصم:</label>
+    <select id="rule-type">
+      <option value="percentage">نسبة مئوية</option>
+      <option value="fixed">قيمة ثابتة</option>
+    </select>
+
+    <label for="rule-value">قيمة الخصم:</label>
+    <input id="rule-value" type="number" placeholder="مثال: 10 أو 0.15">
+
+    <label for="rule-condition">شرط التفعيل (رمزي):</label>
+    <textarea id="rule-condition" rows="3" placeholder="مثال: total > 200 أو new Date().getDay() === 5"></textarea>
+
+    <label for="rule-priority">أولوية التفعيل:</label>
+    <input id="rule-priority" type="number" placeholder="مثال: 90">
+
+    <button onclick="addRule()">📥 إضافة القاعدة</button>
+    <div id="add-alert" class="alert hidden">✅ تم تسجيل القاعدة مؤقتًا</div>
+  </div>
+</div>
+<script>
+const ADMIN_SECRET = "pizza2025"; // الرمز السري الرمزي
+let discountRules = [];
+
+function verifyCode() {
+  const input = document.getElementById("admin-code").value.trim();
+  const alertBox = document.getElementById("auth-alert");
+  if (input === ADMIN_SECRET) {
+    document.getElementById("auth-box").classList.add("hidden");
+    document.getElementById("discount-panel").classList.remove("hidden");
+  } else {
+    alertBox.classList.remove("hidden");
+    alertBox.textContent = "❌ الرمز غير صحيح";
+  }
+}
+
+function addRule() {
+  const name = document.getElementById("rule-name").value.trim();
+  const type = document.getElementById("rule-type").value;
+  const value = parseFloat(document.getElementById("rule-value").value);
+  const condition = document.getElementById("rule-condition").value.trim();
+  const priority = parseInt(document.getElementById("rule-priority").value);
+
+  if (!name || isNaN(value) || !condition || isNaN(priority)) {
+    alert("⚠️ الرجاء تعبئة جميع الحقول بشكل صحيح.");
+    return;
+<div id="rules-list" class="hidden">
+  <h2>📋 القواعد المسجلة</h2>
+  <div id="rules-output" style="background:#f4f6f7;border:1px dashed #ccc;padding:10px;border-radius:6px;font-family:monospace;white-space:pre-line"></div>
+</div>
+function showRules() {
+  const box = document.getElementById("rules-list");
+  const output = document.getElementById("rules-output");
+  const stored = localStorage.getItem("customDiscountRules");
+  if (!stored) {
+    output.textContent = "لا توجد قواعد مسجلة بعد.";
+    box.classList.remove("hidden");
+    return;
+  }
+
+  const rules = JSON.parse(stored);
+  if (!rules.length) {
+    output.textContent = "لا توجد قواعد مسجلة بعد.";
+  } else {
+    output.textContent = rules.map((r, i) => {
+      return `🔹 [${i+1}] ${r.name}\n• النوع: ${r.type}\n• القيمة: ${r.value}\n• الشرط: ${r.condition}\n• الأولوية: ${r.priority}\n• المصدر: ${r.source}`;
+    }).join("\n\n");
+  }
+  box.classList.remove("hidden");
+}
+<button onclick="showRules()">📂 عرض القواعد المسجلة</button>
