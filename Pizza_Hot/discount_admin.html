@@ -53,13 +53,10 @@
     button:hover {
       background: #34495e;
     }
-    .rules-box {
-      margin-top: 30px;
-    }
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 10px;
+      margin-top: 20px;
     }
     th, td {
       border: 1px solid #ccc;
@@ -69,13 +66,6 @@
     th {
       background: #2c3e50;
       color: #fff;
-    }
-    .code {
-      font-family: monospace;
-      background: #f0f0f0;
-      padding: 6px;
-      border-radius: 4px;
-      user-select: all;
     }
   </style>
 </head>
@@ -87,10 +77,10 @@
   <button onclick="verifyCode()">دخول</button>
   <div id="panel" style="display:none">
     <label>📛 اسم القاعدة:</label>
-    <input id="rule-name" placeholder="مثال: خصم الجمعة">
+    <input id="rule-name">
 
     <label>📄 شرح مختصر:</label>
-    <textarea id="rule-description" rows="2" placeholder="مثال: خصم خاص بمناسبة الجمعة أو رمضان"></textarea>
+    <textarea id="rule-description" rows="2"></textarea>
 
     <label>📊 نوع الخصم:</label>
     <select id="rule-type">
@@ -99,39 +89,35 @@
     </select>
 
     <label>💰 قيمة الخصم:</label>
-    <input id="rule-value" type="number" placeholder="مثال: 0.1 أو 20">
+    <input id="rule-value" type="number">
 
     <label>🧠 شرط التفعيل (رمزي):</label>
-    <textarea id="rule-condition" rows="2" placeholder="مثال: total > 200 أو new Date().getDay() === 5"></textarea>
+    <textarea id="rule-condition" rows="2"></textarea>
 
     <label>📌 أولوية التفعيل:</label>
-    <input id="rule-priority" type="number" placeholder="مثال: 90">
+    <input id="rule-priority" type="number">
 
     <label>🎟️ كود التفعيل (اختياري):</label>
-    <input id="rule-code" placeholder="مثال: EID10 أو FRIDAY25">
+    <input id="rule-code">
 
     <label>🔗 رابط المنشور أو الصفحة:</label>
-    <input id="rule-link" placeholder="مثال: https://facebook.com/post/123">
+    <input id="rule-link">
 
     <button onclick="addRule()">📥 إضافة القاعدة</button>
     <button onclick="generateRulesFile()">📤 توليد ملف الخصومات</button>
-
-    <div class="rules-box">
-      <h2>📋 القواعد المسجلة:</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>الاسم</th><th>القيمة</th><th>الوصف</th><th>الكود</th><th>الرابط</th><th>الحالة</th><th>تعديل</th><th>حذف</th>
-          </tr>
-        </thead>
-        <tbody id="rules-body"></tbody>
-      </table>
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>الاسم</th><th>القيمة</th><th>الوصف</th><th>الكود</th><th>الرابط</th><th>الحالة</th><th>✏️</th><th>🗑️</th>
+        </tr>
+      </thead>
+      <tbody id="rules-body"></tbody>
+    </table>
   </div>
 </div>
 <script>
 const ADMIN_SECRET = "pizza2025";
-let discountRules = JSON.parse(localStorage.getItem("customDiscountRules") || "[]");
+let discountRules = [];
 
 function verifyCode() {
   const input = document.getElementById("admin-code").value.trim();
@@ -139,6 +125,74 @@ function verifyCode() {
     document.getElementById("panel").style.display = "block";
   } else {
     alert("❌ الرمز غير صحيح");
+  }
+}
+
+function injectDefaultRules() {
+  if (!localStorage.getItem("customDiscountRules")) {
+    discountRules = [
+      {
+        name: "خصم الجمعة",
+        description: "خصم أسبوعي يوم الجمعة",
+        type: "percentage",
+        value: 0.05,
+        condition: "new Date().getDay() === 5",
+        priority: 90,
+        code: "FRIDAY5",
+        link: "",
+        source: "default",
+        active: true
+      },
+      {
+        name: "خصم رمضان",
+        description: "خصم موسمي في رمضان",
+        type: "percentage",
+        value: 0.1,
+        condition: "new Date().getMonth() === 8",
+        priority: 88,
+        code: "RAMADAN10",
+        link: "",
+        source: "default",
+        active: true
+      },
+      {
+        name: "خصم الاستلام من المحل",
+        description: "خصم خاص عند الاستلام من الفرع",
+        type: "percentage",
+        value: 0.1,
+        condition: "channel === 'instore'",
+        priority: 95,
+        code: "INSTORE10",
+        link: "",
+        source: "default",
+        active: true
+      },
+      {
+        name: "خصم الحجز عبر واتساب",
+        description: "خصم 10% على الناتج النهائي بعد الخصومات الأخرى",
+        type: "percentage",
+        value: 0.1,
+        condition: "channel === 'instore' && bookedVia === 'whatsapp'",
+        priority: 99,
+        code: "WH10",
+        link: "",
+        source: "default",
+        active: true
+      },
+      {
+        name: "كود خصم خاص",
+        description: "خصم مميز عبر كود يُنشر على فيسبوك",
+        type: "fixed",
+        value: 25,
+        condition: "coupon1 === 'FB25' && new Date().getDay() !== 5",
+        priority: 89,
+        code: "FB25",
+        link: "https://facebook.com/post/123456789",
+        source: "default",
+        active: true
+      }
+    ];
+    localStorage.setItem("customDiscountRules", JSON.stringify(discountRules));
   }
 }
 
@@ -215,7 +269,7 @@ function editRule(index) {
   document.getElementById("rule-priority").value = r.priority;
   document.getElementById("rule-code").value = r.code;
   document.getElementById("rule-link").value = r.link;
-  deleteRule(index); // نحذف القديمة وننتظر إعادة الإضافة
+  deleteRule(index);
 }
 
 function generateRulesFile() {
@@ -224,7 +278,7 @@ function generateRulesFile() {
   name: "${r.name}",
   priority: ${r.priority},
   source: "${r.source}",
-  conditionFn: function(total, cart, user, channel) {
+  conditionFn: function(total, cart, user, channel, coupon1, bookedVia, desiredHour) {
     return ${r.condition};
   },
   applyFn: function(total) {
@@ -238,7 +292,11 @@ function generateRulesFile() {
   alert("✅ تم توليد الكود في Console — انسخه إلى ملف discountRules.js");
 }
 
-window.onload = renderRules;
+window.onload = function() {
+  injectDefaultRules();
+  discountRules = JSON.parse(localStorage.getItem("customDiscountRules") || "[]");
+  renderRules();
+};
 </script>
 </body>
 </html>
