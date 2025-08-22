@@ -106,11 +106,18 @@
     <input id="rule-priority" type="number" placeholder="مثال: 90">
 
     <button onclick="addRule()">📥 إضافة القاعدة</button>
+    <button onclick="showRules()">📂 عرض القواعد المسجلة</button>
     <div id="add-alert" class="alert hidden">✅ تم تسجيل القاعدة مؤقتًا</div>
+
+    <div id="rules-list" class="hidden">
+      <h2>📋 القواعد المسجلة</h2>
+      <div id="rules-output" style="background:#f4f6f7;border:1px dashed #ccc;padding:10px;border-radius:6px;font-family:monospace;white-space:pre-line"></div>
+    </div>
   </div>
 </div>
+
 <script>
-const ADMIN_SECRET = "pizza2025"; // الرمز السري الرمزي
+const ADMIN_SECRET = "pizza2025";
 let discountRules = [];
 
 function verifyCode() {
@@ -135,10 +142,29 @@ function addRule() {
   if (!name || isNaN(value) || !condition || isNaN(priority)) {
     alert("⚠️ الرجاء تعبئة جميع الحقول بشكل صحيح.");
     return;
-<div id="rules-list" class="hidden">
-  <h2>📋 القواعد المسجلة</h2>
-  <div id="rules-output" style="background:#f4f6f7;border:1px dashed #ccc;padding:10px;border-radius:6px;font-family:monospace;white-space:pre-line"></div>
-</div>
+  }
+
+  const rule = {
+    name,
+    type,
+    value,
+    condition,
+    priority,
+    source: "manual"
+  };
+
+  discountRules.push(rule);
+  localStorage.setItem("customDiscountRules", JSON.stringify(discountRules));
+
+  document.getElementById("add-alert").classList.remove("hidden");
+  document.getElementById("add-alert").textContent = "✅ تم تسجيل القاعدة مؤقتًا";
+
+  document.getElementById("rule-name").value = "";
+  document.getElementById("rule-value").value = "";
+  document.getElementById("rule-condition").value = "";
+  document.getElementById("rule-priority").value = "";
+}
+
 function showRules() {
   const box = document.getElementById("rules-list");
   const output = document.getElementById("rules-output");
@@ -159,4 +185,6 @@ function showRules() {
   }
   box.classList.remove("hidden");
 }
-<button onclick="showRules()">📂 عرض القواعد المسجلة</button>
+</script>
+</body>
+</html>
