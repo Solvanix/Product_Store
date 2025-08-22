@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -417,6 +417,10 @@ window.onload = function(){
 
   document.getElementById("send-wa").onclick = () => {
     const cartData = CartCore.getCurrentCart();
+    if (cartData.length === 0) {
+      alert("⚠️ لا يمكن إرسال طلب فارغ.");
+      return;
+    }
     const rawTotal = CartCore.total();
     const userName = document.getElementById("user-name").value.trim() || "ضيف";
     const userAddr = document.getElementById("user-address").value.trim();
