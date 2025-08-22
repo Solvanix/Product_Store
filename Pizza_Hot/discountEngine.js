@@ -10,10 +10,16 @@ const DiscountEngine = (() => {
       if (!rule.active) return;
 
       try {
-        const conditionFn = new Function("total", "cart", "user", "coupon1", "coupon2", "channel", "orderDate", "bookedVia", "desiredHour", `return ${rule.condition};`);
+        const conditionFn = new Function(
+          "total", "cart", "user", "coupon1", "coupon2", "channel", "orderDate", "bookedVia", "desiredHour",
+          `return ${rule.condition};`
+        );
+
         const applyFn = rule.value === "dynamic"
           ? new Function("total", "cart", "user", "coupon1", "coupon2", "channel", "orderDate", "bookedVia", "desiredHour", `return ${rule.applyFn};`)
-          : new Function("total", "cart", "user", "coupon1", "coupon2", "channel", "orderDate", "bookedVia", "desiredHour", `return ${rule.type === "percentage" ? `total * ${rule.value}` : `${rule.value}`};`);
+          : new Function("total", "cart", "user", "coupon1", "coupon2", "channel", "orderDate", "bookedVia", "desiredHour",
+              `return ${rule.type === "percentage" ? `total * ${rule.value}` : `${rule.value}`};`
+            );
 
         addRule({
           name: rule.name,
@@ -48,7 +54,7 @@ const DiscountEngine = (() => {
 
         const isCouponRule = !!rule.code;
         const isPrimary = isCouponRule && rule.code === coupon1;
-        const isSecondary = isCouponRule && rule.code === coupon2;
+        const isSecondary = isCouponRule && rule.code === coupon2 && rule.code !== coupon1;
 
         // أولوية الحجز المسبق عبر واتساب
         if (rule.code === "WH10" && !primaryApplied) {
