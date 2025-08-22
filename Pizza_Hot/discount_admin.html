@@ -51,7 +51,9 @@
       <option value="fixed">قيمة ثابتة</option>
     </select>
     <label>💰 قيمة الخصم:</label>
-    <input id="rule-value" type="number">
+    <input id="rule-value">
+    <label>🧮 دالة الخصم المتغير (applyFn):</label>
+    <textarea id="rule-applyfn" rows="2" placeholder="مثال: total < 80 ? total * 0.15 : total * 0.04"></textarea>
     <label>🧠 شرط التفعيل (رمزي):</label>
     <textarea id="rule-condition" rows="2"></textarea>
     <label>📌 أولوية التفعيل:</label>
@@ -75,20 +77,6 @@
   </div>
 </div>
 
-<details style="margin-top:30px; background:#eef; padding:10px; border-radius:6px;">
-  <summary style="cursor:pointer; font-weight:bold;">📘 كتيب الاستخدام الرمزي للصفحة</summary>
-  <ul style="margin-top:10px; line-height:1.6">
-    <li>🔐 أدخل الرمز السري لفتح لوحة التحكم.</li>
-    <li>📥 أضف قاعدة خصم جديدة عبر تعبئة النموذج ثم الضغط على "إضافة القاعدة".</li>
-    <li>✏️ لتعديل قاعدة موجودة، اضغط على أيقونة التعديل، ثم عدّل البيانات واضغط "💾 حفظ التعديل".</li>
-    <li>🗑️ لحذف قاعدة، اضغط على أيقونة الحذف بجانبها.</li>
-    <li>✅ لتعليق أو تفعيل قاعدة، استخدم زر الحالة في الجدول.</li>
-    <li>📦 بعد الانتهاء، اضغط "ترحيل القواعد رسميًا إلى rules.json" لتنزيل نسخة رسمية قابلة للرفع إلى GitHub.</li>
-    <li style="color:#999">📤 زر توليد الكود مخصص للمطورين فقط، ويُوصى بعدم استخدامه في التشغيل الفعلي.</li>
-    <li>🔗 استخدم الرابط في الأعلى للانتقال إلى صفحة تنفيذ الطلبات <code>store.html</code>.</li>
-    <li>⚠️ تذكير: كل تعديل هنا يؤثر مباشرة على طريقة احتساب السعر النهائي في السلة العامة، بما في ذلك الرسائل النصية المرسلة إلى واتساب.</li>
-  </ul>
-</details>
 <script>
 const ADMIN_SECRET = "pizza2025";
 const RULES_URL = "https://solvanix.github.io/Product_Store/Pizza_Hot/rules.json";
@@ -108,7 +96,7 @@ function addRule() {
     name: document.getElementById("rule-name").value.trim(),
     description: document.getElementById("rule-description").value.trim(),
     type: document.getElementById("rule-type").value,
-    value: parseFloat(document.getElementById("rule-value").value),
+    value: document.getElementById("rule-value").value.trim(),
     condition: document.getElementById("rule-condition").value.trim(),
     priority: parseInt(document.getElementById("rule-priority").value),
     code: document.getElementById("rule-code").value.trim(),
@@ -117,7 +105,13 @@ function addRule() {
     active: true
   };
 
-  if (!rule.name || isNaN(rule.value) || !rule.condition || isNaN(rule.priority)) {
+  if (rule.value === "dynamic") {
+    rule.applyFn = document.getElementById("rule-applyfn").value.trim();
+  } else {
+    rule.value = parseFloat(rule.value);
+  }
+
+  if (!rule.name || isNaN(rule.value) && rule.value !== "dynamic" || !rule.condition || isNaN(rule.priority)) {
     alert("⚠️ الرجاء تعبئة الحقول الأساسية بشكل صحيح.");
     return;
   }
@@ -128,7 +122,7 @@ function addRule() {
 }
 
 function clearInputs() {
-  ["rule-name","rule-description","rule-value","rule-condition","rule-priority","rule-code","rule-link"]
+  ["rule-name","rule-description","rule-value","rule-condition","rule-priority","rule-code","rule-link","rule-applyfn"]
     .forEach(id => document.getElementById(id).value = "");
 }
 
@@ -157,7 +151,7 @@ function toggleRule(index) {
 }
 
 function deleteRule(index) {
-  if (confirm("❌ هل تريد حذف هذه القاعدة؟")) {
+    if (confirm("❌ هل تريد حذف هذه القاعدة؟")) {
     discountRules.splice(index, 1);
     renderRules();
   }
@@ -173,17 +167,19 @@ function editRule(index) {
   document.getElementById("rule-priority").value = r.priority;
   document.getElementById("rule-code").value = r.code;
   document.getElementById("rule-link").value = r.link;
+  document.getElementById("rule-applyfn").value = r.applyFn || "";
   document.getElementById("save-edit").style.display = "inline-block";
   document.getElementById("save-edit").setAttribute("data-index", index);
 }
 
 function saveEdit() {
   const index = parseInt(document.getElementById("save-edit").getAttribute("data-index"));
-  discountRules[index] = {
+  const valueInput = document.getElementById("rule-value").value.trim();
+  const rule = {
     name: document.getElementById("rule-name").value.trim(),
     description: document.getElementById("rule-description").value.trim(),
     type: document.getElementById("rule-type").value,
-    value: parseFloat(document.getElementById("rule-value").value),
+    value: valueInput === "dynamic" ? "dynamic" : parseFloat(valueInput),
     condition: document.getElementById("rule-condition").value.trim(),
     priority: parseInt(document.getElementById("rule-priority").value),
     code: document.getElementById("rule-code").value.trim(),
@@ -191,6 +187,12 @@ function saveEdit() {
     source: "manual",
     active: true
   };
+
+  if (valueInput === "dynamic") {
+    rule.applyFn = document.getElementById("rule-applyfn").value.trim();
+  }
+
+  discountRules[index] = rule;
   clearInputs();
   renderRules();
   document.getElementById("save-edit").style.display = "none";
