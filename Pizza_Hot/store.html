@@ -122,7 +122,141 @@
   <h1>📋 متجر PIZZA HOT</h1>
 
   <!-- هنا يتم إدراج الكتالوج الكامل كما أرسلته سابقًا -->
+  <div class="section">
+  <h2>🍕 قائمة البيتزا</h2>
+  <div class="table-wrapper">
+    <table id="pizza-menu">
+      <thead><tr><th>النوع</th><th>الحجم</th><th>السعر</th><th>الكمية</th><th>أضف</th></tr></thead>
+      <tbody>
+        <tr data-item="بيتزا دجاج"><td>بيتزا دجاج</td>
+          <td><select class="size">
+            <option value="65">XL – 65₪</option>
+            <option value="45">L – 45₪</option>
+            <option value="33">M – 33₪</option>
+            <option value="17">S – 17₪</option>
+          </select></td>
+          <td><span class="price">65₪</span></td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="بيتزا خضار"><td>بيتزا خضار</td>
+          <td><select class="size">
+            <option value="50">XL – 50₪</option>
+            <option value="38">L – 38₪</option>
+            <option value="20">M – 20₪</option>
+            <option value="14">S – 14₪</option>
+          </select></td>
+          <td><span class="price">50₪</span></td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="بيتزا سلامي"><td>بيتزا سلامي</td>
+          <td><select class="size">
+            <option value="55">XL – 55₪</option>
+            <option value="40">L – 40₪</option>
+            <option value="23">M – 23₪</option>
+            <option value="15">S – 15₪</option>
+          </select></td>
+          <td><span class="price">55₪</span></td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="بيتزا نقانق"><td>بيتزا نقانق</td>
+          <td><select class="size">
+            <option value="55">XL – 55₪</option>
+            <option value="40">L – 40₪</option>
+            <option value="23">M – 23₪</option>
+            <option value="15">S – 15₪</option>
+          </select></td>
+          <td><span class="price">55₪</span></td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="بيتزا تونة"><td>بيتزا تونة</td>
+          <td><select class="size">
+            <option value="55">XL – 55₪</option>
+            <option value="40">L – 40₪</option>
+            <option value="23">M – 23₪</option>
+            <option value="15">S – 15₪</option>
+          </select></td>
+          <td><span class="price">55₪</span></td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="بيتزا مارجريتا"><td>بيتزا مارجريتا</td>
+          <td><select class="size">
+            <option value="50">XL – 50₪</option>
+            <option value="38">L – 38₪</option>
+            <option value="20">M – 20₪</option>
+            <option value="14">S – 14₪</option>
+          </select></td>
+          <td><span class="price">50₪</span></td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="كلزوني"><td>كلزوني</td>
+          <td><select class="size">
+            <option value="60">XL – 60₪</option>
+            <option value="40">L – 40₪</option>
+            <option value="32">M – 32₪</option>
+            <option value="16">S – 16₪</option>
+          </select></td>
+          <td><span class="price">60₪</span></td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
   <!-- بيتزا، جوانب، مشروبات -->
+  <div class="section">
+  <h2>🍟 أطباق جانبية</h2>
+  <div class="table-wrapper">
+    <table id="sides-menu">
+      <thead><tr><th>الصنف</th><th>السعر</th><th>الكمية</th><th>أضف</th></tr></thead>
+      <tbody>
+        <tr data-item="بطاطا صغير" data-price="5"><td>بطاطا صغير</td><td>5₪</td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="بطاطا كبير" data-price="10"><td>بطاطا كبير</td><td>10₪</td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="زنجر صغير" data-price="12"><td>زنجر صغير</td><td>12₪</td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="زنجر كبير" data-price="25"><td>زنجر كبير</td><td>25₪</td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section">
+  <h2>🥤 مشروبات</h2>
+  <div class="table-wrapper">
+    <table id="drinks-menu">
+      <thead><tr><th>المشروب</th><th>السعر</th><th>الكمية</th><th>أضف</th></tr></thead>
+      <tbody>
+        <tr data-item="كولا 1.25 لتر" data-price="4"><td>كولا 1.25 لتر</td><td>4₪</td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="كولا 2 لتر" data-price="6"><td>كولا 2 لتر</td><td>6₪</td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 
   <div id="cart-manager" style="position:fixed;bottom:10px;left:10px;width:340px;background:#fff;padding:12px;border:1px solid #ccc;border-radius:6px;z-index:20;box-shadow:0 0 10px rgba(0,0,0,0.1)">
     <input id="user-name" placeholder="اسمك (اختياري)" style="width:100%;margin-bottom:6px" />
