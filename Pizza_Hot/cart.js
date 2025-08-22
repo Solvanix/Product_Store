@@ -1,34 +1,31 @@
-// cartCore.js – وحدة إدارة السلة المركزية
+// cart.js – وحدة إدارة السلة المركزية العائمة
 const CartCore = (() => {
   let key = '', user = 'guest', carts = {}, cur = '1';
 
-  // تهيئة السلة حسب اسم المستخدم
   function init(name){
     user = name || 'guest';
     key = 'orders_' + user;
     const d = JSON.parse(localStorage.getItem(key)||'{}');
     carts = d.carts || {'1':[]};
     cur = d.cur || '1';
+    renderFloatingCart();
   }
 
-  // حفظ السلة في التخزين المحلي
   function save(){
     localStorage.setItem(key, JSON.stringify({ carts, cur }));
+    renderFloatingCart();
   }
 
-  // استرجاع السلة الحالية
   function getCurrentCart(){
     return carts[cur] || [];
   }
 
-  // إضافة صنف إلى السلة
   function add(item, price, qty, note){
     carts[cur] = carts[cur] || [];
     carts[cur].push({ item, price, qty, note });
     save();
   }
 
-  // حذف صنف حسب الفهرس
   function remove(index){
     if (carts[cur]) {
       carts[cur].splice(index, 1);
@@ -36,44 +33,41 @@ const CartCore = (() => {
     }
   }
 
-  // تفريغ السلة الحالية
   function clear(){
     carts[cur] = [];
     save();
   }
 
-  // حساب الإجمالي
   function total(){
     return getCurrentCart().reduce((sum, it) => sum + it.price * it.qty, 0);
   }
 
-  // استرجاع كل السلال
-  function getAll(){
-    return { carts, cur };
-  }
+  function renderFloatingCart(){
+    const cartData = getCurrentCart();
+    const rawTotal = total();
+    const coupon = localStorage.getItem("userCoupon") || "";
+    const userName = localStorage.getItem("userName") || "زائر";
+    const userAddr = localStorage.getItem("userAddress") || "";
+    const { total: finalTotal, applied } = typeof DiscountEngine !== "undefined"
+      ? DiscountEngine.apply(rawTotal, cartData, userName, coupon)
+      : { total: rawTotal, applied: [] };
 
-  // تغيير السلة الحالية
-  function switchCart(name){
-    if (carts[name]) {
-      cur = name;
-      save();
-    }
-  }
+    let msg = typeof MessageBuilder !== "undefined"
+      ? MessageBuilder.build(cartData, userName, userAddr, finalTotal, applied)
+      : "";
 
-  // إنشاء سلة جديدة
-  function createCart(name){
-    if (!carts[name]) {
-      carts[name] = [];
-      cur = name;
-      save();
-    }
-  }
+    msg += `\n📦 قبل الخصم: ${rawTotal}₪`;
+    msg += `\n📦 بعد الخصم: ${finalTotal}₪`;
+    if (applied.length) msg += `\n💸 خصومات: ${applied.join(", ")}`;
 
-  // حذف سلة بالكامل
-  function deleteCart(name){
-    delete carts[name];
-    if (cur === name) cur = Object.keys(carts)[0] || '1';
-    save();
+    const box = document.getElementById("floating-cart");
+    if (box) box.innerHTML = `
+      <div style="font-size:0.95rem;white-space:pre-line">${msg}</div>
+      <a href="https://wa.me/972569788731?text=${encodeURIComponent(msg)}" target="_blank"
+         style="display:block;margin-top:10px;background:#4caf50;color:#fff;text-align:center;padding:6px;border-radius:4px;text-decoration:none">
+        📤 إرسال الطلب
+      </a>
+    `;
   }
 
   return {
@@ -84,9 +78,6 @@ const CartCore = (() => {
     clear,
     total,
     getCurrentCart,
-    getAll,
-    switchCart,
-    createCart,
-    deleteCart
+    renderFloatingCart
   };
 })();
