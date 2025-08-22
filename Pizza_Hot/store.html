@@ -10,15 +10,15 @@
     body {
       margin: 0;
       font-family: 'Tajawal', sans-serif;
-      background: #f7fdfc;
-      color: #023e8a;
+      background: #f4f6f7;
+      color: #2c3e50;
       line-height: 1.6;
     }
     header {
       position: fixed;
       top: 0;
       width: 100%;
-      background: #023e8a;
+      background: #2c3e50;
       color: #fff;
       text-align: center;
       padding: 12px;
@@ -39,7 +39,7 @@
     }
     h1 {
       text-align: center;
-      color: #0077b6;
+      color: #34495e;
       margin: 20px 0;
       font-size: clamp(1.8rem, 5vw, 2.5rem);
       font-weight: 900;
@@ -51,13 +51,13 @@
     }
     h2 {
       text-align: center;
-      color: #00b4d8;
+      color: #2c3e50;
       margin-bottom: 12px;
       font-size: 1.4rem;
     }
     .table-wrapper {
       overflow-x: auto;
-      border: 1px solid #d9faff;
+      border: 1px solid #dfe6e9;
       border-radius: 6px;
       background: #fff;
       margin-bottom: 20px;
@@ -70,15 +70,15 @@
     }
     th, td {
       text-align: center;
-      border: 1px solid #d9faff;
+      border: 1px solid #dfe6e9;
       padding: 10px;
     }
     th {
-      background: linear-gradient(to right, #00b4d8, #0077b6);
+      background: #2c3e50;
       color: #fff;
     }
     tr:nth-child(even) td {
-      background: #f0faff;
+      background: #f4f6f7;
     }
     select.size, input.qty {
       padding: 6px;
@@ -91,7 +91,7 @@
       width: 60px;
     }
     button.add-btn {
-      background: #00b4d8;
+      background: #34495e;
       border: none;
       padding: 6px 12px;
       border-radius: 6px;
@@ -100,10 +100,10 @@
       color: #fff;
     }
     button.add-btn:hover {
-      background: #0096c7;
+      background: #2c3e50;
     }
     .price {
-      color: #ff6b6b;
+      color: #c0392b;
       font-weight: bold;
     }
     .footer {
@@ -115,14 +115,14 @@
       background: #f9f9f9;
     }
     .note-box {
-      background: #e0f7fa;
-      border: 1px solid #00b4d8;
+      background: #fef9e7;
+      border: 1px solid #f9e79f;
       padding: 12px;
       margin: 20px auto;
       max-width: 700px;
       border-radius: 6px;
       font-size: 1rem;
-      color: #023e8a;
+      color: #7d6608;
     }
     .copy-box {
       background: #f0f0f0;
@@ -134,6 +134,17 @@
       user-select: all;
       margin-top: 8px;
       border-radius: 4px;
+    }
+    #auto-discount-alert {
+      display: none;
+      background: #fff3cd;
+      border: 1px solid #ffeeba;
+      padding: 10px;
+      border-radius: 6px;
+      color: #856404;
+      margin: 20px auto;
+      text-align: center;
+      max-width: 700px;
     }
   </style>
 </head>
@@ -153,6 +164,10 @@
     <br><br>
     ✅ كود الخصم الخاص بالنسخة الاحتياطية:
     <div class="copy-box">HOT10</div>
+  </div>
+
+  <div id="auto-discount-alert">
+    🎁 تم تفعيل خصم تلقائي اليوم — لا حاجة لإدخال كود في الحقل الرئيسي.
   </div>
 <div class="section">
   <h2>🍕 قائمة البيتزا</h2>
@@ -357,22 +372,17 @@
     </table>
   </div>
 </div>
-
-<div class="section">
-  <h2>🎁 كود خصم اليوم</h2>
-  <div id="daily-coupon-box" style="font-family:monospace;font-size:1.2rem;color:#0077b6;text-align:center">—</div>
-</div>
-<div id="cart-manager" style="position:fixed;bottom:10px;left:10px;width:340px;background:#ffffff;border:1px solid #d9faff;padding:12px;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,0.1);z-index:20">
+<div id="cart-manager" style="position:fixed;bottom:10px;left:10px;width:340px;background:#ffffff;border:1px solid #dfe6e9;padding:12px;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,0.1);z-index:20">
   <input id="user-name" placeholder="👤 اسمك (اختياري)" style="width:100%;margin-bottom:6px;padding:8px;border:1px solid #ccc;border-radius:4px" />
   <input id="user-address" placeholder="📍 العنوان/هاتفك (اختياري)" style="width:100%;margin-bottom:6px;padding:8px;border:1px solid #ccc;border-radius:4px" />
-  <input id="user-coupon" placeholder="🎟️ كود الخصم الرئيسي (FB10 أو الكود اليومي)" style="width:100%;margin-bottom:6px;padding:8px;border:1px solid #00b4d8;border-radius:4px;background:#f0faff" />
-  <input id="secondary-coupon" placeholder="🎟️ كود إضافي (ولاء، عضوية، إلخ)" style="width:100%;margin-bottom:6px;padding:8px;border:1px solid #00b4d8;border-radius:4px;background:#f0faff" />
+  <input id="user-coupon" placeholder="🎟️ كود الخصم الرئيسي (FB10 أو الكود اليومي)" style="width:100%;margin-bottom:6px;padding:8px;border:1px solid #34495e;border-radius:4px;background:#f4f6f7" />
+  <input id="secondary-coupon" placeholder="🎟️ كود إضافي (ولاء، عضوية، إلخ)" style="width:100%;margin-bottom:6px;padding:8px;border:1px solid #34495e;border-radius:4px;background:#f4f6f7" />
   
-  <button id="start-btn" style="width:100%;margin-bottom:10px;background:#0077b6;color:#fff;border:none;padding:8px;border-radius:6px;font-weight:700">☑ معاينة الطلب</button>
-  <button id="clear-cart" style="width:100%;margin-bottom:10px;background:#ff6b6b;color:#fff;border:none;padding:8px;border-radius:6px;font-weight:700">🗑️ تفريغ السلة</button>
-  <button id="send-wa" style="width:100%;background:#00b4d8;color:#fff;border:none;padding:8px;border-radius:6px;font-weight:700">📤 إرسال الطلب</button>
+  <button id="start-btn" style="width:100%;margin-bottom:10px;background:#34495e;color:#fff;border:none;padding:8px;border-radius:6px;font-weight:700">☑ معاينة الطلب</button>
+  <button id="clear-cart" style="width:100%;margin-bottom:10px;background:#c0392b;color:#fff;border:none;padding:8px;border-radius:6px;font-weight:700">🗑️ تفريغ السلة</button>
+  <button id="send-wa" style="width:100%;background:#2c3e50;color:#fff;border:none;padding:8px;border-radius:6px;font-weight:700">📤 إرسال الطلب</button>
 
-  <div id="cart-preview" style="margin-top:12px;font-size:0.95rem;color:#023e8a;white-space:pre-line;background:#f7fdfc;border:1px dashed #00b4d8;padding:10px;border-radius:6px;font-family:'Tajawal', monospace"></div>
+  <div id="cart-preview" style="margin-top:12px;font-size:0.95rem;color:#2c3e50;white-space:pre-line;background:#f4f6f7;border:1px dashed #34495e;padding:10px;border-radius:6px;font-family:'Tajawal', monospace"></div>
 </div>
 <script src="cart.js"></script>
 <script src="discountEngine.js"></script>
@@ -381,8 +391,24 @@
 <script src="dailyCoupon.js"></script>
 
 <script>
+function hasAutoDiscount() {
+  const today = new Date();
+  const isFriday = today.getDay() === 5;
+  const isHoliday = localStorage.getItem("isHoliday") === "true";
+  return isFriday || isHoliday;
+}
+
 window.onload = function(){
   CartCore.init(localStorage.getItem("userName") || "ضيف");
+
+  if (hasAutoDiscount()) {
+    const mainInput = document.getElementById("user-coupon");
+    mainInput.disabled = true;
+    mainInput.placeholder = "🎁 خصم تلقائي مفعّل – لا يمكن إدخال كود";
+    mainInput.style.background = "#eee";
+    mainInput.style.cursor = "not-allowed";
+    document.getElementById("auto-discount-alert").style.display = "block";
+  }
 
   document.querySelectorAll('.size').forEach(sel => {
     sel.addEventListener('change', updateTotal);
@@ -430,7 +456,7 @@ window.onload = function(){
     const rawTotal = CartCore.total();
     const userName = document.getElementById("user-name").value.trim() || "ضيف";
     const userAddr = document.getElementById("user-address").value.trim();
-    const coupon1 = document.getElementById("user-coupon").value.trim();
+    const coupon1 = hasAutoDiscount() ? "" : document.getElementById("user-coupon").value.trim();
     const coupon2 = document.getElementById("secondary-coupon").value.trim();
     localStorage.setItem("userCoupon", coupon1);
     const { total, applied, breakdown } = DiscountEngine.apply(rawTotal, cartData, userName, coupon1, coupon2);
@@ -442,7 +468,7 @@ window.onload = function(){
   function renderCart() {
     const cartData = CartCore.getCurrentCart();
     const rawTotal = CartCore.total();
-    const coupon1 = document.getElementById("user-coupon").value.trim();
+    const coupon1 = hasAutoDiscount() ? "" : document.getElementById("user-coupon").value.trim();
     const coupon2 = document.getElementById("secondary-coupon").value.trim();
     const { total, applied, breakdown } = DiscountEngine.apply(rawTotal, cartData, "معاينة", coupon1, coupon2);
 
