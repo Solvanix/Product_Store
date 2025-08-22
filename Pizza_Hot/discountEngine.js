@@ -1,75 +1,121 @@
-const discountRules = [
-  {
-    name: "خصم الجمعة",
-    description: "خصم أسبوعي يوم الجمعة",
-    type: "percentage",
-    value: 0.05,
-    condition: "new Date().getDay() === 5",
-    priority: 90,
-    code: "FRIDAY5",
-    link: "",
-    source: "default",
-    active: true
-  },
-  {
-    name: "خصم رمضان",
-    description: "خصم موسمي في رمضان",
-    type: "percentage",
-    value: 0.1,
-    condition: "new Date().getMonth() === 8",
-    priority: 88,
-    code: "RAMADAN10",
-    link: "",
-    source: "default",
-    active: true
-  },
-  {
-    name: "خصم الاستلام من المحل (متغير)",
-    description: "خصم يتغير حسب حجم الطلب عند الاستلام من الفرع",
-    type: "percentage",
-    value: "dynamic",
-    condition: "channel === 'instore'",
-    priority: 92,
-    code: "INSTORE_DYNAMIC",
-    link: "",
-    source: "default",
-    active: true,
-    applyFn: "total < 80 ? total * 0.15 : total * 0.04"
-  },
-  {
-    name: "خصم الحجز المسبق عبر واتساب",
-    description: "خصم 10% على الناتج النهائي بعد الخصومات الأخرى",
-    type: "percentage",
-    value: 0.1,
-    condition: "channel === 'instore' && bookedVia === 'whatsapp' && isTomorrow(orderDate)",
-    priority: 99,
-    code: "WH10",
-    link: "",
-    source: "default",
-    active: true
-  },
-  {
-    name: "خصم الحجز المسبق في ساعة مثالية",
-    description: "خصم عند الحجز لليوم التالي في ساعة مثالية",
-    type: "percentage",
-    value: 0.08,
-    condition: "isTomorrow(orderDate) && [1,5,9].includes(desiredHour)",
-    priority: 91,
-    code: "PREBOOK8",
-    link: "",
-    source: "default",
-    active: true
-  },
-  {
-    name: "كود خصم خاص من فيسبوك",
-    description: "خصم مميز عبر كود يُعرض على صفحة فيسبوك",
-    type: "fixed",
-    value: 15,
-    condition: "coupon1 === 'FB25' && new Date().getDay() !== 5",
-    priority: 89,
-    code: "FB25",
-    link: "https://www.facebook.com/people/PIZZA-HOT/61574045938687/",
-    source: "manual",
-    active: true
+const DiscountEngine = (() => {
+  let rules = [];
+
+  function addRule(rule) {
+    rules.push(rule);
   }
-];
+
+  function loadRulesFrom(rulesArray) {
+    rulesArray.forEach(rule => {
+      if (!rule.active) return;
+
+      try {
+        const conditionFn = new Function("total", "cart", "user", "coupon1", "coupon2", "channel", "orderDate", "bookedVia", "desiredHour", `return ${rule.condition};`);
+        const applyFn = rule.value === "dynamic"
+          ? new Function("total", "cart", "user", "coupon1", "coupon2", "channel", "orderDate", "bookedVia", "desiredHour", `return ${rule.applyFn};`)
+          : new Function("total", "cart", "user", "coupon1", "coupon2", "channel", "orderDate", "bookedVia", "desiredHour", `return ${rule.type === "percentage" ? `total * ${rule.value}` : `${rule.value}`};`);
+
+        addRule({
+          name: rule.name,
+          priority: rule.priority || 50,
+          source: rule.source || "auto",
+          code: rule.code || null,
+          conditionFn,
+          applyFn
+        });
+      } catch (err) {
+        console.warn(`⚠️ فشل تحميل القاعدة: ${rule.name}`, err);
+      }
+    });
+  }
+
+  function apply(total, cart, user, coupon1 = "", coupon2 = "", channel = "", orderDate = "", bookedVia = "", desiredHour = null) {
+    let finalTotal = total;
+    let applied = [];
+    let breakdown = [];
+
+    const sorted = rules
+      .filter(r => typeof r.conditionFn === "function")
+      .sort((a, b) => (b.priority || 0) - (a.priority || 0));
+
+    let primaryApplied = false;
+    let secondaryApplied = false;
+
+    sorted.forEach(rule => {
+      try {
+        const ok = rule.conditionFn(finalTotal, cart, user, coupon1, coupon2, channel, orderDate, bookedVia, desiredHour);
+        if (!ok) return;
+
+        const isCouponRule = !!rule.code;
+        const isPrimary = isCouponRule && rule.code === coupon1;
+        const isSecondary = isCouponRule && rule.code === coupon2;
+
+        // أولوية الحجز المسبق عبر واتساب
+        if (rule.code === "WH10" && !primaryApplied) {
+          const value = rule.applyFn(finalTotal, cart, user, coupon1, coupon2, channel, orderDate, bookedVia, desiredHour);
+          finalTotal -= value;
+          applied.push(rule.name + " (كامل القيمة)");
+          breakdown.push(`• ${rule.name}: -${Math.round(value)}₪`);
+          primaryApplied = true;
+          return;
+        }
+
+        // خصم الاستلام من المحل ← ربع القيمة
+        if (rule.code === "INSTORE_DYNAMIC" && !secondaryApplied) {
+          const fullValue = rule.applyFn(finalTotal, cart, user, coupon1, coupon2, channel, orderDate, bookedVia, desiredHour);
+          const partial = fullValue * 0.25;
+          finalTotal -= partial;
+          applied.push(rule.name + " (ربع القيمة)");
+          breakdown.push(`• ${rule.name}: -${Math.round(partial)}₪`);
+          secondaryApplied = true;
+          return;
+        }
+
+        // كوبون أساسي
+        if (isPrimary && !primaryApplied) {
+          const value = rule.applyFn(finalTotal, cart, user, coupon1, coupon2, channel, orderDate, bookedVia, desiredHour);
+          finalTotal -= value;
+          applied.push(rule.name + " (كامل القيمة)");
+          breakdown.push(`• ${rule.name}: -${Math.round(value)}₪`);
+          primaryApplied = true;
+          return;
+        }
+
+        // كوبون ثانوي
+        if (isSecondary && !secondaryApplied) {
+          const fullValue = rule.applyFn(finalTotal, cart, user, coupon1, coupon2, channel, orderDate, bookedVia, desiredHour);
+          const partial = fullValue * 0.25;
+          finalTotal -= partial;
+          applied.push(rule.name + " (ربع القيمة)");
+          breakdown.push(`• ${rule.name}: -${Math.round(partial)}₪`);
+          secondaryApplied = true;
+          return;
+        }
+
+        // قاعدة تلقائية بدون كود
+        if (!isCouponRule && !primaryApplied) {
+          const value = rule.applyFn(finalTotal, cart, user, coupon1, coupon2, channel, orderDate, bookedVia, desiredHour);
+          finalTotal -= value;
+          applied.push(rule.name);
+          breakdown.push(`• ${rule.name}: -${Math.round(value)}₪`);
+          primaryApplied = true;
+        }
+
+      } catch (err) {
+        console.warn(`⚠️ فشل تطبيق القاعدة: ${rule.name}`, err);
+      }
+    });
+
+    return {
+      total: Math.round(finalTotal),
+      applied,
+      breakdown
+    };
+  }
+
+  return {
+    addRule,
+    loadRulesFrom,
+    apply
+  };
+})();
