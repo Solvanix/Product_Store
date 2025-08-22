@@ -68,9 +68,8 @@
     "condition": "coupon1 === 'FB25' && new Date().getDay() !== 5",
     "priority": 89,
     "code": "FB25",
-    "link": "https://facebook.com/pizzahot/post/123456789",
-    "source": "default",
+    "link": "https://www.facebook.com/people/PIZZA-HOT/61574045938687/",
+    "source": "manual",
     "active": true
   }
 ]
-
