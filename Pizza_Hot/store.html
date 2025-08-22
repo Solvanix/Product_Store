@@ -259,12 +259,64 @@
   <button id="send-wa" style="width:100%;background:#4caf50;color:#fff;border:none;padding:6px;border-radius:4px">📤 إرسال الطلب</button>
   <div id="cart-preview" style="margin-top:12px;font-size:0.95rem;color:#333;white-space:pre-line"></div>
 </div>
-<script src="https://solvanix.github.io/Product_Store/Pizza_Hot/cart.js"></script>
-<script src="https://solvanix.github.io/Product_Store/Pizza_Hot/discountEngine.js"></script>
-<script src="https://solvanix.github.io/Product_Store/Pizza_Hot/discountRules.js"></script>
-<script src="https://solvanix.github.io/Product_Store/Pizza_Hot/messageBuilder.js"></script>
-<script src="https://solvanix.github.io/Product_Store/Pizza_Hot/floatingCart.js"></script>
-  <script>
+<script>
+const CartCore = {
+  cart: [],
+  currentKey: "default",
+  init(name) {
+    localStorage.setItem("userName", name);
+    this.cart = [];
+  },
+  setCurrentCart(key) {
+    this.currentKey = key;
+    this.cart = [];
+  },
+  add(item, price, qty) {
+    if (!item || !price || !qty) return;
+    this.cart.push({ item, price, qty });
+  },
+  getCurrentCart() {
+    return this.cart;
+  },
+  total() {
+    return this.cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+  }
+};
+</script>
+<script>
+const DiscountEngine = {
+  apply(rawTotal, cartData, userName, coupon) {
+    let total = rawTotal;
+    let applied = [];
+
+    if (coupon === "HOT10") {
+      total *= 0.9;
+      applied.push("خصم 10% عبر HOT10");
+    }
+
+    if (userName.includes("VIP")) {
+      total -= 5;
+      applied.push("خصم VIP");
+    }
+
+    return {
+      total: Math.max(0, Math.round(total)),
+      applied
+    };
+  }
+};
+</script>
+<script>
+const MessageBuilder = {
+  build(cartData, userName, userAddr, total, applied) {
+    let msg = `🧾 طلب جديد من ${userName}\n📍 العنوان: ${userAddr}\n\n`;
+    cartData.forEach(i => {
+      msg += `• ${i.item} × ${i.qty} = ${i.price * i.qty}₪\n`;
+    });
+    msg += `\n📦 الإجمالي: ${total}₪`;
+    if (applied.length) msg += `\n💸 خصومات: ${applied.join(", ")}`;
+    return msg;
+  }<script>
 window.onload = function(){
   CartCore.init(localStorage.getItem("userName") || "ضيف");
   CartCore.setCurrentCart("1");
@@ -307,12 +359,21 @@ window.onload = function(){
     document.getElementById("cart-preview").textContent = msg;
     window.open("https://wa.me/972569788731?text=" + encodeURIComponent(msg), "_blank");
   };
+
+  function renderCart() {
+    const cartData = CartCore.getCurrentCart();
+    let msg = cartData.map(i => `• ${i.item} × ${i.qty} = ${i.price * i.qty}₪`).join("\n");
+    msg += `\n📦 الإجمالي: ${CartCore.total()}₪`;
+    document.getElementById("cart-preview").textContent = msg;
+  }
 };
 </script>
-
 <div class="footer">
   بلعين – شارع صفا – رام الله<br>
   © 2025 PIZZA HOT — جميع الحقوق محفوظة.
 </div>
 </body>
 </html>
+
+};
+</script>
