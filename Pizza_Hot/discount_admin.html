@@ -2,47 +2,40 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>🎛️ إدارة الخصومات – PIZZA HOT</title>
+  <title>🎛️ العقل المدبر للخصومات – PIZZA HOT</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box }
     body {
-      margin: 0;
       font-family: 'Tajawal', sans-serif;
       background: #f4f6f7;
       color: #2c3e50;
-      line-height: 1.6;
+      padding: 20px;
     }
-    header {
+    h1 {
+      text-align: center;
       background: #2c3e50;
       color: #fff;
-      text-align: center;
-      padding: 14px;
-      font-size: 1.2rem;
-      font-weight: bold;
+      padding: 12px;
+      border-radius: 8px;
     }
-    .container {
+    .box {
       max-width: 800px;
-      margin: 30px auto;
+      margin: auto;
+      background: #fff;
       padding: 20px;
-      background: #ffffff;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.05);
     }
-    h2 {
-      text-align: center;
-      color: #34495e;
-      margin-bottom: 20px;
-    }
     label {
       display: block;
-      margin: 10px 0 4px;
+      margin-top: 10px;
       font-weight: bold;
     }
     input, select, textarea {
       width: 100%;
       padding: 8px;
+      margin-top: 4px;
       border: 1px solid #ccc;
       border-radius: 4px;
       font-size: 1rem;
@@ -60,131 +53,192 @@
     button:hover {
       background: #34495e;
     }
-    .hidden {
-      display: none;
+    .rules-box {
+      margin-top: 30px;
     }
-    .alert {
-      background: #fef9e7;
-      border: 1px solid #f9e79f;
-      padding: 10px;
-      border-radius: 6px;
-      color: #7d6608;
-      margin-bottom: 20px;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
       text-align: center;
+    }
+    th {
+      background: #2c3e50;
+      color: #fff;
+    }
+    .code {
+      font-family: monospace;
+      background: #f0f0f0;
+      padding: 6px;
+      border-radius: 4px;
+      user-select: all;
     }
   </style>
 </head>
 <body>
-<header>🎛️ إدارة الخصومات – PIZZA HOT</header>
-<div class="container">
-  <div id="auth-box">
-    <h2>🔐 الدخول للوحة التحكم</h2>
-    <label for="admin-code">الرمز السري:</label>
-    <input type="password" id="admin-code" placeholder="••••••••">
-    <button onclick="verifyCode()">دخول</button>
-    <div id="auth-alert" class="alert hidden">❌ الرمز غير صحيح</div>
-  </div>
-
-  <div id="discount-panel" class="hidden">
-    <h2>➕ إضافة قاعدة خصم جديدة</h2>
-    <label for="rule-name">اسم القاعدة:</label>
+<h1>🎛️ العقل المدبر للخصومات – PIZZA HOT</h1>
+<div class="box">
+  <label>🔐 الرمز السري للدخول:</label>
+  <input type="password" id="admin-code" placeholder="••••••••">
+  <button onclick="verifyCode()">دخول</button>
+  <div id="panel" style="display:none">
+    <label>📛 اسم القاعدة:</label>
     <input id="rule-name" placeholder="مثال: خصم الجمعة">
 
-    <label for="rule-type">نوع الخصم:</label>
+    <label>📄 شرح مختصر:</label>
+    <textarea id="rule-description" rows="2" placeholder="مثال: خصم خاص بمناسبة الجمعة أو رمضان"></textarea>
+
+    <label>📊 نوع الخصم:</label>
     <select id="rule-type">
       <option value="percentage">نسبة مئوية</option>
       <option value="fixed">قيمة ثابتة</option>
     </select>
 
-    <label for="rule-value">قيمة الخصم:</label>
-    <input id="rule-value" type="number" placeholder="مثال: 10 أو 0.15">
+    <label>💰 قيمة الخصم:</label>
+    <input id="rule-value" type="number" placeholder="مثال: 0.1 أو 20">
 
-    <label for="rule-condition">شرط التفعيل (رمزي):</label>
-    <textarea id="rule-condition" rows="3" placeholder="مثال: total > 200 أو new Date().getDay() === 5"></textarea>
+    <label>🧠 شرط التفعيل (رمزي):</label>
+    <textarea id="rule-condition" rows="2" placeholder="مثال: total > 200 أو new Date().getDay() === 5"></textarea>
 
-    <label for="rule-priority">أولوية التفعيل:</label>
+    <label>📌 أولوية التفعيل:</label>
     <input id="rule-priority" type="number" placeholder="مثال: 90">
 
-    <button onclick="addRule()">📥 إضافة القاعدة</button>
-    <button onclick="showRules()">📂 عرض القواعد المسجلة</button>
-    <div id="add-alert" class="alert hidden">✅ تم تسجيل القاعدة مؤقتًا</div>
+    <label>🎟️ كود التفعيل (اختياري):</label>
+    <input id="rule-code" placeholder="مثال: EID10 أو FRIDAY25">
 
-    <div id="rules-list" class="hidden">
-      <h2>📋 القواعد المسجلة</h2>
-      <div id="rules-output" style="background:#f4f6f7;border:1px dashed #ccc;padding:10px;border-radius:6px;font-family:monospace;white-space:pre-line"></div>
+    <label>🔗 رابط المنشور أو الصفحة:</label>
+    <input id="rule-link" placeholder="مثال: https://facebook.com/post/123">
+
+    <button onclick="addRule()">📥 إضافة القاعدة</button>
+    <button onclick="generateRulesFile()">📤 توليد ملف الخصومات</button>
+
+    <div class="rules-box">
+      <h2>📋 القواعد المسجلة:</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>الاسم</th><th>القيمة</th><th>الوصف</th><th>الكود</th><th>الرابط</th><th>الحالة</th><th>تعديل</th><th>حذف</th>
+          </tr>
+        </thead>
+        <tbody id="rules-body"></tbody>
+      </table>
     </div>
   </div>
 </div>
-
 <script>
 const ADMIN_SECRET = "pizza2025";
-let discountRules = [];
+let discountRules = JSON.parse(localStorage.getItem("customDiscountRules") || "[]");
 
 function verifyCode() {
   const input = document.getElementById("admin-code").value.trim();
-  const alertBox = document.getElementById("auth-alert");
   if (input === ADMIN_SECRET) {
-    document.getElementById("auth-box").classList.add("hidden");
-    document.getElementById("discount-panel").classList.remove("hidden");
+    document.getElementById("panel").style.display = "block";
   } else {
-    alertBox.classList.remove("hidden");
-    alertBox.textContent = "❌ الرمز غير صحيح";
+    alert("❌ الرمز غير صحيح");
   }
 }
 
 function addRule() {
-  const name = document.getElementById("rule-name").value.trim();
-  const type = document.getElementById("rule-type").value;
-  const value = parseFloat(document.getElementById("rule-value").value);
-  const condition = document.getElementById("rule-condition").value.trim();
-  const priority = parseInt(document.getElementById("rule-priority").value);
+  const rule = {
+    name: document.getElementById("rule-name").value.trim(),
+    description: document.getElementById("rule-description").value.trim(),
+    type: document.getElementById("rule-type").value,
+    value: parseFloat(document.getElementById("rule-value").value),
+    condition: document.getElementById("rule-condition").value.trim(),
+    priority: parseInt(document.getElementById("rule-priority").value),
+    code: document.getElementById("rule-code").value.trim(),
+    link: document.getElementById("rule-link").value.trim(),
+    source: "manual",
+    active: true
+  };
 
-  if (!name || isNaN(value) || !condition || isNaN(priority)) {
-    alert("⚠️ الرجاء تعبئة جميع الحقول بشكل صحيح.");
+  if (!rule.name || isNaN(rule.value) || !rule.condition || isNaN(rule.priority)) {
+    alert("⚠️ الرجاء تعبئة الحقول الأساسية بشكل صحيح.");
     return;
   }
-
-  const rule = {
-    name,
-    type,
-    value,
-    condition,
-    priority,
-    source: "manual"
-  };
 
   discountRules.push(rule);
   localStorage.setItem("customDiscountRules", JSON.stringify(discountRules));
-
-  document.getElementById("add-alert").classList.remove("hidden");
-  document.getElementById("add-alert").textContent = "✅ تم تسجيل القاعدة مؤقتًا";
-
-  document.getElementById("rule-name").value = "";
-  document.getElementById("rule-value").value = "";
-  document.getElementById("rule-condition").value = "";
-  document.getElementById("rule-priority").value = "";
+  clearInputs();
+  renderRules();
 }
 
-function showRules() {
-  const box = document.getElementById("rules-list");
-  const output = document.getElementById("rules-output");
-  const stored = localStorage.getItem("customDiscountRules");
-  if (!stored) {
-    output.textContent = "لا توجد قواعد مسجلة بعد.";
-    box.classList.remove("hidden");
-    return;
-  }
-
-  const rules = JSON.parse(stored);
-  if (!rules.length) {
-    output.textContent = "لا توجد قواعد مسجلة بعد.";
-  } else {
-    output.textContent = rules.map((r, i) => {
-      return `🔹 [${i+1}] ${r.name}\n• النوع: ${r.type}\n• القيمة: ${r.value}\n• الشرط: ${r.condition}\n• الأولوية: ${r.priority}\n• المصدر: ${r.source}`;
-    }).join("\n\n");
-  }
-  box.classList.remove("hidden");
+function clearInputs() {
+  ["rule-name","rule-description","rule-value","rule-condition","rule-priority","rule-code","rule-link"]
+    .forEach(id => document.getElementById(id).value = "");
 }
+
+function renderRules() {
+  const tbody = document.getElementById("rules-body");
+  tbody.innerHTML = "";
+  discountRules.forEach((r, i) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${r.name}</td>
+      <td>${r.type === "percentage" ? (r.value * 100) + "%" : r.value + "₪"}</td>
+      <td>${r.description || "-"}</td>
+      <td>${r.code || "-"}</td>
+      <td>${r.link ? `<a href="${r.link}" target="_blank">رابط</a>` : "-"}</td>
+      <td><button onclick="toggleRule(${i})">${r.active ? "✅ مفعّلة" : "⛔ معلّقة"}</button></td>
+      <td><button onclick="editRule(${i})">✏️</button></td>
+      <td><button onclick="deleteRule(${i})">🗑️</button></td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+function toggleRule(index) {
+  discountRules[index].active = !discountRules[index].active;
+  localStorage.setItem("customDiscountRules", JSON.stringify(discountRules));
+  renderRules();
+}
+
+function deleteRule(index) {
+  if (confirm("❌ هل تريد حذف هذه القاعدة؟")) {
+    discountRules.splice(index, 1);
+    localStorage.setItem("customDiscountRules", JSON.stringify(discountRules));
+    renderRules();
+  }
+}
+
+function editRule(index) {
+  const r = discountRules[index];
+  document.getElementById("rule-name").value = r.name;
+  document.getElementById("rule-description").value = r.description;
+  document.getElementById("rule-type").value = r.type;
+  document.getElementById("rule-value").value = r.value;
+  document.getElementById("rule-condition").value = r.condition;
+  document.getElementById("rule-priority").value = r.priority;
+  document.getElementById("rule-code").value = r.code;
+  document.getElementById("rule-link").value = r.link;
+  deleteRule(index); // نحذف القديمة وننتظر إعادة الإضافة
+}
+
+function generateRulesFile() {
+  const lines = discountRules.map(r => {
+    return `DiscountEngine.addRule({
+  name: "${r.name}",
+  priority: ${r.priority},
+  source: "${r.source}",
+  conditionFn: function(total, cart, user, channel) {
+    return ${r.condition};
+  },
+  applyFn: function(total) {
+    return ${r.type === "percentage" ? `total * ${r.value}` : r.value};
+  }
+});`;
+  });
+
+  const content = `// discountRules.js\n\n${lines.join("\n\n")}`;
+  console.log(content);
+  alert("✅ تم توليد الكود في Console — انسخه إلى ملف discountRules.js");
+}
+
+window.onload = renderRules;
 </script>
 </body>
 </html>
