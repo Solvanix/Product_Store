@@ -1,47 +1,75 @@
-// discountEngine.js – محرك الخصومات الرمزية المتدرجة
-const DiscountEngine = (() => {
-  let rules = [];
-
-  function addRule({ name, priority = 50, source = "auto", code = null, conditionFn, applyFn }) {
-    rules.push({ name, priority, source, code, conditionFn, applyFn });
+const discountRules = [
+  {
+    name: "خصم الجمعة",
+    description: "خصم أسبوعي يوم الجمعة",
+    type: "percentage",
+    value: 0.05,
+    condition: "new Date().getDay() === 5",
+    priority: 90,
+    code: "FRIDAY5",
+    link: "",
+    source: "default",
+    active: true
+  },
+  {
+    name: "خصم رمضان",
+    description: "خصم موسمي في رمضان",
+    type: "percentage",
+    value: 0.1,
+    condition: "new Date().getMonth() === 8",
+    priority: 88,
+    code: "RAMADAN10",
+    link: "",
+    source: "default",
+    active: true
+  },
+  {
+    name: "خصم الاستلام من المحل (متغير)",
+    description: "خصم يتغير حسب حجم الطلب عند الاستلام من الفرع",
+    type: "percentage",
+    value: "dynamic",
+    condition: "channel === 'instore'",
+    priority: 92,
+    code: "INSTORE_DYNAMIC",
+    link: "",
+    source: "default",
+    active: true,
+    applyFn: "total < 80 ? total * 0.15 : total * 0.04"
+  },
+  {
+    name: "خصم الحجز المسبق عبر واتساب",
+    description: "خصم 10% على الناتج النهائي بعد الخصومات الأخرى",
+    type: "percentage",
+    value: 0.1,
+    condition: "channel === 'instore' && bookedVia === 'whatsapp' && isTomorrow(orderDate)",
+    priority: 99,
+    code: "WH10",
+    link: "",
+    source: "default",
+    active: true
+  },
+  {
+    name: "خصم الحجز المسبق في ساعة مثالية",
+    description: "خصم عند الحجز لليوم التالي في ساعة مثالية",
+    type: "percentage",
+    value: 0.08,
+    condition: "isTomorrow(orderDate) && [1,5,9].includes(desiredHour)",
+    priority: 91,
+    code: "PREBOOK8",
+    link: "",
+    source: "default",
+    active: true
+  },
+  {
+    name: "كود خصم خاص من فيسبوك",
+    description: "خصم مميز عبر كود يُعرض على صفحة فيسبوك",
+    type: "fixed",
+    value: 15,
+    condition: "coupon1 === 'FB25' && new Date().getDay() !== 5",
+    priority: 89,
+    code: "FB25",
+    link: "https://www.facebook.com/people/PIZZA-HOT/61574045938687/",
+    source: "manual",
+    active: true
   }
-
-  function apply(rawTotal, cart, user, coupon1 = "", coupon2 = "") {
-    let total = rawTotal;
-    let applied = [];
-    let breakdown = [];
-
-    // استخراج الخصومات المؤهلة
-    const eligible = rules.filter(rule =>
-      rule.conditionFn(rawTotal, cart, user, coupon1, coupon2)
-    );
-
-    // ترتيب حسب الأولوية
-    const sorted = eligible.sort((a, b) => b.priority - a.priority);
-
-    sorted.forEach(rule => {
-      let factor = 1;
-
-      // إذا كان الكود الثانوي
-      if (rule.source === "manual" && rule.code && rule.code === coupon2) {
-        factor = 0.25;
-      }
-
-      const discountValue = Math.floor(rule.applyFn(rawTotal) * factor);
-      total -= discountValue;
-      applied.push(rule.name);
-      breakdown.push(`• ${rule.name}: ${discountValue}₪ (${Math.round(factor * 100)}٪ من قيمته)`);
-    });
-
-    return {
-      total: Math.max(total, 0),
-      applied,
-      breakdown
-    };
-  }
-
-  return {
-    addRule,
-    apply
-  };
-})();
+];
