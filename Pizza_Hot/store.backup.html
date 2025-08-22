@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>📋 متجر PIZZA HOT</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box }
+    body {
+      margin: 0;
+      font-family: 'Tajawal', sans-serif;
+      background: #f4f1ee;
+      color: #2c2c2c;
+      line-height: 1.6;
+    }
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #1a1a1a;
+      color: #f2c785;
+      text-align: center;
+      padding: 12px;
+      z-index: 10;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    header a {
+      margin: 0 10px;
+      color: inherit;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .overlay {
+      padding: 90px 10px 160px;
+      background: #fff;
+      min-height: 100vh;
+    }
+    h1 {
+      text-align: center;
+      color: #b22222;
+      margin: 20px 0;
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      font-weight: 900;
+    }
+    .section {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 10px;
+    }
+    h2 {
+      text-align: center;
+      color: #8b4513;
+      margin-bottom: 12px;
+      font-size: 1.4rem;
+    }
+    .table-wrapper {
+      overflow-x: auto;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: #fff;
+      margin-bottom: 20px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.05);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1rem;
+    }
+    th, td {
+      text-align: center;
+      border: 1px solid #ddd;
+      padding: 10px;
+    }
+    th {
+      background: #b22222;
+      color: #fff;
+    }
+    tr:nth-child(even) td {
+      background: #fdf5e6;
+    }
+    select.size, input.qty {
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+    input.qty {
+      width: 60px;
+    }
+    button.add-btn {
+      background: #f2c785;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #1a1a1a;
+    }
+    button.add-btn:hover {
+      background: #e0b96a;
+    }
+    .footer {
+      text-align: center;
+      color: #666;
+      padding: 20px;
+      margin-top: 40px;
+      border-top: 1px dashed #ccc;
+      background: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <a href="index.html">🏠 الرئيسية</a>
+  <a href="promo_offer.html">🔥 العرض</a>
+  <a href="store.html">🛒 المتجر</a>
+</header>
+<div class="overlay">
+  <h1>📋 متجر PIZZA HOT</h1>
+
+  <!-- هنا يتم إدراج الكتالوج الكامل كما أرسلته سابقًا -->
+  <div class="section">
+  <h2>🍕 قائمة البيتزا</h2>
+  <div class="table-wrapper">
+    <table id="pizza-menu">
+      <thead><tr><th>النوع</th><th>الحجم</th><th>السعر</th><th>الكمية</th><th>أضف</th></tr></thead>
+      <tbody>
+        <tr data-item="بيتزا دجاج"><td>بيتزا دجاج</td>
+          <td><select class="size">
+            <option value="65">XL – 65₪</option>
+            <option value="45">L – 45₪</option>
+            <option value="33">M – 33₪</option>
+            <option value="17">S – 17₪</option>
+          </select></td>
+          <td><span class="price">65₪</span></td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="بيتزا خضار"><td>بيتزا خضار</td>
+          <td><select class="size">
+            <option value="50">XL – 50₪</option>
+            <option value="38">L – 38₪</option>
+            <option value="20">M – 20₪</option>
+            <option value="14">S – 14₪</option>
+          </select></td>
+          <td><span class="price">50₪</span></td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="بيتزا سلامي"><td>بيتزا سلامي</td>
+          <td><select class="size">
+            <option value="55">XL – 55₪</option>
+            <option value="40">L – 40₪</option>
+            <option value="23">M – 23₪</option>
+            <option value="15">S – 15₪</option>
+          </select></td>
+          <td><span class="price">55₪</span></td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="بيتزا نقانق"><td>بيتزا نقانق</td>
+          <td><select class="size">
+            <option value="55">XL – 55₪</option>
+            <option value="40">L – 40₪</option>
+            <option value="23">M – 23₪</option>
+            <option value="15">S – 15₪</option>
+          </select></td>
+          <td><span class="price">55₪</span></td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="بيتزا تونة"><td>بيتزا تونة</td>
+          <td><select class="size">
+            <option value="55">XL – 55₪</option>
+            <option value="40">L – 40₪</option>
+            <option value="23">M – 23₪</option>
+            <option value="15">S – 15₪</option>
+          </select></td>
+          <td><span class="price">55₪</span></td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="بيتزا مارجريتا"><td>بيتزا مارجريتا</td>
+          <td><select class="size">
+            <option value="50">XL – 50₪</option>
+            <option value="38">L – 38₪</option>
+            <option value="20">M – 20₪</option>
+            <option value="14">S – 14₪</option>
+          </select></td>
+          <td><span class="price">50₪</span></td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="كلزوني"><td>كلزوني</td>
+          <td><select class="size">
+            <option value="60">XL – 60₪</option>
+            <option value="40">L – 40₪</option>
+            <option value="32">M – 32₪</option>
+            <option value="16">S – 16₪</option>
+          </select></td>
+          <td><span class="price">60₪</span></td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+  <!-- بيتزا، جوانب، مشروبات -->
+  <div class="section">
+  <h2>🍟 أطباق جانبية</h2>
+  <div class="table-wrapper">
+    <table id="sides-menu">
+      <thead><tr><th>الصنف</th><th>السعر</th><th>الكمية</th><th>أضف</th></tr></thead>
+      <tbody>
+        <tr data-item="بطاطا صغير" data-price="5"><td>بطاطا صغير</td><td>5₪</td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="بطاطا كبير" data-price="10"><td>بطاطا كبير</td><td>10₪</td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="زنجر صغير" data-price="12"><td>زنجر صغير</td><td>12₪</td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="زنجر كبير" data-price="25"><td>زنجر كبير</td><td>25₪</td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section">
+  <h2>🥤 مشروبات</h2>
+  <div class="table-wrapper">
+    <table id="drinks-menu">
+      <thead><tr><th>المشروب</th><th>السعر</th><th>الكمية</th><th>أضف</th></tr></thead>
+      <tbody>
+        <tr data-item="كولا 1.25 لتر" data-price="4"><td>كولا 1.25 لتر</td><td>4₪</td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+        <tr data-item="كولا 2 لتر" data-price="6"><td>كولا 2 لتر</td><td>6₪</td>
+          <td><input class="qty" type="number" min="1" value="1"></td>
+          <td><button class="add-btn">أضف</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+  <div id="cart-manager" style="position:fixed;bottom:10px;left:10px;width:340px;background:#fff;padding:12px;border:1px solid #ccc;border-radius:6px;z-index:20;box-shadow:0 0 10px rgba(0,0,0,0.1)">
+    <input id="user-name" placeholder="اسمك (اختياري)" style="width:100%;margin-bottom:6px" />
+    <input id="user-address" placeholder="العنوان/هاتف (اختياري)" style="width:100%;margin-bottom:6px" />
+    <input id="user-coupon" placeholder="🎟️ رمز الخصم (إن وجد)" style="width:100%;margin-bottom:6px" />
+    <button id="start-btn" style="width:100%;margin-bottom:10px">☑ بدء الطلب</button>
+    <button id="send-wa" style="width:100%;background:#4caf50;color:#fff;border:none;padding:6px;border-radius:4px">📤 إرسال الطلب</button>
+    <div id="cart-preview" style="margin-top:12px;font-size:0.95rem;color:#333;white-space:pre-line"></div>
+  </div>
+<script>
+const CartCore = {
+  cart: [],
+  currentKey: "default",
+  init(name) {
+    localStorage.setItem("userName", name);
+    this.cart = [];
+  },
+  setCurrentCart(key) {
+    this.currentKey = key;
+    this.cart = [];
+  },
+  add(item, price, qty) {
+    if (!item || !price || !qty) return;
+    this.cart.push({ item, price, qty });
+  },
+  getCurrentCart() {
+    return this.cart;
+  },
+  total() {
+    return this.cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+  }
+};
+</script>
+<script>
+const DiscountEngine = {
+  apply(rawTotal, cartData, userName, coupon) {
+    let total = rawTotal;
+    let applied = [];
+
+    if (coupon === "HOT10") {
+      total *= 0.9;
+      applied.push("خصم 10% عبر HOT10");
+    }
+
+    if (userName.includes("VIP")) {
+      total -= 5;
+      applied.push("خصم VIP");
+    }
+
+    return {
+      total: Math.max(0, Math.round(total)),
+      applied
+    };
+  }
+};
+</script>
+<script>
+const MessageBuilder = {
+  build(cartData, userName, userAddr, total, applied) {
+    let msg = `🧾 طلب جديد من ${userName}\n📍 العنوان: ${userAddr}\n\n`;
+    cartData.forEach(i => {
+      msg += `• ${i.item} × ${i.qty} = ${i.price * i.qty}₪\n`;
+    });
+    msg += `\n📦 الإجمالي: ${total}₪`;
+    if (applied.length) msg += `\n💸 خصومات: ${applied.join(", ")}`;
+    return msg;
+  }
+};
+</script>
+<script>
+window.onload = function(){
+  CartCore.init(localStorage.getItem("userName") || "ضيف");
+  CartCore.setCurrentCart("1");
+
+  document.querySelectorAll('.size').forEach(sel => {
+    sel.addEventListener('change', e => {
+      const r = e.target.closest('tr');
+      r.querySelector('.price').textContent = e.target.value + '₪';
+    });
+  });
+
+  document.querySelectorAll('.add-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const row = e.target.closest('tr'),
+            qty = +row.querySelector('.qty').value,
+            sel = row.querySelector('.size'),
+            price = sel ? +sel.value : +row.dataset.price,
+            item = sel ? `${row.dataset.item} (${sel.selectedOptions[0].text})` : row.dataset.item;
+      CartCore.add(item, price, qty);
+      renderCart();
+    });
+  });
+
+  document.getElementById("start-btn").onclick = () => {
+    renderCart();
+  };
+
+  document.getElementById("send-wa").onclick = () => {
+    const cartData = CartCore.getCurrentCart();
+    const rawTotal = CartCore.total();
+    const userName = document.getElementById("user-name").value.trim() || "ضيف";
+    const userAddr = document.getElementById("user-address").value.trim();
+    const coupon = document.getElementById("user-coupon").value.trim();
+    localStorage.setItem("userCoupon", coupon);
+    const { total, applied } = DiscountEngine.apply(rawTotal, cartData, userName, coupon);
+    let msg = MessageBuilder.build(cartData, userName, userAddr, total, applied);
+    msg += `\n📦 قبل الخصم: ${rawTotal}₪`;
+    msg += `\n📦 بعد الخصم: ${total}₪`;
+    if (applied.length) msg += `\n💸 خصومات: ${applied.join(", ")}`;
+    document.getElementById("cart-preview").textContent = msg;
+    window.open("https://wa.me/972569788731?text=" + encodeURIComponent(msg), "_blank");
+  };
+
+  function renderCart() {
+    const cartData = CartCore.getCurrentCart();
+    let msg = cartData.map(i => `• ${i.item} × ${i.qty} = ${i.price * i.qty}₪`).join("\n");
+    msg += `\n📦 الإجمالي: ${CartCore.total()}₪`;
+    document.getElementById("cart-preview").textContent = msg;
+  }
+};
+</script>
+<div class="footer">
+  بلعين – شارع صفا – رام الله<br>
+  © 2025 PIZZA HOT — جميع الحقوق محفوظة.
+</div>
+</body>
+</html>
