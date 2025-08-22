@@ -1,84 +1,122 @@
-// discountRules.js – قواعد الخصم الرمزية القابلة للتوسع
 (function registerDiscountRules(){
 
-  // ✅ خصومات حسب الإجمالي
-  DiscountEngine.addRule("خصم فوق 100₪",
-    (total) => total > 100,
-    (total) => total * 0.9
-  );
+  // ✅ خصومات تلقائية حسب الإجمالي
+  DiscountEngine.addRule({
+    name: "خصم فوق 100₪",
+    priority: 80,
+    source: "auto",
+    conditionFn: (total) => total > 100,
+    applyFn: (total) => total * 0.05
+  });
 
-  DiscountEngine.addRule("خصم ضخم فوق 200₪",
-    (total) => total > 200,
-    (total) => total - 20
-  );
+  DiscountEngine.addRule({
+    name: "خصم ضخم فوق 200₪",
+    priority: 85,
+    source: "auto",
+    conditionFn: (total) => total > 200,
+    applyFn: () => 20
+  });
 
-  // ✅ خصم الغداء (بين 14:00 و17:00)
-  DiscountEngine.addRule("خصم الغداء",
-    () => {
+  // ✅ خصم الغداء
+  DiscountEngine.addRule({
+    name: "خصم الغداء",
+    priority: 70,
+    source: "auto",
+    conditionFn: () => {
       const h = new Date().getHours();
       return h >= 14 && h <= 17;
     },
-    (total) => total - 10
-  );
+    applyFn: () => 10
+  });
 
   // ✅ خصم الجمعة
-  DiscountEngine.addRule("خصم الجمعة",
-    () => new Date().getDay() === 5,
-    (total) => total * 0.95
-  );
+  DiscountEngine.addRule({
+    name: "خصم الجمعة",
+    priority: 90,
+    source: "auto",
+    conditionFn: () => new Date().getDay() === 5,
+    applyFn: total => total * 0.05
+  });
 
-  // ✅ خصم ولاء رمزي (يبدأ الاسم بـ "ali")
-  DiscountEngine.addRule("خصم ولاء رمزي",
-    (_, __, user) => user.toLowerCase().startsWith("ali"),
-    (total) => total * 0.95
-  );
+  // ✅ خصم ولاء رمزي
+  DiscountEngine.addRule({
+    name: "خصم رمزي",
+    priority: 60,
+    source: "auto",
+    conditionFn: (_, __, user) => user.toLowerCase().startsWith("ali"),
+    applyFn: total => total * 0.05
+  });
 
-  // ✅ كوبونات مخصصة
-  DiscountEngine.addRule("خصم فيسبوك FB10",
-    () => localStorage.getItem("userCoupon") === "FB10",
-    (total) => total * 0.9
-  );
+  // ✅ كوبونات مخصصة (يدوية)
+  DiscountEngine.addRule({
+    name: "رمز منشور اليوم FB10",
+    priority: 100,
+    source: "manual",
+    code: "FB10",
+    conditionFn: (_, __, ___, coupon1) => coupon1 === "FB10",
+    applyFn: () => 10
+  });
 
-  DiscountEngine.addRule("خصم HOT10 (نسخة احتياطية)",
-    () => localStorage.getItem("userCoupon") === "HOT10",
-    (total) => total * 0.9
-  );
+  DiscountEngine.addRule({
+    name: "رمز HOT10 (نسخة احتياطية)",
+    priority: 100,
+    source: "manual",
+    code: "HOT10",
+    conditionFn: (_, __, ___, coupon1) => coupon1 === "HOT10",
+    applyFn: () => 10
+  });
 
-  DiscountEngine.addRule("خصم FBFAN20 (متابع فيسبوك)",
-    () => localStorage.getItem("userCoupon") === "FBFAN20",
-    (total) => total * 0.8
-  );
+  DiscountEngine.addRule({
+    name: "رمز FBFAN20",
+    priority: 100,
+    source: "manual",
+    code: "FBFAN20",
+    conditionFn: (_, __, ___, coupon1) => coupon1 === "FBFAN20",
+    applyFn: total => total * 0.2
+  });
 
-  // ✅ خصم حسب عدد الأصناف
-  DiscountEngine.addRule("خصم كمية",
-    (_, cart) => cart.length >= 5,
-    (total) => total * 0.95
-  );
+  // ✅ خصم كمية
+  DiscountEngine.addRule({
+    name: "خصم كمية",
+    priority: 75,
+    source: "auto",
+    conditionFn: (_, cart) => cart.length >= 5,
+    applyFn: total => total * 0.05
+  });
 
-  // ✅ كوبون ولاء شهري لمرة واحدة
-  DiscountEngine.addRule("كوبون ولاء تلقائي",
-    () => {
+  // ✅ كوبون ولاء شهري
+  DiscountEngine.addRule({
+    name: "كوبون ولاء شهري",
+    priority: 95,
+    source: "auto",
+    conditionFn: () => {
       const totalSpent = parseInt(localStorage.getItem("monthlySpent") || "0");
       return totalSpent >= 500 && !localStorage.getItem("loyaltyCouponUsed");
     },
-    (total) => {
+    applyFn: () => {
       localStorage.setItem("loyaltyCouponUsed", "true");
-      return total - 30;
+      return 30;
     }
-  );
+  });
 
-  // ✅ خصم يومي فريد (كود يُولد تلقائيًا)
-  DiscountEngine.addRule("خصم يومي فريد",
-    () => {
-      const input = localStorage.getItem("userCoupon");
+  // ✅ خصم يومي فريد
+  DiscountEngine.addRule({
+    name: "رمز يومي فريد",
+    priority: 100,
+    source: "manual",
+    code: (() => {
+      const stored = JSON.parse(localStorage.getItem("dailyCoupon") || "{}");
+      return stored.code || "";
+    })(),
+    conditionFn: (_, __, ___, coupon1) => {
       const stored = JSON.parse(localStorage.getItem("dailyCoupon") || "{}");
       const used = localStorage.getItem("dailyCouponUsed") === "true";
-      return input === stored.code && !used;
+      return coupon1 === stored.code && !used;
     },
-    total => {
+    applyFn: total => {
       localStorage.setItem("dailyCouponUsed", "true");
-      return total * 0.8;
+      return total * 0.2;
     }
-  );
+  });
 
 })();
