@@ -100,7 +100,7 @@
 
   <div class="note">
     ⚠️ <strong>ملاحظة:</strong> كل تعديل يتم هنا (إضافة، حذف، أو تعديل قاعدة خصم) سينعكس مباشرة على صفحات تنفيذ الطلب مثل <strong>store.html</strong>، ويؤثر على استراتيجية تحديد السعر النهائي للأوردر.  
-    هذه الصفحة تتحكم في العقل الرمزي لمنظومة الخصومات، وأي قاعدة يتم ترحيلها ستُفعّل فعليًا في السلة العامة.
+    هذه الصفحة تتحكم في العقل الرمزي لمنظومة الخصومات، وأي قاعدة يتم ترحيلها ستُفعّل فعليًا في السلة العامة، بما في ذلك الرسائل النصية المرسلة إلى واتساب.
   </div>
 
   <div class="link-box">
@@ -153,6 +153,21 @@
     </table>
   </div>
 </div>
+<details style="margin-top:30px; background:#eef; padding:10px; border-radius:6px;">
+  <summary style="cursor:pointer; font-weight:bold;">📘 كتيب الاستخدام الرمزي للصفحة</summary>
+  <ul style="margin-top:10px; line-height:1.6">
+    <li>🔐 أدخل الرمز السري لفتح لوحة التحكم.</li>
+    <li>📥 أضف قاعدة خصم جديدة عبر تعبئة النموذج ثم الضغط على "إضافة القاعدة".</li>
+    <li>✏️ لتعديل قاعدة موجودة، اضغط على أيقونة التعديل، ثم عدّل البيانات واضغط "💾 حفظ التعديل".</li>
+    <li>🗑️ لحذف قاعدة، اضغط على أيقونة الحذف بجانبها.</li>
+    <li>✅ لتعليق أو تفعيل قاعدة، استخدم زر الحالة في الجدول.</li>
+    <li>📤 بعد الانتهاء، اضغط "توليد ملف الخصومات" لنسخ الكود إلى ملف <code>discountRules.js</code>.</li>
+    <li>📦 أو اضغط "تصدير إلى rules.json" لتنزيل نسخة رسمية قابلة للرفع إلى GitHub.</li>
+    <li>🔗 استخدم الرابط في الأعلى للانتقال إلى صفحة تنفيذ الطلبات <code>store.html</code>.</li>
+    <li>⚠️ تذكير: كل تعديل هنا يؤثر مباشرة على طريقة احتساب السعر النهائي في السلة العامة.</li>
+  </ul>
+</details>
+
 <script>
 const ADMIN_SECRET = "pizza2025";
 let discountRules = [];
@@ -194,20 +209,21 @@ function injectDefaultRules() {
         active: true
       },
       {
-        name: "خصم الاستلام من المحل",
-        description: "خصم خاص عند الاستلام من الفرع",
+        name: "خصم الاستلام من المحل (متغير)",
+        description: "خصم يتغير حسب حجم الطلب عند الاستلام من الفرع",
         type: "percentage",
-        value: 0.1,
+        value: "dynamic",
         condition: "channel === 'instore'",
-        priority: 95,
-        code: "INSTORE10",
+        priority: 92,
+        code: "INSTORE_DYNAMIC",
         link: "",
         source: "default",
-        active: true
+        active: true,
+        applyFn: "total < 80 ? total * 0.15 : total * 0.04"
       },
       {
         name: "خصم الحجز عبر واتساب",
-        description: "خصم 10% على الناتج النهائي بعد الخصومات الأخرى",
+        description: "خصم عند الحجز عبر واتساب مع الاستلام من المحل",
         type: "percentage",
         value: 0.1,
         condition: "channel === 'instore' && bookedVia === 'whatsapp'",
@@ -218,10 +234,22 @@ function injectDefaultRules() {
         active: true
       },
       {
+        name: "خصم الحجز المسبق",
+        description: "خصم عند الحجز لليوم التالي في ساعة مثالية",
+        type: "percentage",
+        value: 0.08,
+        condition: "isTomorrow(orderDate) && [1,5,9].includes(desiredHour)",
+        priority: 91,
+        code: "PREBOOK8",
+        link: "",
+        source: "default",
+        active: true
+      },
+      {
         name: "كود خصم خاص",
         description: "خصم مميز عبر كود يُنشر على فيسبوك",
         type: "fixed",
-        value: 25,
+        value: 15,
         condition: "coupon1 === 'FB25' && new Date().getDay() !== 5",
         priority: 89,
         code: "FB25",
@@ -271,7 +299,7 @@ function renderRules() {
     const row = document.createElement("tr");
     row.innerHTML = `
       <td>${r.name}</td>
-      <td>${r.type === "percentage" ? (r.value * 100) + "%" : r.value + "₪"}</td>
+      <td>${r.type === "percentage" ? (r.value === "dynamic" ? "متغير" : (r.value * 100) + "%") : r.value + "₪"}</td>
       <td>${r.description || "-"}</td>
       <td>${r.code || "-"}</td>
       <td>${r.link ? `<a href="${r.link}" target="_blank">رابط</a>` : "-"}</td>
@@ -323,7 +351,7 @@ function saveEdit() {
     code: document.getElementById("rule-code").value.trim(),
     link: document.getElementById("rule-link").value.trim(),
     source: "manual",
-    active: true
+        active: true
   };
   localStorage.setItem("customDiscountRules", JSON.stringify(discountRules));
   clearInputs();
@@ -337,11 +365,11 @@ function generateRulesFile() {
   name: "${r.name}",
   priority: ${r.priority},
   source: "${r.source}",
-  conditionFn: function(total, cart, user, channel, coupon1, bookedVia, desiredHour) {
+  conditionFn: function(total, cart, user, channel, coupon1, bookedVia, desiredHour, orderDate) {
     return ${r.condition};
   },
   applyFn: function(total) {
-    return ${r.type === "percentage" ? `total * ${r.value}` : r.value};
+    ${r.applyFn ? `return ${r.applyFn};` : `return ${r.type === "percentage" ? `total * ${r.value}` : r.value};`}
   }
 });`;
   });
@@ -359,6 +387,13 @@ function exportToJSON() {
   a.href = url;
   a.download = "rules.json";
   a.click();
+}
+
+function isTomorrow(date) {
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+  return new Date(date).toDateString() === tomorrow.toDateString();
 }
 
 window.onload = function() {
