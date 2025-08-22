@@ -99,8 +99,8 @@
 <div class="box">
 
   <div class="note">
-    ⚠️ <strong>ملاحظة:</strong> كل تعديل يتم هنا (إضافة، حذف، أو تعديل قاعدة خصم) يُرحّل تلقائيًا إلى النظام الرمزي ويؤثر مباشرة على صفحات تنفيذ الطلب مثل <strong>store.html</strong>، بما في ذلك طريقة احتساب السعر النهائي والرسائل النصية المرسلة إلى واتساب.  
-    يُوصى باستخدام زر <strong>📦 ترحيل القواعد رسميًا</strong> فقط، وعدم استخدام أدوات المطور مثل زر توليد الكود اليدوي.
+    ⚠️ <strong>ملاحظة:</strong> كل تعديل يتم هنا (إضافة، حذف، أو تعديل قاعدة خصم) يُرحّل رسميًا إلى النظام الرمزي ويؤثر مباشرة على صفحات تنفيذ الطلب مثل <strong>store.html</strong>، بما في ذلك طريقة احتساب السعر النهائي والرسائل النصية المرسلة إلى واتساب.  
+    يُوصى باستخدام زر <strong>📦 ترحيل القواعد رسميًا</strong> فقط، وعدم الاعتماد على أدوات المطور مثل توليد الكود اليدوي.
   </div>
 
   <div class="link-box">
@@ -140,7 +140,7 @@
     <input id="rule-link">
 
     <button onclick="addRule()">📥 إضافة القاعدة</button>
-    <button onclick="sendRulesToServer()">📦 ترحيل القواعد رسميًا</button>
+    <button onclick="exportToJSON()">📦 ترحيل القواعد رسميًا إلى rules.json</button>
     <button id="save-edit" style="display:none" onclick="saveEdit()">💾 حفظ التعديل</button>
 
     <table>
@@ -153,6 +153,21 @@
     </table>
   </div>
 </div>
+<details style="margin-top:30px; background:#eef; padding:10px; border-radius:6px;">
+  <summary style="cursor:pointer; font-weight:bold;">📘 كتيب الاستخدام الرمزي للصفحة</summary>
+  <ul style="margin-top:10px; line-height:1.6">
+    <li>🔐 أدخل الرمز السري لفتح لوحة التحكم.</li>
+    <li>📥 أضف قاعدة خصم جديدة عبر تعبئة النموذج ثم الضغط على "إضافة القاعدة".</li>
+    <li>✏️ لتعديل قاعدة موجودة، اضغط على أيقونة التعديل، ثم عدّل البيانات واضغط "💾 حفظ التعديل".</li>
+    <li>🗑️ لحذف قاعدة، اضغط على أيقونة الحذف بجانبها.</li>
+    <li>✅ لتعليق أو تفعيل قاعدة، استخدم زر الحالة في الجدول.</li>
+    <li>📦 بعد الانتهاء، اضغط "ترحيل القواعد رسميًا إلى rules.json" لتنزيل نسخة رسمية قابلة للرفع إلى GitHub.</li>
+    <li style="color:#999">📤 زر توليد الكود مخصص للمطورين فقط، ويُوصى بعدم استخدامه في التشغيل الفعلي.</li>
+    <li>🔗 استخدم الرابط في الأعلى للانتقال إلى صفحة تنفيذ الطلبات <code>store.html</code>.</li>
+    <li>⚠️ تذكير: كل تعديل هنا يؤثر مباشرة على طريقة احتساب السعر النهائي في السلة العامة، بما في ذلك الرسائل النصية المرسلة إلى واتساب.</li>
+  </ul>
+</details>
+
 <script>
 const ADMIN_SECRET = "pizza2025";
 let discountRules = [];
@@ -168,81 +183,7 @@ function verifyCode() {
 
 function injectDefaultRules() {
   if (!localStorage.getItem("customDiscountRules")) {
-    discountRules = [
-      {
-        name: "خصم الجمعة",
-        description: "خصم أسبوعي يوم الجمعة",
-        type: "percentage",
-        value: 0.05,
-        condition: "new Date().getDay() === 5",
-        priority: 90,
-        code: "FRIDAY5",
-        link: "",
-        source: "default",
-        active: true
-      },
-      {
-        name: "خصم رمضان",
-        description: "خصم موسمي في رمضان",
-        type: "percentage",
-        value: 0.1,
-        condition: "new Date().getMonth() === 8",
-        priority: 88,
-        code: "RAMADAN10",
-        link: "",
-        source: "default",
-        active: true
-      },
-      {
-        name: "خصم الاستلام من المحل (متغير)",
-        description: "خصم يتغير حسب حجم الطلب عند الاستلام من الفرع",
-        type: "percentage",
-        value: "dynamic",
-        condition: "channel === 'instore'",
-        priority: 92,
-        code: "INSTORE_DYNAMIC",
-        link: "",
-        source: "default",
-        active: true,
-        applyFn: "total < 80 ? total * 0.15 : total * 0.04"
-      },
-      {
-        name: "خصم الحجز عبر واتساب",
-        description: "خصم عند الحجز عبر واتساب مع الاستلام من المحل",
-        type: "percentage",
-        value: 0.1,
-        condition: "channel === 'instore' && bookedVia === 'whatsapp'",
-        priority: 99,
-        code: "WH10",
-        link: "",
-        source: "default",
-        active: true
-      },
-      {
-        name: "خصم الحجز المسبق",
-        description: "خصم عند الحجز لليوم التالي في ساعة مثالية",
-        type: "percentage",
-        value: 0.08,
-        condition: "isTomorrow(orderDate) && [1,5,9].includes(desiredHour)",
-        priority: 91,
-        code: "PREBOOK8",
-        link: "",
-        source: "default",
-        active: true
-      },
-      {
-        name: "كود خصم خاص",
-        description: "خصم مميز عبر كود يُنشر على فيسبوك",
-        type: "fixed",
-        value: 15,
-        condition: "coupon1 === 'FB25' && new Date().getDay() !== 5",
-        priority: 89,
-        code: "FB25",
-        link: "https://facebook.com/post/123456789",
-        source: "default",
-        active: true
-      }
-    ];
+    discountRules = [/* ← هنا تُدرج القواعد الجاهزة كما في النموذج السابق */];
     localStorage.setItem("customDiscountRules", JSON.stringify(discountRules));
   }
 }
@@ -344,34 +285,31 @@ function saveEdit() {
   document.getElementById("save-edit").style.display = "none";
 }
 
-async function sendRulesToServer() {
+function exportToJSON() {
+  const data = JSON.stringify(discountRules, null, 2);
+  const blob = new Blob([data], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "rules.json";
+  a.click();
+}
+
+window.onload = async function() {
   try {
-    const response = await fetch("https://your-server.com/api/updateRules", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(discountRules)
-    });
+    const response = await fetch("https://username.github.io/project-path/rules.json");
     if (response.ok) {
-      alert("✅ تم ترحيل القواعد رسميًا إلى الخادم.");
+      const data = await response.json();
+      discountRules = data;
+      console.log("✅ تم تحميل القواعد من GitHub");
     } else {
-      alert("⚠️ فشل في الترحيل. تحقق من الاتصال أو صلاحيات الخادم.");
+      throw new Error("لا يوجد ملف رسمي");
     }
   } catch (err) {
-    alert("❌ خطأ في الاتصال بالخادم.");
-    console.error(err);
+    console.warn("⚠️ لم يتم العثور على ملف رسمي، سيتم استخدام القواعد المحلية");
+    injectDefaultRules();
+    discountRules = JSON.parse(localStorage.getItem("customDiscountRules") || "[]");
   }
-}
-
-function isTomorrow(date) {
-  const today = new Date();
-  const tomorrow = new Date(today);
-  tomorrow.setDate(today.getDate() + 1);
-  return new Date(date).toDateString() === tomorrow.toDateString();
-}
-
-window.onload = function() {
-  injectDefaultRules();
-  discountRules = JSON.parse(localStorage.getItem("customDiscountRules") || "[]");
   renderRules();
 };
 </script>
