@@ -67,14 +67,50 @@
       background: #2c3e50;
       color: #fff;
     }
+    .note {
+      background: #fef9e7;
+      border: 1px solid #f9e79f;
+      padding: 10px;
+      border-radius: 6px;
+      color: #7d6608;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+    .link-box {
+      text-align: center;
+      margin-top: 30px;
+    }
+    .link-box a {
+      display: inline-block;
+      background: #27ae60;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .link-box a:hover {
+      background: #2ecc71;
+    }
   </style>
 </head>
 <body>
 <h1>🎛️ إدارة الخصومات – PIZZA HOT</h1>
 <div class="box">
+
+  <div class="note">
+    ⚠️ <strong>ملاحظة:</strong> كل تعديل يتم هنا (إضافة، حذف، أو تعديل قاعدة خصم) سينعكس مباشرة على صفحات تنفيذ الطلب مثل <strong>store.html</strong>، ويؤثر على استراتيجية تحديد السعر النهائي للأوردر.  
+    هذه الصفحة تتحكم في العقل الرمزي لمنظومة الخصومات، وأي قاعدة يتم ترحيلها ستُفعّل فعليًا في السلة العامة.
+  </div>
+
+  <div class="link-box">
+    <a href="store.html" target="_blank">🔗 الانتقال إلى صفحة المتجر (store.html)</a>
+  </div>
+
   <label>🔐 الرمز السري للدخول:</label>
   <input type="password" id="admin-code" placeholder="••••••••">
   <button onclick="verifyCode()">دخول</button>
+
   <div id="panel" style="display:none">
     <label>📛 اسم القاعدة:</label>
     <input id="rule-name">
@@ -312,7 +348,7 @@ function generateRulesFile() {
 
   const content = `// discountRules.js\n\n${lines.join("\n\n")}`;
   console.log(content);
-  alert("✅ تم توليد الكود في Console — انسخه إلى ملف discountRules.js");
+  alert("✅ تم توليد الكود في Console — انسخه إلى ملف discountRules.js وارفعه إلى GitHub لتفعيل القواعد رسميًا.");
 }
 
 function exportToJSON() {
