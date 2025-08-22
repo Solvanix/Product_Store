@@ -53,11 +53,15 @@ const DiscountEngine = (() => {
         if (!ok) return;
 
         const isCouponRule = !!rule.code;
-        const isPrimary = isCouponRule && rule.code === coupon1;
-        const isSecondary = isCouponRule && rule.code === coupon2 && rule.code !== coupon1;
+        const codeLower = rule.code?.toLowerCase() || "";
+        const coupon1Lower = coupon1.toLowerCase();
+        const coupon2Lower = coupon2.toLowerCase();
+
+        const isPrimary = isCouponRule && codeLower === coupon1Lower;
+        const isSecondary = isCouponRule && codeLower === coupon2Lower && codeLower !== coupon1Lower;
 
         // أولوية الحجز المسبق عبر واتساب
-        if (rule.code === "WH10" && !primaryApplied) {
+        if (codeLower === "wh10" && !primaryApplied) {
           const value = rule.applyFn(finalTotal, cart, user, coupon1, coupon2, channel, orderDate, bookedVia, desiredHour);
           finalTotal -= value;
           applied.push(rule.name + " (كامل القيمة)");
@@ -67,7 +71,7 @@ const DiscountEngine = (() => {
         }
 
         // خصم الاستلام من المحل ← ربع القيمة
-        if (rule.code === "INSTORE_DYNAMIC" && !secondaryApplied) {
+        if (codeLower === "instore_dynamic" && !secondaryApplied) {
           const fullValue = rule.applyFn(finalTotal, cart, user, coupon1, coupon2, channel, orderDate, bookedVia, desiredHour);
           const partial = fullValue * 0.25;
           finalTotal -= partial;
