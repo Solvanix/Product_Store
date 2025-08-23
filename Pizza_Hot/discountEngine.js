@@ -26,6 +26,8 @@ const DiscountEngine = (() => {
           priority: rule.priority || 50,
           source: rule.source || "auto",
           code: rule.code || null,
+          type: rule.type || "percentage",
+          value: rule.value,
           conditionFn,
           applyFn
         });
@@ -47,6 +49,12 @@ const DiscountEngine = (() => {
     let primaryApplied = false;
     let secondaryApplied = false;
 
+    // ❌ منع استخدام نفس الكود في الحقلين
+    if (coupon1 && coupon2 && coupon1.toLowerCase() === coupon2.toLowerCase()) {
+      breakdown.push("❌ لا يمكن استخدام نفس الكود في الحقلين");
+      coupon2 = ""; // تجاهل الكود الثانوي
+    }
+
     sorted.forEach(rule => {
       try {
         const ok = rule.conditionFn(finalTotal, cart, user, coupon1, coupon2, channel, orderDate, bookedVia, desiredHour);
@@ -60,27 +68,6 @@ const DiscountEngine = (() => {
         const isPrimary = isCouponRule && codeLower === coupon1Lower;
         const isSecondary = isCouponRule && codeLower === coupon2Lower && codeLower !== coupon1Lower;
 
-        // أولوية الحجز المسبق عبر واتساب
-        if (codeLower === "wh10" && !primaryApplied) {
-          const value = rule.applyFn(finalTotal, cart, user, coupon1, coupon2, channel, orderDate, bookedVia, desiredHour);
-          finalTotal -= value;
-          applied.push(rule.name + " (كامل القيمة)");
-          breakdown.push(`• ${rule.name}: -${Math.round(value)}₪`);
-          primaryApplied = true;
-          return;
-        }
-
-        // خصم الاستلام من المحل ← ربع القيمة
-        if (codeLower === "instore_dynamic" && !secondaryApplied) {
-          const fullValue = rule.applyFn(finalTotal, cart, user, coupon1, coupon2, channel, orderDate, bookedVia, desiredHour);
-          const partial = fullValue * 0.25;
-          finalTotal -= partial;
-          applied.push(rule.name + " (ربع القيمة)");
-          breakdown.push(`• ${rule.name}: -${Math.round(partial)}₪`);
-          secondaryApplied = true;
-          return;
-        }
-
         // كوبون أساسي
         if (isPrimary && !primaryApplied) {
           const value = rule.applyFn(finalTotal, cart, user, coupon1, coupon2, channel, orderDate, bookedVia, desiredHour);
@@ -91,7 +78,7 @@ const DiscountEngine = (() => {
           return;
         }
 
-        // كوبون ثانوي
+        // كوبون ثانوي ← ربع القيمة
         if (isSecondary && !secondaryApplied) {
           const fullValue = rule.applyFn(finalTotal, cart, user, coupon1, coupon2, channel, orderDate, bookedVia, desiredHour);
           const partial = fullValue * 0.25;
