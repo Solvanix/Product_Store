@@ -9,7 +9,7 @@ window.onload = () => {
   renderCart();
 };
 
-// 🎟️ تحميل القواعد من rules.json
+// تحميل القواعد من rules.json
 function loadDiscountRules() {
   fetch("rules.json")
     .then(res => res.json())
@@ -19,7 +19,7 @@ function loadDiscountRules() {
     });
 }
 
-// 🎁 تفعيل الخصم التلقائي
+// تفعيل الخصم التلقائي
 function initAutoDiscount() {
   const isFriday = new Date().getDay() === 5;
   const isHoliday = localStorage.getItem("isHoliday") === "true";
@@ -33,7 +33,7 @@ function initAutoDiscount() {
   }
 }
 
-// 👤 استرجاع بيانات المستخدم
+// استرجاع بيانات المستخدم
 function restoreUserData() {
   const name = localStorage.getItem("userName");
   const addr = localStorage.getItem("userAddress");
@@ -41,14 +41,14 @@ function restoreUserData() {
   if (addr) document.getElementById("user-address").value = addr;
 }
 
-// ⌨️ إرسال الطلب عند الضغط على Enter
+// إرسال الطلب عند الضغط على Enter
 function enableEnterToSend() {
   document.getElementById("user-address").addEventListener("keypress", e => {
     if (e.key === "Enter") sendOrder();
   });
 }
 
-// 📋 نسخ الطلب عند الضغط على المعاينة
+// نسخ الطلب عند الضغط على المعاينة
 function enableCopyOnClick() {
   document.getElementById("cart-preview").addEventListener("click", () => {
     const msg = document.getElementById("cart-preview").textContent;
@@ -58,7 +58,7 @@ function enableCopyOnClick() {
   });
 }
 
-// 🛒 ربط أزرار السلة
+// ربط أزرار السلة
 function bindCartEvents() {
   document.querySelectorAll(".add-btn").forEach(btn => {
     btn.onclick = () => {
@@ -85,7 +85,7 @@ function bindCartEvents() {
   if (copyBtn) copyBtn.onclick = copyOrderMessage;
 }
 
-// 🧮 تحديث السعر والإجمالي داخل الكتالوج
+// تحديث السعر والإجمالي داخل الكتالوج
 function bindQuantityAndSizeEvents() {
   document.querySelectorAll("tr[data-item]").forEach(row => {
     const sizeSelect = row.querySelector(".size");
@@ -107,7 +107,7 @@ function bindQuantityAndSizeEvents() {
   });
 }
 
-// 🛒 إضافة عنصر إلى السلة
+// إضافة عنصر إلى السلة
 function addToCart(item, price, qty) {
   const cart = getCartData();
   const existing = cart.find(i => i.item === item);
@@ -119,7 +119,7 @@ function addToCart(item, price, qty) {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-// 📦 استرجاع محتوى السلة
+// استرجاع محتوى السلة
 function getCartData() {
   try {
     return JSON.parse(localStorage.getItem("cart") || "[]");
@@ -128,7 +128,7 @@ function getCartData() {
   }
 }
 
-// 🧾 معاينة الطلب
+// معاينة الطلب
 function renderCart() {
   const cartData = getCartData();
   const userName = document.getElementById("user-name").value.trim();
@@ -167,7 +167,7 @@ function renderCart() {
   `;
 }
 
-// 📤 إرسال الطلب إلى واتساب
+// إرسال الطلب إلى واتساب
 function sendOrder() {
   const cartData = getCartData();
   const userName = document.getElementById("user-name").value.trim();
@@ -196,10 +196,12 @@ ${breakdown.map(b => `- ${b}`).join("\n")}
 الكود الثانوي: ${coupon2 || "—"}
   `;
 
-    const encoded = encodeURIComponent(message);
-  const phone = "00972659788731"; // ✅ الرقم الرسمي بصيغة آمنة
+  const encoded = encodeURIComponent(message);
+  const phone = "0097256788731"; // ✅ الرقم الرسمي بصيغة آمنة
   window.open(`https://wa.me/${phone}?text=${encoded}`, "_blank");
 }
+
+// نسخ الطلب إلى الحافظة
 function copyOrderMessage() {
   const cartData = getCartData();
   const userName = document.getElementById("user-name").value.trim();
