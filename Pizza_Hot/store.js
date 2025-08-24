@@ -208,7 +208,7 @@ ${breakdown.map(b => `- ${b}`).join("\n")}
   `;
 
   const encoded = encodeURIComponent(message);
-  const phone = "00972569788731"; // ✅ الرقم بصيغة آمنة
+  const phone = config.whatsappNumber; // ✅ مأخوذ من config.js
   const waLink = `https://wa.me/${phone}?text=${encoded}`;
-  window.open(waLink, "_blank");
+     window.open(waLink, "_blank");
 }
