@@ -177,6 +177,17 @@ function sendOrder() {
   const orderDate = new Date().toISOString();
   const bookedVia = "whatsapp";
   const desiredHour = new Date().getHours();
+
+  if (!cartData.length) {
+    alert("🛒 السلة فارغة. أضف عناصر قبل إرسال الطلب.");
+    return;
+  }
+
+  if (!userName) {
+    alert("👤 يرجى إدخال الاسم قبل إرسال الطلب.");
+    return;
+  }
+
   const rawTotal = cartData.reduce((sum, item) => sum + item.price * item.qty, 0);
 
   const { total, applied, breakdown } = DiscountEngine.apply(
@@ -197,40 +208,7 @@ ${breakdown.map(b => `- ${b}`).join("\n")}
   `;
 
   const encoded = encodeURIComponent(message);
-  const phone = "00972569788731"; // ✅ الرقم الصحيح بعد التصحيح
-  window.open(`https://wa.me/${phone}?text=${encoded}`, "_blank");
-}
-
-// نسخ الطلب إلى الحافظة
-function copyOrderMessage() {
-  const cartData = getCartData();
-  const userName = document.getElementById("user-name").value.trim();
-  const coupon1 = document.getElementById("user-coupon").value.trim();
-  const coupon2 = document.getElementById("secondary-coupon").value.trim();
-  const channel = "instore";
-  const orderDate = new Date().toISOString();
-  const bookedVia = "whatsapp";
-  const desiredHour = new Date().getHours();
-  const rawTotal = cartData.reduce((sum, item) => sum + item.price * item.qty, 0);
-
-  const { total, applied, breakdown } = DiscountEngine.apply(
-    rawTotal, cartData, userName, coupon1, coupon2, channel, orderDate, bookedVia, desiredHour
-  );
-
-  const message = `
-طلب جديد من ${userName}:
------------------------
-${cartData.map(item => `• ${item.qty} × ${item.item} = ${(item.price * item.qty).toFixed(2)}₪`).join("\n")}
------------------------
-الإجمالي قبل الخصم: ${rawTotal.toFixed(2)}₪
-الخصومات:
-${breakdown.map(b => `- ${b}`).join("\n")}
-الإجمالي بعد الخصم: ${total.toFixed(2)}₪
-الكود الأساسي: ${coupon1 || "—"}
-الكود الثانوي: ${coupon2 || "—"}
-  `;
-
-  navigator.clipboard.writeText(message).then(() => {
-    alert("📋 تم نسخ الطلب إلى الحافظة. افتح واتساب وألصقه يدويًا.");
-  });
+  const phone = "00972569788731"; // ✅ الرقم بصيغة آمنة
+  const waLink = `https://wa.me/${phone}?text=${encoded}`;
+  window.open(waLink, "_blank");
 }
