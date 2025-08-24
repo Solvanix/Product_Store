@@ -60,8 +60,7 @@ window.onload = () => {
 };
 
 function addToCart(item, price, qty) {
-  const
- cart = getCartData();
+  const cart = getCartData();
   const existing = cart.find(i => i.item === item);
   if (existing) {
     existing.qty += qty;
