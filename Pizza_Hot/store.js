@@ -83,15 +83,28 @@ function renderCart() {
     rawTotal, cartData, userName, coupon1, coupon2, channel, orderDate, bookedVia, desiredHour
   );
 
+  // 🧠 هل هناك خصم تلقائي فعّال؟
+  const autoRule = applied.find(name =>
+    name.includes("تلقائي") || name.includes("FRIDAY") || name.includes("HOLIDAY") || name.includes("PREBOOK") || name.includes("LOYALTY")
+  );
+
+  // 🧠 عرض تنبيه الخصم التلقائي
+  document.getElementById("auto-discount-alert").style.display = autoRule ? "block" : "none";
+
+  // 🧠 عرض من حجز الحقل الأساسي
+  const primaryBlocked = autoRule ? `🧠 تم حجز الحقل الأساسي بواسطة: ${autoRule}` : "—";
+
   const preview = document.getElementById("cart-preview");
   preview.innerHTML = `
     <h3>📦 معاينة الطلب</h3>
-    <p>الاسم: ${userName || "—"}</p>
-    <p>الإجمالي قبل الخصم: ${rawTotal.toFixed(2)}₪</p>
-    <p>الخصومات المطبقة:</p>
+    <p>👤 الاسم: ${userName || "—"}</p>
+    <p>💰 الإجمالي قبل الخصم: ${rawTotal.toFixed(2)}₪</p>
+    <p>🧠 القواعد المفعّلة: ${applied.join(", ") || "—"}</p>
+    <p>📌 من حجز الحقل الأساسي: ${primaryBlocked}</p>
+    <p>🎯 الخصومات المطبقة:</p>
     <ul>${breakdown.map(b => `<li>${b}</li>`).join("")}</ul>
     <p>💸 الإجمالي بعد الخصم: <strong>${total.toFixed(2)}₪</strong></p>
-    <p>📋 الكود الأساسي: ${coupon1 || "—"} | الكود الثانوي: ${coupon2 || "—"}</p>
+    <p>🎟️ الكود الأساسي: ${coupon1 || "—"} | الكود الثانوي: ${coupon2 || "—"}</p>
     <p>🧾 محتوى السلة:</p>
     <ul>${cartData.map(i => `<li>${i.qty} × ${i.item} = ${(i.price * i.qty).toFixed(2)}₪</li>`).join("")}</ul>
   `;
