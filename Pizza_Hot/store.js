@@ -4,7 +4,7 @@ window.onload = () => {
     .then(res => res.json())
     .then(data => DiscountEngine.loadRulesFrom(data));
 
-  // تفعيل الأحداث
+  // تفعيل الأحداث العامة
   document.getElementById("start-btn").onclick = renderCart;
   document.getElementById("send-wa").onclick = sendOrder;
   document.getElementById("clear-cart").onclick = () => {
@@ -30,6 +30,26 @@ window.onload = () => {
       addToCart(itemLabel, price, qty);
       renderCart();
     };
+  });
+
+  // تفعيل تحديث السعر والإجمالي داخل الكتالوج
+  document.querySelectorAll("tr[data-item]").forEach(row => {
+    const sizeSelect = row.querySelector(".size");
+    const qtyInput = row.querySelector(".qty");
+    const priceCell = row.querySelector(".price");
+    const totalCell = row.querySelector(".total-cell");
+
+    function updateRowTotal() {
+      const price = sizeSelect ? parseFloat(sizeSelect.value) : parseFloat(row.dataset.price);
+      const qty = parseInt(qtyInput.value || "1");
+      priceCell.textContent = `${price}₪`;
+      totalCell.textContent = `${(price * qty).toFixed(2)}₪`;
+    }
+
+    if (sizeSelect) sizeSelect.onchange = updateRowTotal;
+    if (qtyInput) qtyInput.oninput = updateRowTotal;
+
+    updateRowTotal(); // تحديث أولي عند التحميل
   });
 
   renderCart();
