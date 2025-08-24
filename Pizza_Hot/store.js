@@ -1,13 +1,37 @@
 window.onload = () => {
-  // تحميل القواعد من rules.json
+  loadDiscountRules();
+  bindCartEvents();
+  bindQuantityAndSizeEvents();
+  restoreUserData();
+  renderCart();
+};
+
+// 🎟️ تحميل القواعد من rules.json
+function loadDiscountRules() {
   fetch("rules.json")
     .then(res => res.json())
     .then(data => {
       DiscountEngine.loadRulesFrom(data);
       renderAutoCoupons(data);
     });
+}
 
-  // تفعيل الأحداث العامة
+// 🛒 ربط أزرار السلة
+function bindCartEvents() {
+  document.querySelectorAll(".add-btn").forEach(btn => {
+    btn.onclick = () => {
+      const row = btn.closest("tr");
+      const item = row.dataset.item;
+      const qty = parseInt(row.querySelector(".qty").value || "1");
+      const sizeSelect = row.querySelector(".size");
+      const price = sizeSelect ? parseFloat(sizeSelect.value) : parseFloat(row.dataset.price || row.querySelector(".price")?.textContent);
+      const sizeLabel = sizeSelect ? sizeSelect.selectedOptions[0].text : "";
+      const itemLabel = sizeSelect ? `${item} (${sizeLabel})` : item;
+      addToCart(itemLabel, price, qty);
+      renderCart();
+    };
+  });
+
   document.getElementById("start-btn").onclick = renderCart;
   document.getElementById("send-wa").onclick = sendOrder;
   document.getElementById("clear-cart").onclick = () => {
@@ -17,26 +41,10 @@ window.onload = () => {
 
   const copyBtn = document.getElementById("copy-order");
   if (copyBtn) copyBtn.onclick = copyOrderMessage;
+}
 
-  document.querySelectorAll(".add-btn").forEach(btn => {
-    btn.onclick = () => {
-      const row = btn.closest("tr");
-      const item = row.dataset.item;
-      const qty = parseInt(row.querySelector(".qty").value || "1");
-
-      const sizeSelect = row.querySelector(".size");
-      const price = sizeSelect
-        ? parseFloat(sizeSelect.value)
-        : parseFloat(row.dataset.price || row.querySelector(".price")?.textContent);
-
-      const sizeLabel = sizeSelect ? sizeSelect.selectedOptions[0].text : "";
-      const itemLabel = sizeSelect ? `${item} (${sizeLabel})` : item;
-
-      addToCart(itemLabel, price, qty);
-      renderCart();
-    };
-  });
-
+// 🧮 تحديث السعر والإجمالي داخل الكتالوج
+function bindQuantityAndSizeEvents() {
   document.querySelectorAll("tr[data-item]").forEach(row => {
     const sizeSelect = row.querySelector(".size");
     const qtyInput = row.querySelector(".qty");
@@ -55,10 +63,17 @@ window.onload = () => {
 
     updateRowTotal();
   });
+}
 
-  renderCart();
-};
+// 👤 استرجاع بيانات المستخدم
+function restoreUserData() {
+  const name = localStorage.getItem("userName");
+  const addr = localStorage.getItem("userAddress");
+  if (name) document.getElementById("user-name").value = name;
+  if (addr) document.getElementById("user-address").value = addr;
+}
 
+// 🛒 إضافة عنصر إلى السلة
 function addToCart(item, price, qty) {
   const cart = getCartData();
   const existing = cart.find(i => i.item === item);
@@ -70,6 +85,7 @@ function addToCart(item, price, qty) {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
+// 📦 استرجاع محتوى السلة
 function getCartData() {
   try {
     return JSON.parse(localStorage.getItem("cart") || "[]");
@@ -78,17 +94,16 @@ function getCartData() {
   }
 }
 
+// 🧾 معاينة الطلب
 function renderCart() {
   const cartData = getCartData();
   const userName = document.getElementById("user-name").value.trim();
   const coupon1 = document.getElementById("user-coupon").value.trim();
   const coupon2 = document.getElementById("secondary-coupon").value.trim();
-
   const channel = "instore";
   const orderDate = new Date().toISOString();
   const bookedVia = "whatsapp";
   const desiredHour = new Date().getHours();
-
   const rawTotal = cartData.reduce((sum, item) => sum + item.price * item.qty, 0);
 
   const { total, applied, breakdown } = DiscountEngine.apply(
@@ -118,17 +133,16 @@ function renderCart() {
   `;
 }
 
+// 📤 إرسال الطلب إلى واتساب
 function sendOrder() {
   const cartData = getCartData();
   const userName = document.getElementById("user-name").value.trim();
   const coupon1 = document.getElementById("user-coupon").value.trim();
   const coupon2 = document.getElementById("secondary-coupon").value.trim();
-
   const channel = "instore";
   const orderDate = new Date().toISOString();
   const bookedVia = "whatsapp";
   const desiredHour = new Date().getHours();
-
   const rawTotal = cartData.reduce((sum, item) => sum + item.price * item.qty, 0);
 
   const { total, applied, breakdown } = DiscountEngine.apply(
@@ -153,17 +167,16 @@ ${breakdown.map(b => `- ${b}`).join("\n")}
   window.open(`https://wa.me/${phone}?text=${encoded}`, "_blank");
 }
 
+// 📋 نسخ الطلب إلى الحافظة
 function copyOrderMessage() {
   const cartData = getCartData();
   const userName = document.getElementById("user-name").value.trim();
   const coupon1 = document.getElementById("user-coupon").value.trim();
   const coupon2 = document.getElementById("secondary-coupon").value.trim();
-
   const channel = "instore";
   const orderDate = new Date().toISOString();
   const bookedVia = "whatsapp";
   const desiredHour = new Date().getHours();
-
   const rawTotal = cartData.reduce((sum, item) => sum + item.price * item.qty, 0);
 
   const { total, applied, breakdown } = DiscountEngine.apply(
@@ -185,20 +198,5 @@ ${breakdown.map(b => `- ${b}`).join("\n")}
 
   navigator.clipboard.writeText(message).then(() => {
     alert("📋 تم نسخ الطلب إلى الحافظة. افتح واتساب وألصقه يدويًا.");
-  });
-}
-
-function insertCoupon(code, target = "primary") {
-  if (target === "primary") {
-    document.getElementById("user-coupon").value = code;
-  } else {
-    document.getElementById("secondary-coupon").value = code;
-  }
-  renderCart();
-}
-
-function insertCouponFromClipboard(target = "primary") {
-  navigator.clipboard.readText().then(code => {
-    insertCoupon(code.trim(), target);
   });
 }
