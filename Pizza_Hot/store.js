@@ -197,7 +197,7 @@ ${breakdown.map(b => `- ${b}`).join("\n")}
   `;
 
   const encoded = encodeURIComponent(message);
-  const phone = "0097256788731"; // ✅ الرقم الرسمي بصيغة آمنة
+  const phone = "00972569788731"; // ✅ الرقم الصحيح بعد التصحيح
   window.open(`https://wa.me/${phone}?text=${encoded}`, "_blank");
 }
 
