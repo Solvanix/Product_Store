@@ -1,8 +1,11 @@
 window.onload = () => {
   loadDiscountRules();
+  initAutoDiscount();
+  restoreUserData();
+  enableEnterToSend();
+  enableCopyOnClick();
   bindCartEvents();
   bindQuantityAndSizeEvents();
-  restoreUserData();
   renderCart();
 };
 
@@ -14,6 +17,45 @@ function loadDiscountRules() {
       DiscountEngine.loadRulesFrom(data);
       renderAutoCoupons(data);
     });
+}
+
+// 🎁 تفعيل الخصم التلقائي
+function initAutoDiscount() {
+  const isFriday = new Date().getDay() === 5;
+  const isHoliday = localStorage.getItem("isHoliday") === "true";
+  if (isFriday || isHoliday) {
+    const mainInput = document.getElementById("user-coupon");
+    mainInput.disabled = true;
+    mainInput.placeholder = "🎁 خصم تلقائي مفعّل";
+    mainInput.style.background = "#eee";
+    mainInput.style.cursor = "not-allowed";
+    document.getElementById("auto-discount-alert").style.display = "block";
+  }
+}
+
+// 👤 استرجاع بيانات المستخدم
+function restoreUserData() {
+  const name = localStorage.getItem("userName");
+  const addr = localStorage.getItem("userAddress");
+  if (name) document.getElementById("user-name").value = name;
+  if (addr) document.getElementById("user-address").value = addr;
+}
+
+// ⌨️ إرسال الطلب عند الضغط على Enter
+function enableEnterToSend() {
+  document.getElementById("user-address").addEventListener("keypress", e => {
+    if (e.key === "Enter") sendOrder();
+  });
+}
+
+// 📋 نسخ الطلب عند الضغط على المعاينة
+function enableCopyOnClick() {
+  document.getElementById("cart-preview").addEventListener("click", () => {
+    const msg = document.getElementById("cart-preview").textContent;
+    navigator.clipboard.writeText(msg).then(() => {
+      alert("📋 تم نسخ الطلب إلى الحافظة");
+    });
+  });
 }
 
 // 🛒 ربط أزرار السلة
@@ -63,14 +105,6 @@ function bindQuantityAndSizeEvents() {
 
     updateRowTotal();
   });
-}
-
-// 👤 استرجاع بيانات المستخدم
-function restoreUserData() {
-  const name = localStorage.getItem("userName");
-  const addr = localStorage.getItem("userAddress");
-  if (name) document.getElementById("user-name").value = name;
-  if (addr) document.getElementById("user-address").value = addr;
 }
 
 // 🛒 إضافة عنصر إلى السلة
@@ -162,12 +196,10 @@ ${breakdown.map(b => `- ${b}`).join("\n")}
 الكود الثانوي: ${coupon2 || "—"}
   `;
 
-  const encoded = encodeURIComponent(message);
+    const encoded = encodeURIComponent(message);
   const phone = "00972659788731"; // ✅ الرقم الرسمي بصيغة آمنة
   window.open(`https://wa.me/${phone}?text=${encoded}`, "_blank");
 }
-
-// 📋 نسخ الطلب إلى الحافظة
 function copyOrderMessage() {
   const cartData = getCartData();
   const userName = document.getElementById("user-name").value.trim();
