@@ -197,9 +197,26 @@
     "source": "auto",
     "active": true
   },
-  {
+  {  {
     "name": "خصم الحجز المسبق",
     "description": "خصم 12٪ عند إدخال تاريخ استلام مطلوب لاحق لليوم الحالي",
     "type": "percentage",
     "value": 0.12,
-    "condition": "
+    "condition": "isFutureDate(desiredDate) && total >= 10",
+    "code": "PREBOOK12",
+    "priority": 97,
+    "source": "auto",
+    "active": true
+  },
+  {
+    "name": "خصم الولاء",
+    "description": "خصم 10٪ للعميل الذي مضى على أول طلب له ≥ 30 يومًا ومجموع طلباته ≥ 150₪",
+    "type": "percentage",
+    "value": 0.10,
+    "condition": "isLoyalCustomer(userName) && total >= 150",
+    "code": "LOYALTY10",
+    "priority": 96,
+    "source": "auto",
+    "active": true
+  }
+]
