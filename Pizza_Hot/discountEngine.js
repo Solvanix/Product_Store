@@ -1,4 +1,7 @@
-// 🧠 دوال مساعدة للقواعد الرمزية
+// 🔐 DiscountEngine – PIZZA HOT
+// 📦 القواعد تُحمّل حصريًا من rules.json عبر loadRulesFrom()
+// ❌ لا تُضاف قواعد يدويًا خارج هذا المصدر
+
 function countItems(cart, sizes = []) {
   return cart.reduce((sum, item) => {
     const matchedSize = sizes.some(size => item.item.includes(`(${size}`));
@@ -14,7 +17,19 @@ function isTomorrow(orderDate) {
   return d1.toDateString() === tomorrow.toDateString();
 }
 
-// 🧠 محرك الخصومات
+function isFutureDate(dateStr) {
+  const today = new Date().toISOString().slice(0, 10);
+  return dateStr.slice(0, 10) > today;
+}
+
+function isLoyalCustomer(userName) {
+  const firstOrderDate = localStorage.getItem(`${userName}_firstOrderDate`);
+  const totalSpent = parseFloat(localStorage.getItem(`${userName}_totalSpent`) || "0");
+  if (!firstOrderDate) return false;
+  const daysSince = (new Date() - new Date(firstOrderDate)) / (1000 * 60 * 60 * 24);
+  return daysSince >= 30 && totalSpent >= 150;
+}
+
 const DiscountEngine = (() => {
   let rules = [];
 
@@ -66,10 +81,9 @@ const DiscountEngine = (() => {
     let primaryApplied = false;
     let secondaryApplied = false;
 
-    // ❌ منع استخدام نفس الكود في الحقلين
     if (coupon1 && coupon2 && coupon1.toLowerCase() === coupon2.toLowerCase()) {
       breakdown.push("❌ لا يمكن استخدام نفس الكود في الحقلين");
-      coupon2 = ""; // تجاهل الكود الثانوي
+      coupon2 = "";
     }
 
     sorted.forEach(rule => {
@@ -85,33 +99,30 @@ const DiscountEngine = (() => {
         const isPrimary = isCouponRule && codeLower === coupon1Lower;
         const isSecondary = isCouponRule && codeLower === coupon2Lower && codeLower !== coupon1Lower;
 
-        // كوبون أساسي
         if (isPrimary && !primaryApplied) {
           const value = rule.applyFn(finalTotal, cart, user, coupon1, coupon2, channel, orderDate, bookedVia, desiredHour);
           finalTotal -= value;
           applied.push(rule.name + " (كامل القيمة)");
-          breakdown.push(`• ${rule.name}: -${Math.round(value)}₪`);
+          breakdown.push(`• ${rule.name} [${rule.source}]: -${Math.round(value)}₪`);
           primaryApplied = true;
           return;
         }
 
-        // كوبون ثانوي ← ربع القيمة
         if (isSecondary && !secondaryApplied) {
           const fullValue = rule.applyFn(finalTotal, cart, user, coupon1, coupon2, channel, orderDate, bookedVia, desiredHour);
           const partial = fullValue * 0.25;
           finalTotal -= partial;
           applied.push(rule.name + " (ربع القيمة)");
-          breakdown.push(`• ${rule.name}: -${Math.round(partial)}₪`);
+          breakdown.push(`• ${rule.name} [${rule.source}]: -${Math.round(partial)}₪`);
           secondaryApplied = true;
           return;
         }
 
-        // قاعدة تلقائية بدون كود
         if (!isCouponRule && !primaryApplied) {
           const value = rule.applyFn(finalTotal, cart, user, coupon1, coupon2, channel, orderDate, bookedVia, desiredHour);
           finalTotal -= value;
           applied.push(rule.name);
-          breakdown.push(`• ${rule.name}: -${Math.round(value)}₪`);
+          breakdown.push(`• ${rule.name} [${rule.source}]: -${Math.round(value)}₪`);
           primaryApplied = true;
         }
 
