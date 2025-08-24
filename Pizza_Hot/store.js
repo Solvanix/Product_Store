@@ -12,14 +12,22 @@ window.onload = () => {
     renderCart();
   };
 
-  // تفعيل أزرار الإضافة
+  // تفعيل أزرار الإضافة حسب بنية الصفحة
   document.querySelectorAll(".add-btn").forEach(btn => {
     btn.onclick = () => {
-      const item = btn.dataset.item;
-      const price = parseFloat(btn.dataset.price);
-      const size = document.querySelector(`#size-${item}`)?.value || "";
-      const qty = parseInt(document.querySelector(`#qty-${item}`)?.value || "1");
-      addToCart(`${item} (${size})`, price, qty);
+      const row = btn.closest("tr");
+      const item = row.dataset.item;
+      const qty = parseInt(row.querySelector(".qty").value || "1");
+
+      const sizeSelect = row.querySelector(".size");
+      const price = sizeSelect
+        ? parseFloat(sizeSelect.value)
+        : parseFloat(row.dataset.price || row.querySelector(".price")?.textContent);
+
+      const sizeLabel = sizeSelect ? sizeSelect.selectedOptions[0].text : "";
+      const itemLabel = sizeSelect ? `${item} (${sizeLabel})` : item;
+
+      addToCart(itemLabel, price, qty);
       renderCart();
     };
   });
@@ -59,13 +67,13 @@ function renderCart() {
   preview.innerHTML = `
     <h3>📦 معاينة الطلب</h3>
     <p>الاسم: ${userName || "—"}</p>
-    <p>الإجمالي قبل الخصم: ${rawTotal}₪</p>
+    <p>الإجمالي قبل الخصم: ${rawTotal.toFixed(2)}₪</p>
     <p>الخصومات المطبقة:</p>
     <ul>${breakdown.map(b => `<li>${b}</li>`).join("")}</ul>
-    <p>💸 الإجمالي بعد الخصم: <strong>${total}₪</strong></p>
+    <p>💸 الإجمالي بعد الخصم: <strong>${total.toFixed(2)}₪</strong></p>
     <p>📋 الكود الأساسي: ${coupon1 || "—"} | الكود الثانوي: ${coupon2 || "—"}</p>
     <p>🧾 محتوى السلة:</p>
-    <ul>${cartData.map(i => `<li>${i.qty} × ${i.item} = ${i.price * i.qty}₪</li>`).join("")}</ul>
+    <ul>${cartData.map(i => `<li>${i.qty} × ${i.item} = ${(i.price * i.qty).toFixed(2)}₪</li>`).join("")}</ul>
   `;
 }
 
@@ -89,12 +97,12 @@ function sendOrder() {
   const message = `
 طلب جديد من ${userName}:
 -----------------------
-${cartData.map(item => `• ${item.qty} × ${item.item} = ${item.price * item.qty}₪`).join("\n")}
+${cartData.map(item => `• ${item.qty} × ${item.item} = ${(item.price * item.qty).toFixed(2)}₪`).join("\n")}
 -----------------------
-الإجمالي قبل الخصم: ${rawTotal}₪
+الإجمالي قبل الخصم: ${rawTotal.toFixed(2)}₪
 الخصومات:
 ${breakdown.map(b => `- ${b}`).join("\n")}
-الإجمالي بعد الخصم: ${total}₪
+الإجمالي بعد الخصم: ${total.toFixed(2)}₪
 الكود الأساسي: ${coupon1 || "—"}
 الكود الثانوي: ${coupon2 || "—"}
   `;
