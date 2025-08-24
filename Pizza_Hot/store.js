@@ -1,8 +1,7 @@
-// ✅ توليد الكتالوج من catalog.js
 function renderCatalog() {
-  // 🍕 البيتزا
   const pizzaTable = document.querySelector("#pizza-menu tbody");
   catalog.pizza.forEach(item => {
+    const [defaultLabel, defaultPrice] = Object.entries(item.sizes)[0];
     const row = document.createElement("tr");
     row.dataset.item = item.name;
     row.innerHTML = `
@@ -14,15 +13,14 @@ function renderCatalog() {
           ).join("")}
         </select>
       </td>
-      <td><span class="price">${item.sizes.XL}₪</span></td>
+      <td><span class="price">${defaultPrice}₪</span></td>
       <td><input class="qty" type="number" min="1" value="1" inputmode="numeric" pattern="[0-9]*"></td>
-      <td class="total-cell">${item.sizes.XL}₪</td>
+      <td class="total-cell">${defaultPrice}₪</td>
       <td><button class="add-btn">أضف</button></td>
     `;
     pizzaTable.appendChild(row);
   });
 
-  // 🍟 الأطباق الجانبية
   const sidesTable = document.querySelector("#sides-menu tbody");
   catalog.sides.forEach(item => {
     const row = document.createElement("tr");
@@ -38,7 +36,6 @@ function renderCatalog() {
     sidesTable.appendChild(row);
   });
 
-  // 🥤 المشروبات
   const drinksTable = document.querySelector("#drinks-menu tbody");
   catalog.drinks.forEach(item => {
     const row = document.createElement("tr");
@@ -54,23 +51,28 @@ function renderCatalog() {
     drinksTable.appendChild(row);
   });
 
-  // ✅ تفعيل الأحداث بعد التوليد
   bindCartEvents();
   bindQuantityAndSizeEvents();
 }
 
-// ✅ بدء تحميل الصفحة
 window.onload = () => {
-  renderCatalog(); // ✅ أولًا
+  renderCatalog();
   loadDiscountRules();
   initAutoDiscount();
   restoreUserData();
   enableEnterToSend();
   enableCopyOnClick();
-  renderCart(); // ✅ بعد التوليد
+  renderCart();
+
+  // ✅ حفظ تلقائي لاسم المستخدم والعنوان
+  document.getElementById("user-name").addEventListener("input", e => {
+    localStorage.setItem("userName", e.target.value.trim());
+  });
+  document.getElementById("user-address").addEventListener("input", e => {
+    localStorage.setItem("userAddress", e.target.value.trim());
+  });
 };
 
-// تحميل القواعد من rules.json
 function loadDiscountRules() {
   fetch("rules.json")
     .then(res => res.json())
@@ -80,7 +82,6 @@ function loadDiscountRules() {
     });
 }
 
-// تفعيل الخصم التلقائي
 function initAutoDiscount() {
   const isFriday = new Date().getDay() === 5;
   const isHoliday = localStorage.getItem("isHoliday") === "true";
@@ -94,7 +95,6 @@ function initAutoDiscount() {
   }
 }
 
-// استرجاع بيانات المستخدم
 function restoreUserData() {
   const name = localStorage.getItem("userName");
   const addr = localStorage.getItem("userAddress");
@@ -102,14 +102,12 @@ function restoreUserData() {
   if (addr) document.getElementById("user-address").value = addr;
 }
 
-// إرسال الطلب عند الضغط على Enter
 function enableEnterToSend() {
   document.getElementById("user-address").addEventListener("keypress", e => {
     if (e.key === "Enter") sendOrder();
   });
 }
 
-// نسخ الطلب عند الضغط على المعاينة
 function enableCopyOnClick() {
   document.getElementById("cart-preview").addEventListener("click", () => {
     const msg = document.getElementById("cart-preview").textContent;
@@ -119,7 +117,6 @@ function enableCopyOnClick() {
   });
 }
 
-// ربط أزرار السلة
 function bindCartEvents() {
   document.querySelectorAll(".add-btn").forEach(btn => {
     btn.onclick = () => {
@@ -141,12 +138,8 @@ function bindCartEvents() {
     localStorage.removeItem("cart");
     renderCart();
   };
-
-  const copyBtn = document.getElementById("copy-order");
-  if (copyBtn) copyBtn.onclick = copyOrderMessage;
 }
 
-// تحديث السعر والإجمالي داخل الكتالوج
 function bindQuantityAndSizeEvents() {
   document.querySelectorAll("tr[data-item]").forEach(row => {
     const sizeSelect = row.querySelector(".size");
@@ -168,7 +161,6 @@ function bindQuantityAndSizeEvents() {
   });
 }
 
-// إضافة عنصر إلى السلة
 function addToCart(item, price, qty) {
   const cart = getCartData();
   const existing = cart.find(i => i.item === item);
@@ -180,7 +172,6 @@ function addToCart(item, price, qty) {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-// استرجاع محتوى السلة
 function getCartData() {
   try {
     return JSON.parse(localStorage.getItem("cart") || "[]");
@@ -189,7 +180,6 @@ function getCartData() {
   }
 }
 
-// معاينة الطلب
 function renderCart() {
   const cartData = getCartData();
   const userName = document.getElementById("user-name").value.trim();
@@ -213,8 +203,8 @@ function renderCart() {
   const primaryBlocked = autoRule ? `🧠 تم حجز الحقل الأساسي بواسطة: ${autoRule}` : "—";
 
   const preview = document.getElementById("cart-preview");
-  preview.innerHTML = `
-        <h3>📦 معاينة الطلب</h3>
+    preview.innerHTML = `
+    <h3>📦 معاينة الطلب</h3>
     <p>👤 الاسم: ${userName || "—"}</p>
     <p>💰 الإجمالي قبل الخصم: ${rawTotal.toFixed(2)}₪</p>
     <p>🧠 القواعد المفعّلة: ${applied.join(", ") || "—"}</p>
@@ -248,7 +238,6 @@ function sendOrder() {
   }
 
   const rawTotal = cartData.reduce((sum, item) => sum + item.price * item.qty, 0);
-
   const { total, applied, breakdown } = DiscountEngine.apply(
     rawTotal, cartData, userName, coupon1, coupon2, channel, orderDate, bookedVia, desiredHour
   );
