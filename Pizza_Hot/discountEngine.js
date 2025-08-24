@@ -1,3 +1,20 @@
+// 🧠 دوال مساعدة للقواعد الرمزية
+function countItems(cart, sizes = []) {
+  return cart.reduce((sum, item) => {
+    const matchedSize = sizes.some(size => item.item.includes(`(${size}`));
+    return matchedSize ? sum + item.qty : sum;
+  }, 0);
+}
+
+function isTomorrow(orderDate) {
+  const now = new Date();
+  const tomorrow = new Date(now);
+  tomorrow.setDate(now.getDate() + 1);
+  const d1 = new Date(orderDate);
+  return d1.toDateString() === tomorrow.toDateString();
+}
+
+// 🧠 محرك الخصومات
 const DiscountEngine = (() => {
   let rules = [];
 
@@ -10,10 +27,10 @@ const DiscountEngine = (() => {
       if (!rule.active) return;
 
       try {
-        const conditionFn = new Function(
-          "total", "cart", "user", "coupon1", "coupon2", "channel", "orderDate", "bookedVia", "desiredHour",
-          `return ${rule.condition};`
-        );
+        const conditionFn = function(total, cart, user, coupon1, coupon2, channel, orderDate, bookedVia, desiredHour) {
+          const hour = new Date().getHours();
+          return eval(rule.condition);
+        };
 
         const applyFn = rule.value === "dynamic"
           ? new Function("total", "cart", "user", "coupon1", "coupon2", "channel", "orderDate", "bookedVia", "desiredHour", `return ${rule.applyFn};`)
