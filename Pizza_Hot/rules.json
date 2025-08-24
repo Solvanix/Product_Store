@@ -5,8 +5,8 @@
     "type": "percentage",
     "value": 0.05,
     "condition": "countItems(cart, ['S','M','L','XL']) >= 5",
-    "priority": 95,
     "code": "SMALL5",
+    "priority": 95,
     "source": "default",
     "active": true
   },
@@ -16,8 +16,8 @@
     "type": "percentage",
     "value": 0.10,
     "condition": "total >= 50",
-    "priority": 94,
     "code": "BIG10",
+    "priority": 94,
     "source": "default",
     "active": true
   },
@@ -27,165 +27,162 @@
     "type": "percentage",
     "value": 0.10,
     "condition": "new Date().getDay() === 5 && hour >= 14 && hour < 22 && total >= 10",
-    "priority": 99,
     "code": "FRIDAY10",
+    "priority": 99,
     "source": "auto",
     "active": true
   },
   {
-    "name": "خصم الاستلام من المحل",
-    "description": "خصم 8٪ عند الاستلام من الفرع بقيمة ≥ 10 شيقل",
+    "name": "خصم الاستلام من الفرع",
+    "description": "خصم 8٪ عند اختيار الاستلام من الفرع بقيمة ≥ 10 شيقل",
     "type": "percentage",
     "value": 0.08,
     "condition": "channel === 'instore' && total >= 10",
-    "priority": 92,
     "code": "INSTORE8",
+    "priority": 92,
     "source": "default",
     "active": true
   },
   {
-    "name": "خصم الحجز قبل يوم",
-    "description": "خصم 12٪ عند الحجز لليوم التالي بقيمة ≥ 10 شيقل",
+    "name": "خصم الحجز المسبق",
+    "description": "خصم 12٪ عند تحديد تاريخ استلام لاحق لليوم الحالي بقيمة ≥ 10 شيقل",
     "type": "percentage",
     "value": 0.12,
     "condition": "isTomorrow(orderDate) && total >= 10",
-    "priority": 93,
     "code": "PREBOOK12",
+    "priority": 93,
     "source": "default",
     "active": true
   },
   {
     "name": "خصم رمضان",
-    "description": "خصم موسمي في رمضان",
+    "description": "خصم موسمي 10٪ خلال شهر رمضان",
     "type": "percentage",
     "value": 0.10,
     "condition": "new Date().getMonth() === 8",
-    "priority": 88,
     "code": "RAMADAN10",
+    "priority": 88,
     "source": "default",
     "active": true
   },
   {
-    "name": "كود خصم خاص من فيسبوك",
-    "description": "خصم مميز عبر كود يُعرض على صفحة فيسبوك",
+    "name": "خصم فيسبوك",
+    "description": "خصم 15₪ عبر كود يُعرض على صفحة فيسبوك الرسمية",
     "type": "fixed",
     "value": 15,
     "condition": "coupon1 === 'FB25' && new Date().getDay() !== 5",
-    "priority": 89,
     "code": "FB25",
-    "link": "https://www.facebook.com/people/PIZZA-HOT/61574045938687/",
+    "priority": 89,
     "source": "manual",
     "active": true
   },
-
-  // 🔥 رموز PH المخصصة للعلامة التجارية
   {
-    "name": "خصم نكهة زيست",
-    "description": "خصم 10٪ على الطلبات باستخدام كود PH83-ZEST",
+    "name": "خصم زيست",
+    "description": "خصم 10٪ على قسم زيست باستخدام كود PH83-ZEST",
     "type": "percentage",
     "value": 0.10,
     "condition": "coupon1 === 'PH83-ZEST'",
-    "priority": 87,
     "code": "PH83-ZEST",
+    "priority": 87,
     "source": "manual",
     "active": true
   },
   {
-    "name": "خصم مزاج مودو",
-    "description": "خصم 10٪ على الطلبات باستخدام كود PH17-MOOD",
+    "name": "خصم مودو",
+    "description": "خصم 10٪ على قسم مودو باستخدام كود PH17-MOOD",
     "type": "percentage",
     "value": 0.10,
     "condition": "coupon1 === 'PH17-MOOD'",
-    "priority": 87,
     "code": "PH17-MOOD",
+    "priority": 87,
     "source": "manual",
     "active": true
   },
   {
     "name": "خصم كريسبي",
-    "description": "خصم 10٪ على الطلبات باستخدام كود PH42-CRISP",
+    "description": "خصم 10٪ على قسم كريسبي باستخدام كود PH42-CRISP",
     "type": "percentage",
     "value": 0.10,
     "condition": "coupon1 === 'PH42-CRISP'",
-    "priority": 87,
     "code": "PH42-CRISP",
+    "priority": 87,
     "source": "manual",
     "active": true
   },
   {
     "name": "خصم فليم",
-    "description": "خصم 10٪ على الطلبات باستخدام كود PH99-FLAME",
+    "description": "خصم 10٪ على قسم فليم باستخدام كود PH99-FLAME",
     "type": "percentage",
     "value": 0.10,
     "condition": "coupon1 === 'PH99-FLAME'",
-    "priority": 87,
     "code": "PH99-FLAME",
+    "priority": 87,
     "source": "manual",
     "active": true
   },
   {
     "name": "خصم تويست",
-    "description": "خصم 10٪ على الطلبات باستخدام كود PH31-TWIST",
+    "description": "خصم 10٪ على قسم تويست باستخدام كود PH31-TWIST",
     "type": "percentage",
     "value": 0.10,
     "condition": "coupon1 === 'PH31-TWIST'",
-    "priority": 87,
     "code": "PH31-TWIST",
+    "priority": 87,
     "source": "manual",
     "active": true
   },
   {
     "name": "خصم تشيل",
-    "description": "خصم 10٪ على الطلبات باستخدام كود PH68-CHILL",
+    "description": "خصم 10٪ على قسم تشيل باستخدام كود PH68-CHILL",
     "type": "percentage",
     "value": 0.10,
     "condition": "coupon1 === 'PH68-CHILL'",
-    "priority": 87,
     "code": "PH68-CHILL",
+    "priority": 87,
     "source": "manual",
     "active": true
   },
   {
     "name": "خصم سبايس",
-    "description": "خصم 10٪ على الطلبات باستخدام كود PH04-SPICE",
+    "description": "خصم 10٪ على قسم سبايس باستخدام كود PH04-SPICE",
     "type": "percentage",
     "value": 0.10,
     "condition": "coupon1 === 'PH04-SPICE'",
-    "priority": 87,
     "code": "PH04-SPICE",
+    "priority": 87,
     "source": "manual",
     "active": true
   },
   {
     "name": "خصم جولد VIP",
-    "description": "خصم 10٪ على الطلبات باستخدام كود PH76-GOLD",
+    "description": "خصم 10٪ على قسم جولد VIP باستخدام كود PH76-GOLD",
     "type": "percentage",
     "value": 0.10,
     "condition": "coupon1 === 'PH76-GOLD'",
-    "priority": 87,
     "code": "PH76-GOLD",
+    "priority": 87,
     "source": "manual",
     "active": true
   },
   {
     "name": "خصم فريش",
-    "description": "خصم 10٪ على الطلبات باستخدام كود PH25-FRESH",
+    "description": "خصم 10٪ على قسم فريش باستخدام كود PH25-FRESH",
     "type": "percentage",
     "value": 0.10,
     "condition": "coupon1 === 'PH25-FRESH'",
-    "priority": 87,
     "code": "PH25-FRESH",
+    "priority": 87,
     "source": "manual",
     "active": true
   },
   {
     "name": "خصم بوست",
-    "description": "خصم 10٪ على الطلبات باستخدام كود PH59-BOOST",
+    "description": "خصم 10٪ على قسم بوست باستخدام كود PH59-BOOST",
     "type": "percentage",
     "value": 0.10,
     "condition": "coupon1 === 'PH59-BOOST'",
-    "priority": 87,
     "code": "PH59-BOOST",
+    "priority": 87,
     "source": "manual",
     "active": true
   }
