@@ -1,8 +1,8 @@
 const config = {
-  whatsappNumber: "00972569788731",
-  facebookPage: "https://www.facebook.com/61574045938687",
-  storeName: "PIZZA HOT",
-  currency: "₪",
-  deliveryFee: 10,
-  promoCoupon: "HOT2025"
+  whatsappNumber: "00972569788731", // رقم واتساب الرسمي بصيغة دولية آمنة
+  facebookPage: "https://www.facebook.com/61574045938687", // رابط صفحة فيسبوك
+  storeName: "PIZZA HOT", // اسم المتجر المستخدم في العناوين والرسائل
+  currency: "₪", // رمز العملة المستخدم في العرض والحساب
+  deliveryFee: 10, // رسوم التوصيل الافتراضية (يمكن تعديلها حسب المنطقة)
+  promoCoupon: "HOT2025" // الكوبون الترويجي الأساسي
 };
