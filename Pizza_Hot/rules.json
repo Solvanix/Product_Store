@@ -76,5 +76,117 @@
     "link": "https://www.facebook.com/people/PIZZA-HOT/61574045938687/",
     "source": "manual",
     "active": true
+  },
+
+  // 🔥 رموز PH المضافة حديثًا
+  {
+    "name": "خصم نكهة حارة",
+    "description": "خصم 10٪ على الطلبات باستخدام كود PH83-ZEST",
+    "type": "percentage",
+    "value": 0.10,
+    "condition": "coupon1 === 'PH83-ZEST'",
+    "priority": 87,
+    "code": "PH83-ZEST",
+    "source": "manual",
+    "active": true
+  },
+  {
+    "name": "خصم مزاج مسائي",
+    "description": "خصم 10٪ على الطلبات باستخدام كود PH17-MOOD",
+    "type": "percentage",
+    "value": 0.10,
+    "condition": "coupon1 === 'PH17-MOOD'",
+    "priority": 87,
+    "code": "PH17-MOOD",
+    "source": "manual",
+    "active": true
+  },
+  {
+    "name": "خصم للطلبات المقرمشة",
+    "description": "خصم 10٪ على الطلبات باستخدام كود PH42-CRISP",
+    "type": "percentage",
+    "value": 0.10,
+    "condition": "coupon1 === 'PH42-CRISP'",
+    "priority": 87,
+    "code": "PH42-CRISP",
+    "source": "manual",
+    "active": true
+  },
+  {
+    "name": "خصم للطلبات المشوية",
+    "description": "خصم 10٪ على الطلبات باستخدام كود PH99-FLAME",
+    "type": "percentage",
+    "value": 0.10,
+    "condition": "coupon1 === 'PH99-FLAME'",
+    "priority": 87,
+    "code": "PH99-FLAME",
+    "source": "manual",
+    "active": true
+  },
+  {
+    "name": "خصم للنكهات المركبة",
+    "description": "خصم 10٪ على الطلبات باستخدام كود PH31-TWIST",
+    "type": "percentage",
+    "value": 0.10,
+    "condition": "coupon1 === 'PH31-TWIST'",
+    "priority": 87,
+    "code": "PH31-TWIST",
+    "source": "manual",
+    "active": true
+  },
+  {
+    "name": "خصم للطلبات الصيفية",
+    "description": "خصم 10٪ على الطلبات باستخدام كود PH68-CHILL",
+    "type": "percentage",
+    "value": 0.10,
+    "condition": "coupon1 === 'PH68-CHILL'",
+    "priority": 87,
+    "code": "PH68-CHILL",
+    "source": "manual",
+    "active": true
+  },
+  {
+    "name": "خصم للنكهات الحارة",
+    "description": "خصم 10٪ على الطلبات باستخدام كود PH04-SPICE",
+    "type": "percentage",
+    "value": 0.10,
+    "condition": "coupon1 === 'PH04-SPICE'",
+    "priority": 87,
+    "code": "PH04-SPICE",
+    "source": "manual",
+    "active": true
+  },
+  {
+    "name": "خصم VIP للعائلة",
+    "description": "خصم 10٪ على الطلبات باستخدام كود PH76-GOLD",
+    "type": "percentage",
+    "value": 0.10,
+    "condition": "coupon1 === 'PH76-GOLD'",
+    "priority": 87,
+    "code": "PH76-GOLD",
+    "source": "manual",
+    "active": true
+  },
+  {
+    "name": "خصم للطلبات الطازجة",
+    "description": "خصم 10٪ على الطلبات باستخدام كود PH25-FRESH",
+    "type": "percentage",
+    "value": 0.10,
+    "condition": "coupon1 === 'PH25-FRESH'",
+    "priority": 87,
+    "code": "PH25-FRESH",
+    "source": "manual",
+    "active": true
+  },
+  {
+    "name": "خصم للطاقة والبروتين",
+    "description": "خصم 10٪ على الطلبات باستخدام كود PH59-BOOST",
+    "type": "percentage",
+    "value": 0.10,
+    "condition": "coupon1 === 'PH59-BOOST'",
+    "priority": 87,
+    "code": "PH59-BOOST",
+    "source": "manual",
+    "active": true
   }
 ]
