@@ -174,7 +174,8 @@
     "priority": 87,
     "source": "manual",
     "active": true
-  },
+  }
+  ,
   {
     "name": "خصم الجمعة",
     "description": "خصم 10٪ يوم الجمعة بين 14:00 و22:00",
@@ -197,7 +198,7 @@
     "source": "auto",
     "active": true
   },
-  {  {
+  {
     "name": "خصم الحجز المسبق",
     "description": "خصم 12٪ عند إدخال تاريخ استلام مطلوب لاحق لليوم الحالي",
     "type": "percentage",
@@ -209,13 +210,14 @@
     "active": true
   },
   {
-  "name": "خصم الولاء",
-  "description": "خصم 10٪ للعميل الذي مضى على أول طلب له ≥ 30 يومًا ومجموع طلباته ≥ 150₪",
-  "type": "percentage",
-  "value": 0.10,
-  "condition": "isLoyalCustomer(userName) && total >= 150",
-  "code": "LOYALTY10",
-  "priority": 96,
-  "source": "auto",
-  "active": true
-}
+    "name": "خصم الولاء",
+    "description": "خصم 10٪ للعميل الذي مضى على أول طلب له ≥ 30 يومًا ومجموع طلباته ≥ 150₪",
+    "type": "percentage",
+    "value": 0.10,
+    "condition": "isLoyalCustomer(userName) && total >= 150",
+    "code": "LOYALTY10",
+    "priority": 96,
+    "source": "auto",
+    "active": true
+  }
+]
