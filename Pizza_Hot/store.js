@@ -2,7 +2,10 @@ window.onload = () => {
   // تحميل القواعد من rules.json
   fetch("rules.json")
     .then(res => res.json())
-    .then(data => DiscountEngine.loadRulesFrom(data));
+    .then(data => {
+      DiscountEngine.loadRulesFrom(data);
+      renderAutoCoupons(data); // ✅ عرض الرموز التلقائية
+    });
 
   // تفعيل الأحداث العامة
   document.getElementById("start-btn").onclick = renderCart;
@@ -83,15 +86,11 @@ function renderCart() {
     rawTotal, cartData, userName, coupon1, coupon2, channel, orderDate, bookedVia, desiredHour
   );
 
-  // 🧠 هل هناك خصم تلقائي فعّال؟
   const autoRule = applied.find(name =>
     name.includes("تلقائي") || name.includes("FRIDAY") || name.includes("HOLIDAY") || name.includes("PREBOOK") || name.includes("LOYALTY")
   );
 
-  // 🧠 عرض تنبيه الخصم التلقائي
   document.getElementById("auto-discount-alert").style.display = autoRule ? "block" : "none";
-
-  // 🧠 عرض من حجز الحقل الأساسي
   const primaryBlocked = autoRule ? `🧠 تم حجز الحقل الأساسي بواسطة: ${autoRule}` : "—";
 
   const preview = document.getElementById("cart-preview");
@@ -150,4 +149,37 @@ function getCartData() {
   } catch {
     return [];
   }
+}
+
+function insertCoupon(code, target = "primary") {
+  if (target === "primary") {
+    document.getElementById("user-coupon").value = code;
+  } else {
+    document.getElementById("secondary-coupon").value = code;
+  }
+  renderCart();
+}
+
+function renderAutoCoupons(rules) {
+  const container = document.getElementById("auto-coupons");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  rules
+    .filter(r => r.source === "auto")
+    .forEach(rule => {
+      const btn = document.createElement("button");
+      btn.className = "coupon-btn";
+      btn.textContent = `${rule.code} – ${rule.name}`;
+      btn.dataset.code = rule.code;
+
+      btn.onclick = () => {
+        insertCoupon(rule.code, "primary");
+        document.querySelectorAll(".coupon-btn").forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+      };
+
+      container.appendChild(btn);
+    });
 }
