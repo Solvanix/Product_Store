@@ -38,3 +38,69 @@ button.add-btn {
   font-weight: 700;
   cursor: pointer;
 }
+
+/* ✨ تمييز العناصر الجديدة */
+.updated-badge {
+  background: linear-gradient(to right, #ff9800, #ffc107);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 0.95rem;
+  display: inline-block;
+  margin: 10px 0;
+  box-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+}
+
+/* 🎁 أزرار الرموز التلقائية */
+.coupon-btn {
+  border: 2px solid #ccc;
+  padding: 8px 14px;
+  margin: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: 'Tajawal', sans-serif;
+  transition: all 0.3s ease;
+  background-color: #f9f9f9;
+}
+
+.coupon-btn:hover {
+  background-color: #e0f7fa;
+  border-color: #00acc1;
+}
+
+.coupon-btn.active {
+  border-color: #4caf50;
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.coupon-btn.selected {
+  border-color: #fb8c00;
+  background-color: #fff3e0;
+  color: #e65100;
+}
+
+/* 🧠 تنبيه الخصم التلقائي */
+#auto-discount-alert {
+  background-color: #e3f2fd;
+  border-left: 6px solid #2196f3;
+  padding: 10px;
+  margin: 10px 0;
+  font-weight: bold;
+  color: #0d47a1;
+  border-radius: 6px;
+}
+
+/* 📦 معاينة الطلب */
+#cart-preview {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 12px;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
