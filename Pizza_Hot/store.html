@@ -16,13 +16,26 @@
 <div class="overlay">
   <h1>🛒 متجر PIZZA HOT – نسخة محسّنة</h1>
 
+  <div class="updated-badge">
+    🚀 تم تحديث نظام الخصومات رسميًا<br>
+    🕒 يبدأ العمل الساعة 21:05 مساءً – 24 أغسطس 2025
+  </div>
+
   <div class="note-box">
     🎟️ الكود اليومي: <span id="daily-coupon-box">—</span><br>
-    يمكنك نسخه ووضعه في الحقل الرئيسي أو الثانوي للحصول على خصم كامل أو جزئي.
+    يمكنك نسخه ووضعه في الحقل الرئيسي أو الثانوي للحصول على خصم كامل أو جزئي.<br>
+    <button onclick="insertCoupon(document.getElementById('daily-coupon-box').textContent.trim(), 'primary')">
+      📥 نسخ الكود اليومي إلى الحقل الأساسي
+    </button>
   </div>
 
   <div id="auto-discount-alert" style="display:none">
     🎁 تم تفعيل خصم تلقائي اليوم — لا حاجة لإدخال كود في الحقل الرئيسي.
+  </div>
+
+  <div class="section">
+    <h2>🎁 الرموز التلقائية المتاحة</h2>
+    <div id="auto-coupons"></div>
   </div>
 <div class="section">
   <h2>🍕 قائمة البيتزا</h2>
@@ -175,6 +188,7 @@
           <td class="total-cell">5₪</td>
           <td><button class="add-btn">أضف</button></td>
         </tr>
+
         <tr data-item="بطاطا كبير" data-price="10">
           <td>بطاطا كبير</td>
           <td><span class="price">10₪</span></td>
@@ -182,6 +196,7 @@
           <td class="total-cell">10₪</td>
           <td><button class="add-btn">أضف</button></td>
         </tr>
+
         <tr data-item="زنجر صغير" data-price="12">
           <td>زنجر صغير</td>
           <td><span class="price">12₪</span></td>
@@ -189,6 +204,7 @@
           <td class="total-cell">12₪</td>
           <td><button class="add-btn">أضف</button></td>
         </tr>
+
         <tr data-item="زنجر كبير" data-price="25">
           <td>زنجر كبير</td>
           <td><span class="price">25₪</span></td>
@@ -196,6 +212,7 @@
           <td class="total-cell">25₪</td>
           <td><button class="add-btn">أضف</button></td>
         </tr>
+
         <tr data-item="أجنحة جنان صغير" data-price="12">
           <td>أجنحة جنان صغير</td>
           <td><span class="price">12₪</span></td>
@@ -203,6 +220,7 @@
           <td class="total-cell">12₪</td>
           <td><button class="add-btn">أضف</button></td>
         </tr>
+
         <tr data-item="أجنحة دجاج كبير" data-price="24">
           <td>أجنحة دجاج كبير</td>
           <td><span class="price">24₪</span></td>
@@ -235,6 +253,7 @@
           <td class="total-cell">4₪</td>
           <td><button class="add-btn">أضف</button></td>
         </tr>
+
         <tr data-item="كولا 2 لتر" data-price="6">
           <td>كولا 2 لتر</td>
           <td><span class="price">6₪</span></td>
@@ -242,6 +261,7 @@
           <td class="total-cell">6₪</td>
           <td><button class="add-btn">أضف</button></td>
         </tr>
+
         <tr data-item="عصير مانجو" data-price="5">
           <td>عصير مانجو</td>
           <td><span class="price">5₪</span></td>
@@ -249,6 +269,7 @@
           <td class="total-cell">5₪</td>
           <td><button class="add-btn">أضف</button></td>
         </tr>
+
         <tr data-item="مياه معدنية" data-price="3">
           <td>مياه معدنية</td>
           <td><span class="price">3₪</span></td>
@@ -265,11 +286,21 @@
   <input id="user-address" placeholder="📍 العنوان/هاتفك (اختياري)" />
   <input id="user-coupon" placeholder="🎟️ كود الخصم الرئيسي (يُحسب كامل)" />
   <input id="secondary-coupon" placeholder="🎟️ كود إضافي (يُحسب ربع الخصم)" />
+
   <button id="start-btn">☑ معاينة الطلب</button>
   <button id="clear-cart">🗑️ تفريغ السلة</button>
   <button id="send-wa">📤 إرسال الطلب</button>
+
   <div id="cart-preview"></div>
 </div>
+<div class="section">
+  <h2>📎 إدخال كود يدوي</h2>
+  <button onclick="insertCouponFromClipboard('primary')">📥 لصق كود في الحقل الأساسي</button>
+  <button onclick="insertCouponFromClipboard('secondary')">📥 لصق كود في الحقل الثانوي</button>
+</div>
+<div class="section">
+  <h2>🎁 الرموز التلقائية المتاحة</h2>
+  <div id="auto-coupons"></div>
 </div>
 <div class="footer">
   📍 بلعين – شارع صفا – رام الله<br>
