@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>🧪 discount_lab – مختبر رموز الخصم</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="config.js"></script>
+  <script src="catalog.js"></script>
+  <script src="store.js"></script>
+  <style>
+    body { font-family: 'Tajawal', sans-serif; background: #f4f6f7; color: #2c3e50; padding: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; vertical-align: top; }
+    th { background: #2c3e50; color: #fff; }
+    input[type="text"] { width: 100%; padding: 6px; border-radius: 4px; border: 1px solid #ccc; }
+    button { background: #2c3e50; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+    button:hover { background: #34495e; }
+    .section { margin-bottom: 40px; }
+    .code-box { font-family: monospace; background: #e8f4ff; padding: 6px 10px; border-radius: 6px; user-select: all; color: #154360; }
+    .explain-row td { background: #f9f9f9; font-style: italic; color: #7f8c8d; text-align: right; padding: 12px; }
+    .catalog-section table { font-size: 0.9rem; width: 90%; margin: auto; }
+    .source-tag { color: #2980b9; font-weight: bold; }
+    .comment-tag { color: #7f8c8d; font-style: italic; }
+  </style>
+</head>
+<body>
+  <h2>🧪 discount_lab – مختبر رموز الخصم لصاحب المصلحة</h2>
+
+  <div class="section">
+    <h3>📋 الرموز الفعلية من <span class="source-tag">rules.json</span></h3>
+    <table>
+      <thead>
+        <tr>
+          <th>الكود</th>
+          <th>نسخ</th>
+          <th>إدخال</th>
+          <th>الشرح</th>
+          <th>النوع</th>
+          <th>الشرط البرمجي</th>
+          <th>الأولوية</th>
+          <th>الحالة</th>
+          <th>تفعيل</th>
+        </tr>
+      </thead>
+      <tbody id="rules-body"></tbody>
+    </table>
+  </div>
+
+  <script>
+    fetch("rules.json")
+      .then(res => res.json())
+      .then(rules => {
+        const tbody = document.getElementById("rules-body");
+        rules.forEach(rule => {
+          const row1 = document.createElement("tr");
+          row1.innerHTML = `
+            <td><div class="code-box">${rule.code || "—"}</div></td>
+            <td><button onclick="navigator.clipboard.writeText('${rule.code}')">📋 نسخ</button></td>
+            <td><input type="text" placeholder="أدخل هنا"></td>
+            <td><span class="source-tag">${rule.description || "—"}</span></td>
+            <td><span class="source-tag">${rule.type === "percentage" ? "نسبة" : "قيمة ثابتة"}</span></td>
+            <td><span class="source-tag">${rule.condition || "—"}</span></td>
+            <td><span class="source-tag">${rule.priority ?? "—"}</span></td>
+            <td><span class="source-tag">${rule.active ? "✅ مفعّلة" : "⛔ معلّقة"}</span></td>
+            <td><button onclick="activateRule('${rule.code}')">⚙️ تفعيل</button></td>
+          `;
+          tbody.appendChild(row1);
+
+          const row2 = document.createElement("tr");
+          row2.className = "explain-row";
+          row2.innerHTML = `
+            <td colspan="9">
+              🔍 <span class="comment-tag"><strong>شرح الشرط:</strong> يُفعل عند إدخال الكود <code>${rule.code}</code> في الحقل الأساسي أو الثانوي.</span><br>
+              🎯 <span class="comment-tag"><strong>تفسير الخصم:</strong> ${rule.description || "—"}</span><br>
+              🧠 <span class="comment-tag"><strong>نوع الخصم:</strong> ${rule.type === "percentage" ? "نسبة مئوية تُخصم من الإجمالي" : "قيمة ثابتة تُخصم مباشرة"}</span><br>
+              🧮 <span class="comment-tag"><strong>أولوية التفعيل:</strong> ${rule.priority ?? "—"} ← كلما كانت أقل، يُطبق الخصم أولًا.</span><br>
+              📦 <span class="source-tag"><strong>المصدر:</strong> تم تحميل هذا الرمز من ملف rules.json الرسمي.</span>
+            </td>
+          `;
+          tbody.appendChild(row2);
+        });
+      });
+
+    function activateRule(code) {
+      document.getElementById("user-coupon").value = code;
+      renderCart();
+    }
+  </script>
+  <div class="section catalog-section">
+    <h3>🍕 كتالوج اختبار الرموز</h3>
+    <table id="pizza-menu"><tbody></tbody></table>
+    <table id="sides-menu"><tbody></tbody></table>
+    <table id="drinks-menu"><tbody></tbody></table>
+  </div>
+
+  <div class="section">
+    <h3>🎯 نموذج المحاكاة</h3>
+    <input type="text" id="user-name" placeholder="👤 اسم المستخدم">
+    <input type="text" id="user-address" placeholder="📍 العنوان">
+    <input type="text" id="user-coupon" placeholder="🎟️ الكود الأساسي">
+    <input type="text" id="secondary-coupon" placeholder="🎟️ الكود الثانوي">
+    <button onclick="renderCart()">🔍 معاينة الطلب</button>
+    <button onclick="sendOrder()">📤 إرسال الطلب (اختبار)</button>
+  </div>
+
+  <div id="cart-preview" class="section"></div>
+
+  <script>
+    // تفعيل الكتالوج والسلة عند تحميل الصفحة
+    window.onload = () => {
+      renderCatalog();
+      bindQuantityAndSizeEvents();
+      renderCart();
+    };
+
+    // تعديل sendOrder لإضافة وسم إداري
+    const originalSendOrder = sendOrder;
+    sendOrder = function () {
+      const cartData = getCartData();
+      const userName = document.getElementById("user-name").value.trim();
+      if (!cartData.length || !userName) {
+        alert("🛒 أدخل الاسم وأضف عناصر قبل الإرسال.");
+        return;
+      }
+      const coupon1 = document.getElementById("user-coupon").value.trim();
+      const coupon2 = document.getElementById("secondary-coupon").value.trim();
+      const channel = "instore";
+      const orderDate = new Date().toISOString();
+      const bookedVia = "whatsapp";
+      const desiredHour = new Date().getHours();
+      const rawTotal = cartData.reduce((sum, item) => sum + item.price * item.qty, 0);
+      const { total, applied, breakdown } = DiscountEngine.apply(
+        rawTotal, cartData, userName, coupon1, coupon2, channel, orderDate, bookedVia, desiredHour
+      );
+
+      const message = `
+📌 هذا الطلب تجريبي من قبل الأدمن
+طلب جديد من ${userName}:
+-----------------------
+${cartData.map(item => `• ${item.qty} × ${item.item} = ${(item.price * item.qty).toFixed(2)}₪`).join("\n")}
+-----------------------
+الإجمالي قبل الخصم: ${rawTotal.toFixed(2)}₪
+الخصومات:
+${breakdown.map(b => `- ${b}`).join("\n")}
+الإجمالي بعد الخصم: ${total.toFixed(2)}₪
+الكود الأساسي: ${coupon1 || "—"}
+الكود الثانوي: ${coupon2 || "—"}
+      `;
+      const encoded = encodeURIComponent(message);
+      const phone = config.whatsappNumber;
+      const waLink = `https://wa.me/${phone}?text=${encoded}`;
+      window.open(waLink, "_blank");
+    };
+  </script>
+</body>
+</html>
