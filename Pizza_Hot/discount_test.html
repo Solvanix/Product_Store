@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>🧪 اختبار رموز الخصم – PIZZA HOT</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"> <!-- نفس تنسيق store.html -->
+  <script src="config.js"></script>
+  <script src="catalog.js"></script>
+  <script src="store.js"></script>
+  <script src="rules.json" type="application/json"></script>
+</head>
+<body>
+  <h2>🧪 اختبار رموز الخصم – PIZZA HOT</h2>
+  <p>🔐 رمز الصفحة السري: <strong>pizza#test</strong></p>
+
+  <section id="discount-table">
+    <h3>📋 قائمة رموز الخصم</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>الرمز</th>
+          <th>نسخ</th>
+          <th>إدخال</th>
+          <th>شرح الخصم</th>
+        </tr>
+      </thead>
+      <tbody id="rules-body">
+        <!-- يتم توليد الصفوف تلقائيًا من rules.json -->
+      </tbody>
+    </table>
+  </section>
+
+  <hr>
+
+  <section id="catalog-section">
+    <h3>🍕 كتالوج تفاعلي للاختبار</h3>
+    <!-- نفس جداول store.html: بيتزا، جانبيات، مشروبات -->
+    <div id="pizza-menu">...</div>
+    <div id="sides-menu">...</div>
+    <div id="drinks-menu">...</div>
+  </section>
+
+  <hr>
+
+  <section id="send-test">
+    <h3>📤 إرسال الطلب كاختبار إداري</h3>
+    <input type="text" id="user-name" placeholder="👤 اسم المستخدم">
+    <input type="text" id="user-address" placeholder="📍 العنوان">
+    <input type="text" id="user-coupon" placeholder="🎟️ الكود الأساسي">
+    <input type="text" id="secondary-coupon" placeholder="🎟️ الكود الثانوي">
+    <button onclick="sendOrder()">📤 إرسال الطلب (اختبار)</button>
+  </section>
+
+  <script>
+    // توليد جدول الخصومات من rules.json
+    fetch("rules.json")
+      .then(res => res.json())
+      .then(rules => {
+        const tbody = document.getElementById("rules-body");
+        rules.forEach(rule => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${rule.code || "—"}</td>
+            <td><button onclick="navigator.clipboard.writeText('${rule.code}')">📋 نسخ</button></td>
+            <td><input type="text" placeholder="أدخل هنا"></td>
+            <td>${rule.description || "—"}</td>
+          `;
+          tbody.appendChild(row);
+        });
+      });
+  </script>
+</body>
+</html>
