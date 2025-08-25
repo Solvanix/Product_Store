@@ -10,18 +10,15 @@
   <script src="catalog.js"></script>
   <script src="store.js"></script>
   <style>
-    body { font-family: 'Tajawal', sans-serif; background: #f4f6f7; color: #2c3e50; padding: 20px; }
     .hidden { display: none; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-    th { background: #2c3e50; color: #fff; }
-    input[type="text"] { width: 100%; padding: 6px; border-radius: 4px; border: 1px solid #ccc; }
-    button { background: #2c3e50; color: #fff; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
-    button:hover { background: #34495e; }
+    .section { margin-bottom: 40px; }
+    .code-box { font-family: monospace; background: #f0f0f0; padding: 6px 10px; border-radius: 6px; user-select: all; }
+    .rule-table td input { width: 100%; padding: 4px; }
   </style>
 </head>
 <body>
   <h2>🧪 اختبار رموز الخصم – PIZZA HOT</h2>
+
   <div id="auth-box">
     <p>🔐 أدخل الرمز السري للمتابعة:</p>
     <input type="password" id="test-code" placeholder="pizza#test">
@@ -29,42 +26,41 @@
   </div>
 
   <div id="test-panel" class="hidden">
-    <section>
+    <div class="section">
       <h3>📋 رموز الخصم من rules.json</h3>
-      <table>
+      <table class="rule-table">
         <thead>
           <tr>
             <th>الكود</th>
             <th>نسخ</th>
             <th>إدخال</th>
             <th>الوصف</th>
+            <th>النوع</th>
+            <th>الشرط</th>
+            <th>الأولوية</th>
           </tr>
         </thead>
         <tbody id="rules-body"></tbody>
       </table>
-    </section>
+    </div>
 
-    <hr>
-
-    <section>
+    <div class="section">
       <h3>🍕 كتالوج الاختبار</h3>
       <table id="pizza-menu"><tbody></tbody></table>
       <table id="sides-menu"><tbody></tbody></table>
       <table id="drinks-menu"><tbody></tbody></table>
-    </section>
+    </div>
 
-    <hr>
-
-    <section>
+    <div class="section">
       <h3>📤 إرسال الطلب كاختبار إداري</h3>
       <input type="text" id="user-name" placeholder="👤 اسم المستخدم">
       <input type="text" id="user-address" placeholder="📍 العنوان">
       <input type="text" id="user-coupon" placeholder="🎟️ الكود الأساسي">
       <input type="text" id="secondary-coupon" placeholder="🎟️ الكود الثانوي">
       <button onclick="sendOrder()">📤 إرسال الطلب (اختبار)</button>
-    </section>
+    </div>
 
-    <div id="cart-preview"></div>
+    <div id="cart-preview" class="section"></div>
   </div>
 
   <script>
@@ -76,6 +72,7 @@
         document.getElementById("auth-box").style.display = "none";
         document.getElementById("test-panel").classList.remove("hidden");
         renderCatalog();
+        bindQuantityAndSizeEvents();
         renderCart();
         loadDiscountRules();
       } else {
@@ -88,18 +85,61 @@
         .then(res => res.json())
         .then(rules => {
           const tbody = document.getElementById("rules-body");
+          tbody.innerHTML = "";
           rules.forEach(rule => {
             const row = document.createElement("tr");
             row.innerHTML = `
-              <td>${rule.code || "—"}</td>
+              <td><div class="code-box">${rule.code || "—"}</div></td>
               <td><button onclick="navigator.clipboard.writeText('${rule.code}')">📋 نسخ</button></td>
               <td><input type="text" placeholder="أدخل هنا"></td>
               <td>${rule.description || "—"}</td>
+              <td>${rule.type === "percentage" ? "نسبة" : "قيمة ثابتة"}</td>
+              <td>${rule.condition || "—"}</td>
+              <td>${rule.priority ?? "—"}</td>
             `;
             tbody.appendChild(row);
           });
         });
     }
+
+    // تعديل بسيط على sendOrder لإضافة وسم إداري
+    const originalSendOrder = sendOrder;
+    sendOrder = function () {
+      const cartData = getCartData();
+      const userName = document.getElementById("user-name").value.trim();
+      if (!cartData.length || !userName) {
+        alert("🛒 أدخل الاسم وأضف عناصر قبل الإرسال.");
+        return;
+      }
+      const coupon1 = document.getElementById("user-coupon").value.trim();
+      const coupon2 = document.getElementById("secondary-coupon").value.trim();
+      const channel = "instore";
+      const orderDate = new Date().toISOString();
+      const bookedVia = "whatsapp";
+      const desiredHour = new Date().getHours();
+      const rawTotal = cartData.reduce((sum, item) => sum + item.price * item.qty, 0);
+      const { total, applied, breakdown } = DiscountEngine.apply(
+        rawTotal, cartData, userName, coupon1, coupon2, channel, orderDate, bookedVia, desiredHour
+      );
+
+      const message = `
+📌 هذا الطلب تجريبي من قبل الأدمن
+طلب جديد من ${userName}:
+-----------------------
+${cartData.map(item => `• ${item.qty} × ${item.item} = ${(item.price * item.qty).toFixed(2)}₪`).join("\n")}
+-----------------------
+الإجمالي قبل الخصم: ${rawTotal.toFixed(2)}₪
+الخصومات:
+${breakdown.map(b => `- ${b}`).join("\n")}
+الإجمالي بعد الخصم: ${total.toFixed(2)}₪
+الكود الأساسي: ${coupon1 || "—"}
+الكود الثانوي: ${coupon2 || "—"}
+      `;
+      const encoded = encodeURIComponent(message);
+      const phone = config.whatsappNumber;
+      const waLink = `https://wa.me/${phone}?text=${encoded}`;
+      window.open(waLink, "_blank");
+    };
   </script>
 </body>
 </html>
