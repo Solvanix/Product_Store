@@ -5,71 +5,101 @@
   <title>🧪 اختبار رموز الخصم – PIZZA HOT</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css"> <!-- نفس تنسيق store.html -->
+  <link rel="stylesheet" href="style.css">
   <script src="config.js"></script>
   <script src="catalog.js"></script>
   <script src="store.js"></script>
-  <script src="rules.json" type="application/json"></script>
+  <style>
+    body { font-family: 'Tajawal', sans-serif; background: #f4f6f7; color: #2c3e50; padding: 20px; }
+    .hidden { display: none; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    th { background: #2c3e50; color: #fff; }
+    input[type="text"] { width: 100%; padding: 6px; border-radius: 4px; border: 1px solid #ccc; }
+    button { background: #2c3e50; color: #fff; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
+    button:hover { background: #34495e; }
+  </style>
 </head>
 <body>
   <h2>🧪 اختبار رموز الخصم – PIZZA HOT</h2>
-  <p>🔐 رمز الصفحة السري: <strong>pizza#test</strong></p>
+  <div id="auth-box">
+    <p>🔐 أدخل الرمز السري للمتابعة:</p>
+    <input type="password" id="test-code" placeholder="pizza#test">
+    <button onclick="verifyTestCode()">دخول</button>
+  </div>
 
-  <section id="discount-table">
-    <h3>📋 قائمة رموز الخصم</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>الرمز</th>
-          <th>نسخ</th>
-          <th>إدخال</th>
-          <th>شرح الخصم</th>
-        </tr>
-      </thead>
-      <tbody id="rules-body">
-        <!-- يتم توليد الصفوف تلقائيًا من rules.json -->
-      </tbody>
-    </table>
-  </section>
+  <div id="test-panel" class="hidden">
+    <section>
+      <h3>📋 رموز الخصم من rules.json</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>الكود</th>
+            <th>نسخ</th>
+            <th>إدخال</th>
+            <th>الوصف</th>
+          </tr>
+        </thead>
+        <tbody id="rules-body"></tbody>
+      </table>
+    </section>
 
-  <hr>
+    <hr>
 
-  <section id="catalog-section">
-    <h3>🍕 كتالوج تفاعلي للاختبار</h3>
-    <!-- نفس جداول store.html: بيتزا، جانبيات، مشروبات -->
-    <div id="pizza-menu">...</div>
-    <div id="sides-menu">...</div>
-    <div id="drinks-menu">...</div>
-  </section>
+    <section>
+      <h3>🍕 كتالوج الاختبار</h3>
+      <table id="pizza-menu"><tbody></tbody></table>
+      <table id="sides-menu"><tbody></tbody></table>
+      <table id="drinks-menu"><tbody></tbody></table>
+    </section>
 
-  <hr>
+    <hr>
 
-  <section id="send-test">
-    <h3>📤 إرسال الطلب كاختبار إداري</h3>
-    <input type="text" id="user-name" placeholder="👤 اسم المستخدم">
-    <input type="text" id="user-address" placeholder="📍 العنوان">
-    <input type="text" id="user-coupon" placeholder="🎟️ الكود الأساسي">
-    <input type="text" id="secondary-coupon" placeholder="🎟️ الكود الثانوي">
-    <button onclick="sendOrder()">📤 إرسال الطلب (اختبار)</button>
-  </section>
+    <section>
+      <h3>📤 إرسال الطلب كاختبار إداري</h3>
+      <input type="text" id="user-name" placeholder="👤 اسم المستخدم">
+      <input type="text" id="user-address" placeholder="📍 العنوان">
+      <input type="text" id="user-coupon" placeholder="🎟️ الكود الأساسي">
+      <input type="text" id="secondary-coupon" placeholder="🎟️ الكود الثانوي">
+      <button onclick="sendOrder()">📤 إرسال الطلب (اختبار)</button>
+    </section>
+
+    <div id="cart-preview"></div>
+  </div>
 
   <script>
-    // توليد جدول الخصومات من rules.json
-    fetch("rules.json")
-      .then(res => res.json())
-      .then(rules => {
-        const tbody = document.getElementById("rules-body");
-        rules.forEach(rule => {
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td>${rule.code || "—"}</td>
-            <td><button onclick="navigator.clipboard.writeText('${rule.code}')">📋 نسخ</button></td>
-            <td><input type="text" placeholder="أدخل هنا"></td>
-            <td>${rule.description || "—"}</td>
-          `;
-          tbody.appendChild(row);
+    const TEST_SECRET = "pizza#test";
+
+    function verifyTestCode() {
+      const input = document.getElementById("test-code").value.trim();
+      if (input === TEST_SECRET) {
+        document.getElementById("auth-box").style.display = "none";
+        document.getElementById("test-panel").classList.remove("hidden");
+        renderCatalog();
+        renderCart();
+        loadDiscountRules();
+      } else {
+        alert("❌ الرمز غير صحيح");
+      }
+    }
+
+    function loadDiscountRules() {
+      fetch("rules.json")
+        .then(res => res.json())
+        .then(rules => {
+          const tbody = document.getElementById("rules-body");
+          rules.forEach(rule => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td>${rule.code || "—"}</td>
+              <td><button onclick="navigator.clipboard.writeText('${rule.code}')">📋 نسخ</button></td>
+              <td><input type="text" placeholder="أدخل هنا"></td>
+              <td>${rule.description || "—"}</td>
+            `;
+            tbody.appendChild(row);
+          });
         });
-      });
+    }
   </script>
 </body>
 </html>
