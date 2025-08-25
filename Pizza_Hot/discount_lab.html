@@ -10,24 +10,79 @@
   <script src="catalog.js"></script>
   <script src="store.js"></script>
   <style>
-    body { font-family: 'Tajawal', sans-serif; background: #f4f6f7; color: #2c3e50; padding: 20px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; vertical-align: top; }
-    th { background: #2c3e50; color: #fff; }
-    input[type="text"] { width: 100%; padding: 6px; border-radius: 4px; border: 1px solid #ccc; }
-    button { background: #2c3e50; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
-    button:hover { background: #34495e; }
-    .section { margin-bottom: 40px; }
-    .code-box { font-family: monospace; background: #e8f4ff; padding: 6px 10px; border-radius: 6px; user-select: all; color: #154360; }
-    .explain-row td { background: #f9f9f9; font-style: italic; color: #7f8c8d; text-align: right; padding: 12px; }
-    .catalog-section table { font-size: 0.9rem; width: 90%; margin: auto; }
-    .source-tag { color: #2980b9; font-weight: bold; }
-    .comment-tag { color: #7f8c8d; font-style: italic; }
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: #f4f6f7;
+      color: #2c3e50;
+      padding: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+      vertical-align: top;
+    }
+    th {
+      background: #2c3e50;
+      color: #fff;
+    }
+    input[type="text"], input[type="number"], select {
+      width: 100%;
+      padding: 6px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #2c3e50;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #34495e;
+    }
+    .section {
+      margin-bottom: 40px;
+    }
+    .code-box {
+      font-family: monospace;
+      background: #e8f4ff;
+      padding: 6px 10px;
+      border-radius: 6px;
+      user-select: all;
+      color: #154360;
+    }
+    .explain-row td {
+      background: #f9f9f9;
+      font-style: italic;
+      color: #7f8c8d;
+      text-align: right;
+      padding: 12px;
+    }
+    .catalog-section table {
+      font-size: 0.9rem;
+      width: 90%;
+      margin: auto;
+    }
+    .source-tag {
+      color: #2980b9;
+      font-weight: bold;
+    }
+    .comment-tag {
+      color: #7f8c8d;
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
   <h2>🧪 discount_lab – مختبر رموز الخصم لصاحب المصلحة</h2>
-
   <div class="section">
     <h3>📋 الرموز الفعلية من <span class="source-tag">rules.json</span></h3>
     <table>
@@ -115,8 +170,16 @@
       renderCart();
     };
 
-    // تعديل sendOrder لإضافة وسم إداري
-    const originalSendOrder = sendOrder;
+    // ربط تغيير الحجم والكمية بتحديث السلة
+    function bindQuantityAndSizeEvents() {
+      document.querySelectorAll("select, input[type='number']").forEach(el => {
+        el.addEventListener("change", () => {
+          renderCart();
+        });
+      });
+    }
+
+    // إرسال الطلب إلى واتساب مع وسم إداري
     sendOrder = function () {
       const cartData = getCartData();
       const userName = document.getElementById("user-name").value.trim();
