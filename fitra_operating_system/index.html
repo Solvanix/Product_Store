@@ -72,6 +72,37 @@
       margin-top: 1rem;
       border-radius: 8px;
     }
+    /* قسم المشاريع المرتبطة */
+    .related {
+      margin-top: 3rem;
+      text-align: center;
+    }
+    .related h2 {
+      color: #FF9800;
+      margin-bottom: 1rem;
+    }
+    .related a {
+      display: inline-block;
+      margin: 6px;
+      padding: 10px 16px;
+      background: #1c1c1c;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+    .related a:hover {
+      background: #FF9800;
+      color: #111;
+    }
+    footer {
+      margin-top: 3rem;
+      padding: 1rem;
+      text-align: center;
+      color: #888;
+      font-size: 0.9rem;
+      border-top: 1px solid #333;
+    }
   </style>
 </head>
 <body>
@@ -94,9 +125,22 @@
     <button onclick="startExecution()">🚦 ابدأ التشغيل الفعلي</button>
   </div>
 
+  <!-- 🎵 موسيقى خلفية -->
   <audio id="bgMusic" autoplay loop>
     <source src="../../assets/audio/ambiental-soul-deep-tech-house-minimal-music-338114.mp3" type="audio/mpeg">
   </audio>
+
+  <!-- ✨ قسم المشاريع المرتبطة -->
+  <div class="related">
+    <h2>🔗 مشاريع مرتبطة</h2>
+    <a href="https://mabavira.github.io/Civibot/" target="_blank">🌆 Civibot</a>
+    <a href="https://paldorai.github.io/urban_tech/" target="_blank">🏙 Urban Tech</a>
+    <a href="https://solvanix.github.io/Switchers_Hub/" target="_blank">🔗 Switchers Hub</a>
+  </div>
+
+  <footer>
+    © 2025 Solvanix – جميع الحقوق محفوظة.
+  </footer>
 
   <script>
     const fileInput = document.getElementById("fileInput");
