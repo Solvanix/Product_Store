@@ -1,228 +1,226 @@
-<!DOCTYPE html>
-<html lang="en" dir="rtl">
+ <!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fitra | Product Store</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
+  <title>Fitra – Operational Interface</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    html, body {
+    body {
       margin: 0;
+      padding: 2rem;
+      background: linear-gradient(to bottom, #121212, #000);
+      color: #FF9800;
       font-family: 'Cairo', sans-serif;
-      background-color: #0d0d0d;
-      color: #f5a623;
-      overflow-x: hidden;
-      min-height: 100vh;
-    }
-    canvas {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: -1;
-      opacity: 0.2;
-    }
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 998;
-      background: #111;
-      padding: 16px 24px;
-      font-size: 24px;
-      text-align: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.6);
-    }
-    .tool-card {
-      background: rgba(0, 0, 0, 0.25);
-      backdrop-filter: blur(12px) saturate(180%);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 24px;
-      margin: 20px;
-      border-radius: 14px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.6);
-      transition: transform 0.2s, background 0.3s, box-shadow 0.3s;
-    }
-    .tool-card:hover {
-      transform: scale(1.02);
-      background: rgba(255,149,0,0.07);
-      box-shadow: 0 0 20px rgba(255,149,0,0.35);
-    }
-    .tool-card h3 { margin-top: 0; color: #FFB300; }
-    .tool-card p { color: #ccc; margin-bottom: 16px; }
-    .action-icon {
-      display: inline-block;
-      padding: 10px 20px;
-      background: #FF9500;
-      color: #000;
-      font-weight: bold;
-      border-radius: 8px;
-      box-shadow: 0 0 10px #FF9500;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.3s;
-      text-decoration: none;
-    }
-    .tools-container {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 40px 20px;
+      flex-direction: column;
+      align-items: center;
     }
-    #menuToggle {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 1000;
-      background: #111;
-      border: none;
-      color: #FF9500;
-      padding: 10px 14px;
-      font-size: 22px;
-      border-radius: 8px;
-      cursor: pointer;
+    h1 {
+      font-size: 2.3rem;
+      margin-bottom: 0.5rem;
     }
-    #sideMenu {
-      position: fixed;
-      top: 0;
-      right: -260px;
-      width: 240px;
-      height: 100%;
-      background: #111;
-      border-left: 1px solid rgba(255,255,255,0.1);
-      padding: 20px 16px;
-      color: #fff;
-      box-shadow: -2px 0 8px rgba(0,0,0,0.5);
-      transition: right 0.3s ease;
-      z-index: 999;
-    }
-    #sideMenu .fitra-icon {
-      font-size: 48px;
+    p {
       text-align: center;
-      margin: 12px auto 16px;
+      max-width: 600px;
+      color: #ccc;
+      margin-bottom: 2rem;
     }
-    #sideMenu a {
-      display: block;
-      padding: 6px 0;
-      color: #fff;
-      text-decoration: none;
+    .input-section {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
     }
-    #fitraDriveBtn {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      z-index: 1000;
-      padding: 14px 20px;
-      background: #111;
-      border: 2px solid #FF9500;
-      color: #FF9500;
+    textarea, input[type="file"] {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
       border-radius: 10px;
-      font-size: 16px;
+      background: #FF9800;
+      color: #111;
       cursor: pointer;
     }
-    main::after {
-      content: '';
-      display: block;
-      height: 40vh;
+    .preview-container {
+      margin-top: 2rem;
+      display: grid;
+      gap: 1.5rem;
+      max-width: 800px;
+    }
+    .preview-item {
+      background: #1c1c1c;
+      padding: 1rem;
+      border-radius: 10px;
+      color: #eee;
+      position: relative;
+    }
+    .preview-item button {
+      margin-top: 10px;
+      margin-right: 8px;
+    }
+    .preview-item video,
+    .preview-item img {
+      max-width: 100%;
+      margin-top: 1rem;
+      border-radius: 8px;
+    }
+    /* قسم المشاريع المرتبطة */
+    .related {
+      margin-top: 3rem;
+      text-align: center;
+    }
+    .related h2 {
+      color: #FF9800;
+      margin-bottom: 1rem;
+    }
+    .related a {
+      display: inline-block;
+      margin: 6px;
+      padding: 10px 16px;
+      background: #1c1c1c;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+    .related a:hover {
+      background: #FF9800;
+      color: #111;
     }
     footer {
+      margin-top: 3rem;
+      padding: 1rem;
       text-align: center;
       color: #888;
-      font-size: 14px;
-      padding: 20px;
-      margin-top: 60px;
+      font-size: 0.9rem;
       border-top: 1px solid #333;
     }
   </style>
 </head>
 <body>
 
-<canvas id="matrixCanvas"></canvas>
-<script>
-const canvas = document.getElementById('matrixCanvas');
-const ctx = canvas.getContext('2d');
-canvas.width = innerWidth;
-canvas.height = innerHeight;
-const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const fontSize = 16;
-const columns = Math.floor(canvas.width / fontSize);
-const drops = Array(columns).fill(1);
-function draw() {
-  ctx.fillStyle = "rgba(0,0,0,0.08)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "#0f0";
-  ctx.font = fontSize + "px monospace";
-  for (let i = 0; i < columns; i++) {
-    const text = chars[Math.floor(Math.random() * chars.length)];
-    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-    drops[i] = (drops[i] * fontSize > canvas.height && Math.random() > 0.985) ? 0 : drops[i] + 0.35;
-  }
-  requestAnimationFrame(draw);
-}
-draw();
-</script>
+  <h1>🔁 Fitra | Where Ideas Take Flight</h1>
+  <p>
+    Translate your ideas into reality — from design to implementation — by starting where others left off.  
+    Fitra is not just an operating system, but a cognitive engine that translates intention into output.
+  </p>
 
-<button id="menuToggle">☰</button>
-<nav id="sideMenu">
-  <div class="fitra-icon">🧠</div>
-  <h3>🚀 Launch</h3>
-  <a href="fitra_operating_system/index.html">🧠 Fitra.OS</a>
-  <a href="#">🎯 Drive Goal</a>
-  <a href="dashboard.html">📊 Dashboard</a>
-  <hr />
-  <h4>📂 Modules</h4>
-  <a href="https://solvanix.github.io/Switchers_Hub/">🔗 Switchers Hub</a>
-  <a href="https://solvanix.github.io/STEAM_Forge/">⚙️ STEAM Forge</a>
-  <a href="https://solvanix.github.io/Data_Core/">📊 Data Core</a>
-  <a href="https://solvanix.github.io/System_Gate/">🔐 System Gate</a>
-  <a href="https://solvanix.github.io/Switchers_Lab/">🧪 Switchers Lab</a>
-  <a href="https://solvanix.github.io/Shared_Resources/">📦 Shared Resources</a>
-  <a href="Pizza_Hot/">🍕 PIZZA HOT</a>
-  <hr />
-  <h4>ℹ️ Info</h4>
-  <a href="about.html">📄 About</a>
-  <a href="#">💬 Contact</a>
-</nav>
-<script>
-const btn = document.getElementById('menuToggle');
-const menu = document.getElementById('sideMenu');
-btn.onclick = () => {
-  menu.style.right = menu.style.right === '0px' ? '-260px' : '0px';
-};
-</script>
+  <div class="input-section">
+    <textarea id="ideaInput" placeholder="اكتب فكرتك هنا..."></textarea>
+    <button onclick="addIdea()">🧠 معاينة الفكرة</button>
+    <input type="file" id="fileInput" multiple />
+  </div>
 
-<header>Fitra | Product Store</header>
+  <div class="preview-container" id="previewContainer"></div>
 
-<main>
-  <section class="tools-container">
-    <div class="tool-card">
-      <h3>Fitra.OS</h3>
-      <p>Cognitive operating system to orchestrate modular logic and guided execution.</p>
-      <a href="fitra_operating_system/index.html" class="action-icon">🚀 Launch</a>
-    </div>
-    <div class="tool-card">
-      <h3>Switchers Hub</h3>
-      <p>Visual switching interface for navigating execution units.</p>
-      <a href="https://solvanix.github.io/Switchers_Hub/" class="action-icon">🔗 Open Hub</a>
-    </div>
-    <div class="tool-card">
-      <h3>STEAM Forge</h3>
-      <p>Generative lab combining science, art and modular experimentation.</p>
-            <a href="https://solvanix.github.io/STEAM_Forge/" class="action-icon">⚙️ Explore Forge</a>
-    </div>
-    <div class="tool-card">
-      <h3>PIZZA HOT</h3>
-      <p>منصة الطلب الذكي عبر واتساب، مع سلة ديناميكية وملاحظات مخصصة.</p>
-      <a href="Pizza_Hot/" class="action-icon">🍕 افتح صفحة PIZZA HOT</a>
-    </div>
-  </section>
-</main>
+  <div style="margin-top: 3rem;">
+    <button onclick="startExecution()">🚦 ابدأ التشغيل الفعلي</button>
+  </div>
 
-<button id="fitraDriveBtn" onclick="alert('🚧 Drive Goal interface coming soon')">🎯 Drive Goal</button>
+  <!--   موسيقى خلفية -->
+  <audio id="bgMusic" autoplay loop>
+    <source src="../../assets/audio/ambiental-soul-deep-tech-house-minimal-music-338114.mp3" type="audio/mpeg">
+  </audio>
 
-<footer>&copy; 2025 Fitra.OS – إدراك يعمل في طبقات.</footer>
+  <!--  قسم المشاريع المرتبطة -->
+  <div class="related">
+    <h2>🔗 مشاريع مرتبطة</h2>
+    <a href="https://mabavira.github.io/Civibot/" target="_blank">🌆 Civibot</a>
+    <a href="https://paldorai.github.io/urban_tech/" target="_blank">🏙 Urban Tech</a>
+    <a href="https://solvanix.github.io/Switchers_Hub/" target="_blank">🔗 Switchers Hub</a>
+  </div>
 
-<!-- ✅ إدراج وحدة السلة العائمة -->
-<script src="Pizza_Hot/floatingCart.js"></script>
+  <footer>
+    © 2025 Solvanix – جميع الحقوق محفوظة.
+  </footer>
+
+  <script>
+    const fileInput = document.getElementById("fileInput");
+    const previewContainer = document.getElementById("previewContainer");
+
+    fileInput.addEventListener("change", function () {
+      Array.from(this.files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const item = document.createElement("div");
+          item.className = "preview-item";
+
+          let content = `<h3>📎 ${file.name}</h3>`;
+          if (file.type.startsWith("image/")) {
+            content += `<img src="${e.target.result}" alt="preview" />`;
+          } else if (file.type.startsWith("video/") || file.type.startsWith("audio/")) {
+            const tag = file.type.startsWith("video/") ? "video" : "audio";
+            content += `<${tag} controls src="${e.target.result}"></${tag}>`;
+          } else {
+            content += `<p>نوع الملف: ${file.type || 'غير معروف'}</p>`;
+          }
+
+          item.innerHTML = content + `
+            <button onclick="markReady(this)">✅ جاهز للتنفيذ</button>
+            <button onclick="removeItem(this)">❌ إزالة</button>
+          `;
+          previewContainer.appendChild(item);
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+
+    function addIdea() {
+      const ideaText = document.getElementById("ideaInput").value.trim();
+      if (!ideaText) return;
+
+      const item = document.createElement("div");
+      item.className = "preview-item";
+      item.innerHTML = `
+        <h3>  الفكرة:</h3>
+        <p>${ideaText}</p>
+        <button onclick="markReady(this)">✅ جاهزة للتنفيذ</button>
+        <button onclick="removeItem(this)">❌ إزالة</button>
+      `;
+      previewContainer.appendChild(item);
+    }
+
+    function markReady(btn) {
+      btn.textContent = "✅ تم تمييزه للتنفيذ";
+      btn.style.background = "#4CAF50";
+      btn.disabled = true;
+    }
+
+    function removeItem(btn) {
+      const item = btn.parentElement;
+      previewContainer.removeChild(item);
+    }
+
+    function startExecution() {
+      const readyItems = [...document.querySelectorAll('.preview-item')]
+        .filter(item => item.querySelector('button[disabled]'));
+
+      if (!readyItems.length) {
+        alert("  لم يتم اختيار أي مدخل للتنفيذ.");
+        return;
+      }
+
+      const payload = readyItems.map(item => {
+        const text = item.querySelector('p')?.textContent;
+        const media = item.querySelector('img, video, audio');
+        return {
+          type: media ? media.tagName.toLowerCase() : 'text',
+          content: media ? media.src : text
+        };
+      });
+
+      console.log("  جاهز للتنفيذ على المدخلات:", payload);
+      alert("  تم إرسال المدخلات إلى المحرك المعرفي (تجريبيًا). انظر في console.");
+    }
+  </script>
 
 </body>
 </html>
-
-        
