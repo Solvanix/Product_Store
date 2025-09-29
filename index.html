@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
@@ -125,12 +125,12 @@
     <button onclick="startExecution()">🚦 ابدأ التشغيل الفعلي</button>
   </div>
 
-  <!--   موسيقى خلفية -->
+  <!-- 🎵 موسيقى خلفية -->
   <audio id="bgMusic" autoplay loop>
     <source src="../../assets/audio/ambiental-soul-deep-tech-house-minimal-music-338114.mp3" type="audio/mpeg">
   </audio>
 
-  <!--  قسم المشاريع المرتبطة -->
+  <!-- ✨ قسم المشاريع المرتبطة -->
   <div class="related">
     <h2>🔗 مشاريع مرتبطة</h2>
     <a href="https://mabavira.github.io/Civibot/" target="_blank">🌆 Civibot</a>
@@ -180,7 +180,7 @@
       const item = document.createElement("div");
       item.className = "preview-item";
       item.innerHTML = `
-        <h3>  الفكرة:</h3>
+        <h3>🧠 الفكرة:</h3>
         <p>${ideaText}</p>
         <button onclick="markReady(this)">✅ جاهزة للتنفيذ</button>
         <button onclick="removeItem(this)">❌ إزالة</button>
@@ -204,7 +204,7 @@
         .filter(item => item.querySelector('button[disabled]'));
 
       if (!readyItems.length) {
-        alert("  لم يتم اختيار أي مدخل للتنفيذ.");
+        alert("⚠️ لم يتم اختيار أي مدخل للتنفيذ.");
         return;
       }
 
@@ -217,8 +217,8 @@
         };
       });
 
-      console.log("  جاهز للتنفيذ على المدخلات:", payload);
-      alert("  تم إرسال المدخلات إلى المحرك المعرفي (تجريبيًا). انظر في console.");
+      console.log("🚦 جاهز للتنفيذ على المدخلات:", payload);
+      alert("🚀 تم إرسال المدخلات إلى المحرك المعرفي (تجريبيًا). انظر في console.");
     }
   </script>
 
